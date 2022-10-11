@@ -1,0 +1,48 @@
+package kg.peaksoft.giftlistb6.entities;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "user_info")
+@Getter
+@Setter
+@NoArgsConstructor
+public class UserInfo {
+    @Id
+    @SequenceGenerator(name = "userInfo_seq", sequenceName = "userInfo_seq", allocationSize = 1)
+    @GeneratedValue(generator = "userInfo_seq", strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    private String country;
+
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "date_of_first")
+    private LocalDate dateOfFirst;
+
+    @Column(name = "shoe_size")
+    private Integer shoeSize;
+
+    @Column(name = "clothing_size")
+    private String clothingSize;
+
+    private String hobby;
+
+    private String important;
+
+    private String facebook;
+
+    private String instagram;
+
+    private String telegram;
+
+    private String vk;
+
+
+}
