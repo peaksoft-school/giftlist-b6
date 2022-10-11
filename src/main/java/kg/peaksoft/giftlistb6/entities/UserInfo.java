@@ -27,20 +27,15 @@ public class UserInfo {
     private LocalDate dateOfBirth;
 
     @Column(name = "shoe_size")
-    private Integer shoeSize;
+    private int shoeSize;
 
     @Column(name = "clothing_size")
     private String clothingSize;
 
     private String hobby;
-
     private String important;
-
     private String facebook;
-
     private String instagram;
-
     private String telegram;
-
     private String vk;
 }
