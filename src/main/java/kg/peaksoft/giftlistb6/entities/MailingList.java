@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class MailingList {
+
     @Id
     @SequenceGenerator(name = "mailingList_gen", sequenceName = "mailingList_gen", allocationSize = 1)
     @GeneratedValue(generator = "mailingList_gen", strategy = GenerationType.SEQUENCE)

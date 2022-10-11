@@ -15,6 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class Wish {
+
     @Id
     @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1)
     @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
@@ -29,9 +30,10 @@ public class Wish {
     @Column(name = "date_of_holiday")
     private LocalDate dateOfHoliday;
 
+    @Column(length = 10000)
     private String description;
 
-    @Column(length = 100000)
+    @Column(length = 10000)
     private String image;
 
     @Column(name = "wish_status")
@@ -43,6 +45,7 @@ public class Wish {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wish")
     private List<Complaint> complaints;
+
     @ManyToOne(cascade = {CascadeType.REFRESH
             , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private User user;
@@ -50,5 +53,4 @@ public class Wish {
     @ManyToOne(cascade = {CascadeType.REFRESH
             , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private Holiday holiday;
-
 }

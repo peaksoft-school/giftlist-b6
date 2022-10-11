@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Category {
+
     @Id
     @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1)
     @GeneratedValue(generator = "category_seq", strategy = GenerationType.SEQUENCE)
@@ -19,8 +20,9 @@ public class Category {
 
     private String name;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private SubCategory subCategory;
+
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     private Charity charity;
 }

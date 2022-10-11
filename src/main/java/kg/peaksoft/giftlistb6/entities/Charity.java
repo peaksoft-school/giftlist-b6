@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Charity {
+
     @Id
     @SequenceGenerator(name = "charity_seq", sequenceName = "charity_seq", allocationSize = 1)
     @GeneratedValue(generator = "charity_seq", strategy = GenerationType.SEQUENCE)
@@ -25,9 +26,10 @@ public class Charity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "charity")
     private List<Category> category;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User reservoir;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.DETACH, CascadeType.PERSIST,CascadeType.MERGE})
     private User user;
 
     @Enumerated
@@ -44,6 +46,4 @@ public class Charity {
 
     @Column(name = "created_date")
     private LocalDate createdDate;
-
-
 }

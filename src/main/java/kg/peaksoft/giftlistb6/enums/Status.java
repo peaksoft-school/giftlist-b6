@@ -4,6 +4,4 @@ public enum Status {
 
     RESERVED,    //забронирован
     WAIT,       //ожидание
-
-
 }

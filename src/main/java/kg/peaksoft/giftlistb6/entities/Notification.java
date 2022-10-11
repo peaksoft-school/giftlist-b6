@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Notification {
+
     @Id
     @SequenceGenerator(name = "notification_seq", sequenceName = "notification_seq", allocationSize = 1)
     @GeneratedValue(generator = "notification_seq", strategy = GenerationType.SEQUENCE)
@@ -22,14 +23,15 @@ public class Notification {
     @Column(name = "created_date")
     private LocalDate createdDate;
 
-    private Boolean seen;
+    private Boolean isSeen;
 
     @OneToOne
     private User requestToFriend;
 
     @OneToOne
     private Wish wish;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)

@@ -14,6 +14,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 public class Holiday {
+
     @Id
     @SequenceGenerator(name = "holiday_seq", sequenceName = "holiday_seq", allocationSize = 1)
     @GeneratedValue(generator = "holiday_seq", strategy = GenerationType.SEQUENCE)
@@ -26,6 +27,7 @@ public class Holiday {
 
     @Column(length = 10000)
     private String image;
+
     @ManyToOne
     private User user;
 

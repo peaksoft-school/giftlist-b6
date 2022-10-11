@@ -23,8 +23,8 @@ public class UserInfo {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @Column(name = "date_of_first")
-    private LocalDate dateOfFirst;
+    @Column(name = "date_of_birth")
+    private LocalDate dateOfBirth;
 
     @Column(name = "shoe_size")
     private Integer shoeSize;
@@ -43,6 +43,4 @@ public class UserInfo {
     private String telegram;
 
     private String vk;
-
-
 }

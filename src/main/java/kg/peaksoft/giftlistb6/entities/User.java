@@ -14,6 +14,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 public class User {
+
     @Id
     @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
     @GeneratedValue(generator = "user_seq", strategy = GenerationType.SEQUENCE)
@@ -35,6 +36,7 @@ public class User {
 
     private String photo;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -60,6 +62,4 @@ public class User {
 
     @OneToOne
     private UserInfo userInfo;
-
-
 }

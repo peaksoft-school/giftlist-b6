@@ -13,17 +13,19 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 public class Complaint {
+
     @Id
     @SequenceGenerator(name = "complaint_seq", sequenceName = "complaint_seq", allocationSize = 1)
     @GeneratedValue(generator = "complaint_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
-    @ManyToOne
+
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private Wish wish;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private User complainer;
 
-    private Boolean seen;
+    private Boolean isSeen;
 
     @Enumerated
     @Column(name = "reason_of_complaint")
