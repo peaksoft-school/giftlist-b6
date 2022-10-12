@@ -23,7 +23,7 @@ public class WebAppSecurity {
 
         httpSecurity.cors().and().csrf().disable()
                 .authorizeHttpRequests(auth -> { auth
-                        .antMatchers("api/public").permitAll()
+                        .antMatchers("api/public/**").permitAll()
                         .antMatchers("/api-docs", "/v3/api-docs")
                             .permitAll()
                             .anyRequest()
