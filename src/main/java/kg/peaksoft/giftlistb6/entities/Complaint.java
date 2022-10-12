@@ -1,6 +1,5 @@
 package kg.peaksoft.giftlistb6.entities;
 
-import kg.peaksoft.giftlistb6.enums.Reason;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -27,7 +26,6 @@ public class Complaint {
 
     private Boolean isSeen;
 
-    @Enumerated
-    @Column(name = "reason_of_complaint")
-    private Reason reasonOfComplaint;
+    @Column(length = 10000)
+    private String reasonText;
 }
