@@ -22,8 +22,9 @@ public class WebAppSecurity {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, TokenVerifyFilter filter) {
 
         httpSecurity.cors().and().csrf().disable()
-                .authorizeHttpRequests(auth -> {
-                    auth.antMatchers("/api-docs", "/v3/api-docs")
+                .authorizeHttpRequests(auth -> { auth
+                        .antMatchers("api/public").permitAll()
+                        .antMatchers("/api-docs", "/v3/api-docs")
                             .permitAll()
                             .anyRequest()
                             .permitAll();

@@ -1,4 +1,5 @@
 package kg.peaksoft.giftlistb6.configs.security;
+
 import kg.peaksoft.giftlistb6.entities.User;
 import kg.peaksoft.giftlistb6.exseptions.NotFoundException;
 import kg.peaksoft.giftlistb6.repository.UserRepository;

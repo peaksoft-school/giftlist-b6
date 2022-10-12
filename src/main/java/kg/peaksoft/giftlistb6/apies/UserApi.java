@@ -5,14 +5,12 @@ import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
 import kg.peaksoft.giftlistb6.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("api/public")
+@CrossOrigin
 public class UserApi {
 
     private final UserService userService;

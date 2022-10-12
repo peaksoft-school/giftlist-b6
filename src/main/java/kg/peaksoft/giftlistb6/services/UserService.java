@@ -19,11 +19,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserService {
-
     private final UserRepository userRepo;
-
     private final JwtUtils jwtUtils;
-
     private final PasswordEncoder passwordEncoder;
 
 
@@ -50,10 +47,10 @@ public class UserService {
 
     public AuthResponse login(AuthRequest authRequest) {
 
-        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("Not found"));
+        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
 
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            throw  new BadCredentialsException("bad credential");
+            throw new BadCredentialsException("bad credential");
         }
 
         String jwt = jwtUtils.generateToken(user.getEmail());
@@ -65,7 +62,6 @@ public class UserService {
                 jwt
         );
     }
-
 
     public User convertToRegisterEntity(RegisterRequest registerRequest)  {
         return User.builder()
