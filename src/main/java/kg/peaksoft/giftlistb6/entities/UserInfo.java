@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 public class UserInfo {
+
     @Id
     @SequenceGenerator(name = "userInfo_seq", sequenceName = "userInfo_seq", allocationSize = 1)
     @GeneratedValue(generator = "userInfo_seq", strategy = GenerationType.SEQUENCE)
@@ -33,9 +34,7 @@ public class UserInfo {
     private String clothingSize;
 
     private String hobby;
+
     private String important;
-    private String facebook;
-    private String instagram;
-    private String telegram;
-    private String vk;
+
 }
