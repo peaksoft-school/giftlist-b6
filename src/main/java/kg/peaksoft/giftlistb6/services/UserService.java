@@ -22,7 +22,6 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
 
-
     public AuthResponse register(RegisterRequest registerRequest) {
 
         if (registerRequest.getPassword().isBlank()){

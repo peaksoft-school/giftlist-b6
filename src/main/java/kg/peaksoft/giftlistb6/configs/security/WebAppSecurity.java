@@ -1,5 +1,5 @@
 package kg.peaksoft.giftlistb6.configs.security;
-import lombok.SneakyThrows;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -11,15 +11,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(
-        prePostEnabled = true,
-        securedEnabled = true
-)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class WebAppSecurity {
 
     @Bean
-    @SneakyThrows
-    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, TokenVerifyFilter filter) {
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, TokenVerifyFilter filter) throws Exception {
 
         httpSecurity.cors().and().csrf().disable()
                 .authorizeHttpRequests(auth -> { auth
