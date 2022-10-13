@@ -1,6 +1,6 @@
-package kg.peaksoft.giftlistb6.configs.security;
+package kg.peaksoft.giftlistb6.config.security;
 
-import kg.peaksoft.giftlistb6.repository.UserRepository;
+import kg.peaksoft.giftlistb6.db.repository.UserRepository;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.context.annotation.Bean;

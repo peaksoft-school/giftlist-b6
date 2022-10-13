@@ -1,4 +1,4 @@
-package kg.peaksoft.giftlistb6.exseptions;
+package kg.peaksoft.giftlistb6.exception;
 
 public class BadCredentialsException extends RuntimeException{
 

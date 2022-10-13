@@ -1,15 +1,15 @@
-package kg.peaksoft.giftlistb6.services;
+package kg.peaksoft.giftlistb6.db.service;
 
-import kg.peaksoft.giftlistb6.configs.security.JwtUtils;
+import kg.peaksoft.giftlistb6.config.security.JwtUtils;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
-import kg.peaksoft.giftlistb6.entities.User;
+import kg.peaksoft.giftlistb6.db.model.User;
 import kg.peaksoft.giftlistb6.enums.Role;
-import kg.peaksoft.giftlistb6.exseptions.BadCredentialsException;
-import kg.peaksoft.giftlistb6.exseptions.BadRequestException;
-import kg.peaksoft.giftlistb6.exseptions.NotFoundException;
-import kg.peaksoft.giftlistb6.repository.UserRepository;
+import kg.peaksoft.giftlistb6.exception.BadCredentialsException;
+import kg.peaksoft.giftlistb6.exception.BadRequestException;
+import kg.peaksoft.giftlistb6.exception.NotFoundException;
+import kg.peaksoft.giftlistb6.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

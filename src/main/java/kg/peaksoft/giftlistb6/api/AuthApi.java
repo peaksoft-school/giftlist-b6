@@ -1,26 +1,26 @@
-package kg.peaksoft.giftlistb6.apies;
+package kg.peaksoft.giftlistb6.api;
 
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
-import kg.peaksoft.giftlistb6.services.UserService;
+import kg.peaksoft.giftlistb6.db.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/public")
-@CrossOrigin
-public class UserApi {
+@CrossOrigin(origins = "*", maxAge = 3600)
+public class AuthApi {
 
     private final UserService userService;
 
-    @PostMapping("/register")
+    @PostMapping("register")
     public AuthResponse register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 
-    @PostMapping("/login")
+    @PostMapping("login")
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
         return userService.login(authRequest);
     }
