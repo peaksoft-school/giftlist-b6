@@ -6,11 +6,12 @@ import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
 import kg.peaksoft.giftlistb6.entities.User;
 import kg.peaksoft.giftlistb6.enums.Role;
-import kg.peaksoft.giftlistb6.exseptions.BadCredentialsException;
 import kg.peaksoft.giftlistb6.exseptions.BadRequestException;
-import kg.peaksoft.giftlistb6.exseptions.NotFoundException;
 import kg.peaksoft.giftlistb6.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,7 @@ public class UserService {
     private final UserRepository userRepo;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
-
+    private final AuthenticationManager authenticationManager;
 
     public AuthResponse register(RegisterRequest registerRequest) {
 
@@ -54,14 +55,16 @@ public class UserService {
         if (authRequest.getPassword().isBlank()) {
             throw new BadRequestException("password can not be empty!");
         }
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        authRequest.getEmail(),
+                        authRequest.getPassword()
+                )
+        );
 
-        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
+        User user = userRepo.findByEmail(authentication.getName()).orElseThrow();
 
-        if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("incorrect password");
-        }
-
-        String jwt = jwtUtils.generateToken(user.getEmail());
+        String jwt = jwtUtils.generateToken(authRequest.getEmail());
 
         return new AuthResponse(
                 user.getId(),
