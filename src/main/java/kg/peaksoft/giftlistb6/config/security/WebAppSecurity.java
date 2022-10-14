@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.config.security;
 
+import kg.peaksoft.giftlistb6.config.security.TokenVerifyFilter;
 import kg.peaksoft.giftlistb6.db.repository.UserRepository;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;

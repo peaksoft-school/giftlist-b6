@@ -1,4 +1,4 @@
-package kg.peaksoft.giftlistb6.config.security;
+package kg.peaksoft.giftlistb6.config.swagger;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
