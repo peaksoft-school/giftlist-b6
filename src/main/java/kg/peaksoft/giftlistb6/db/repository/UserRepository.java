@@ -1,7 +1,6 @@
-package kg.peaksoft.giftlistb6.repository;
+package kg.peaksoft.giftlistb6.db.repository;
 
-import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
-import kg.peaksoft.giftlistb6.entities.User;
+import kg.peaksoft.giftlistb6.db.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

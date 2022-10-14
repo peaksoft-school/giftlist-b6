@@ -1,4 +1,4 @@
-package kg.peaksoft.giftlistb6.configs.security;
+package kg.peaksoft.giftlistb6.config.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;

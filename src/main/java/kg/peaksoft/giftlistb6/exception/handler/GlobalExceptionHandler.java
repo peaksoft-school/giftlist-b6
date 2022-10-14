@@ -1,14 +1,13 @@
-package kg.peaksoft.giftlistb6.exseptions.handler;
+package kg.peaksoft.giftlistb6.exception.handler;
 
-import kg.peaksoft.giftlistb6.exseptions.BadCredentialsException;
-import kg.peaksoft.giftlistb6.exseptions.BadRequestException;
-import kg.peaksoft.giftlistb6.exseptions.ExceptionResponse;
-import kg.peaksoft.giftlistb6.exseptions.NotFoundException;
+import kg.peaksoft.giftlistb6.exception.BadCredentialsException;
+import kg.peaksoft.giftlistb6.exception.BadRequestException;
+import kg.peaksoft.giftlistb6.exception.ExceptionResponse;
+import kg.peaksoft.giftlistb6.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

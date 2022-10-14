@@ -1,4 +1,4 @@
-package kg.peaksoft.giftlistb6.entities;
+package kg.peaksoft.giftlistb6.db.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

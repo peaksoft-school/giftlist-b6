@@ -1,4 +1,4 @@
-package kg.peaksoft.giftlistb6.entities;
+package kg.peaksoft.giftlistb6.db.model;
 
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.*;

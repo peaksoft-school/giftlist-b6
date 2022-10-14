@@ -1,8 +1,8 @@
-package kg.peaksoft.giftlistb6.configs.security;
+package kg.peaksoft.giftlistb6.config.security;
 
-import kg.peaksoft.giftlistb6.entities.User;
-import kg.peaksoft.giftlistb6.exseptions.NotFoundException;
-import kg.peaksoft.giftlistb6.repository.UserRepository;
+import kg.peaksoft.giftlistb6.db.model.User;
+import kg.peaksoft.giftlistb6.exception.NotFoundException;
+import kg.peaksoft.giftlistb6.db.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -24,7 +24,6 @@ public class TokenVerifyFilter extends OncePerRequestFilter {
 
     private final JwtUtils jwtUtils;
     private final UserRepository userRepository;
-
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
