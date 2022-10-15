@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "categories")
@@ -20,8 +21,8 @@ public class Category {
 
     private String name;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private SubCategory subCategory;
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
+    private List<SubCategory> subCategory;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
     private Charity charity;
