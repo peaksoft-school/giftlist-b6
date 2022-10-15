@@ -13,22 +13,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/public")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Tag(name = "User Api", description = "Authorization and Authentication")
+@Tag(name = "User Api", description = "Authentication and Authorization")
 public class AuthApi {
 
     private final UserService userService;
 
-    @Operation(
-            summary = "Регистрация пользователя",
-            description = "Позволяет зарегистрировать пользователя")
+    @Operation(summary = "User registration",description = "Allows you to register a user")
     @PostMapping("register")
     public AuthResponse register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 
-    @Operation(
-            summary = "Вхождения по существующему аккаунту",
-            description = "Вход по логину")
+    @Operation(summary = "Entry on an existing account",description = "Login by login")
     @PostMapping("login")
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
         return userService.login(authRequest);

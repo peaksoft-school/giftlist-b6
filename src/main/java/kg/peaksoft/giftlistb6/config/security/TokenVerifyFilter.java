@@ -1,6 +1,5 @@
 package kg.peaksoft.giftlistb6.config.security;
 
-import kg.peaksoft.giftlistb6.config.security.JwtUtils;
 import kg.peaksoft.giftlistb6.db.model.User;
 import kg.peaksoft.giftlistb6.exception.NotFoundException;
 import kg.peaksoft.giftlistb6.db.repository.UserRepository;
