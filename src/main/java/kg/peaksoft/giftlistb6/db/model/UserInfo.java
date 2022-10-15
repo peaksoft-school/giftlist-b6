@@ -36,4 +36,5 @@ public class UserInfo {
     private String hobby;
 
     private String important;
+
 }

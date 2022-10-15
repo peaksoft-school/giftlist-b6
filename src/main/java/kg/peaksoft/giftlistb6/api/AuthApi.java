@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.api;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
@@ -23,5 +24,10 @@ public class AuthApi {
     @PostMapping("login")
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
         return userService.login(authRequest);
+    }
+
+    @PostMapping("/authenticate/google")
+    public AuthResponse authWithGoogle(String tokenId) throws FirebaseAuthException {
+        return userService.authWithGoogle(tokenId);
     }
 }
