@@ -11,7 +11,12 @@ import kg.peaksoft.giftlistb6.db.service.UserService;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
 
@@ -36,20 +41,20 @@ public class AuthApi {
         return userService.login(authRequest);
     }
 
-    @Operation(summary = "Authenticate, google", description = "Sign up with google")
+    @Operation(summary = "Google authentication", description = "Authenticate with google")
     @PostMapping("/authenticate/google")
     public AuthResponse authWithGoogle(String tokenId) throws FirebaseAuthException {
         return userService.authWithGoogle(tokenId);
     }
 
-    @Operation(summary = "Forgot password", description = "Forgot password")
+    @Operation(summary = "Forgot password", description = "Send link forgot password")
     @PostMapping("/forgot/password")
     public SimpleResponse forgotPassword(@RequestParam String email,
                                          @RequestParam String link) throws MessagingException {
         return userService.forgotPassword(email,link);
     }
 
-    @Operation(summary = "ResetPassword", description = "Change password")
+    @Operation(summary = "Reset Password", description = "Change password")
     @PostMapping("/resetPassword")
     public SimpleResponse resetPassword(@RequestBody ResetPasswordRequest request){
         return userService.resetPassword(request);
