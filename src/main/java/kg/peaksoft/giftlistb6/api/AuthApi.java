@@ -19,34 +19,37 @@ import javax.mail.MessagingException;
 @RequiredArgsConstructor
 @RequestMapping("api/public")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Tag(name = "User Api", description = "Authentication and Authorization")
+@Tag(name = "Auth Api", description = "Authentication and Authorization")
 public class AuthApi {
 
     private final UserService userService;
 
-    @Operation(summary = "User registration",description = "Allows you to register a user")
+    @Operation(summary = "Sign up",description = "Any user can register")
     @PostMapping("register")
     public AuthResponse register(@RequestBody RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 
-    @Operation(summary = "Entry on an existing account",description = "Login by login")
+    @Operation(summary = "Sign in",description = "Only registered users can login")
     @PostMapping("login")
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
         return userService.login(authRequest);
     }
 
+    @Operation(summary = "Authenticate, google", description = "Sign up with google")
     @PostMapping("/authenticate/google")
     public AuthResponse authWithGoogle(String tokenId) throws FirebaseAuthException {
         return userService.authWithGoogle(tokenId);
     }
 
+    @Operation(summary = "Forgot password", description = "Forgot password")
     @PostMapping("/forgot/password")
     public SimpleResponse forgotPassword(@RequestParam String email,
                                          @RequestParam String link) throws MessagingException {
         return userService.forgotPassword(email,link);
     }
 
+    @Operation(summary = "ResetPassword", description = "Change password")
     @PostMapping("/resetPassword")
     public SimpleResponse resetPassword(@RequestBody ResetPasswordRequest request){
         return userService.resetPassword(request);
