@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Complaint {
 
     @Id
-    @SequenceGenerator(name = "complaint_seq", sequenceName = "complaint_seq", allocationSize = 1)
+    @SequenceGenerator(name = "complaint_seq", sequenceName = "complaint_seq", allocationSize = 1, initialValue = 2)
     @GeneratedValue(generator = "complaint_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 

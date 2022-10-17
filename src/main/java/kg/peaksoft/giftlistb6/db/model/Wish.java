@@ -17,7 +17,7 @@ import java.util.List;
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1)
+    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 5)
     @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 

@@ -17,7 +17,7 @@ import java.util.List;
 public class Charity {
 
     @Id
-    @SequenceGenerator(name = "charity_seq", sequenceName = "charity_seq", allocationSize = 1)
+    @SequenceGenerator(name = "charity_seq", sequenceName = "charity_seq", allocationSize = 1, initialValue = 4)
     @GeneratedValue(generator = "charity_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -29,7 +29,7 @@ public class Charity {
     @ManyToOne(cascade = CascadeType.ALL)
     private User reservoir;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.DETACH, CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
     private User user;
 
     @Enumerated(EnumType.STRING)
