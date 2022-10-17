@@ -15,13 +15,13 @@ import java.util.List;
 public class Category {
 
     @Id
-    @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1)
+    @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1, initialValue = 7)
     @GeneratedValue(generator = "category_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL,mappedBy = "category")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<SubCategory> subCategory;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE})
