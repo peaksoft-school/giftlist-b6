@@ -32,7 +32,7 @@ public class Charity {
     @ManyToOne(cascade = {CascadeType.REFRESH,CascadeType.DETACH, CascadeType.PERSIST,CascadeType.MERGE})
     private User user;
 
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     @Column(name = "charity_status")
     private Status charityStatus;
 
