@@ -36,13 +36,13 @@ public class AuthApi {
         return userService.authWithGoogle(tokenId);
     }
 
-    @GetMapping("/forgot/password")
+    @PostMapping("/forgot/password")
     public SimpleResponse forgotPassword(@RequestParam String email,
                                          @RequestParam String link) throws MessagingException {
         return userService.forgotPassword(email,link);
     }
 
-    @PatchMapping("/resetPassword")
+    @PostMapping("/resetPassword")
     public SimpleResponse resetPassword(@RequestBody ResetPasswordRequest request){
         return userService.resetPassword(request);
     }
