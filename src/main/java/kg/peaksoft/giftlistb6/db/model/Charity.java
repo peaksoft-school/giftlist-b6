@@ -17,7 +17,7 @@ import java.util.List;
 public class Charity {
 
     @Id
-    @SequenceGenerator(name = "charity_seq", sequenceName = "charity_seq", allocationSize = 1, initialValue = 4)
+    @SequenceGenerator(name = "charity_seq", sequenceName = "charity_seq", allocationSize = 1, initialValue = 10)
     @GeneratedValue(generator = "charity_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 

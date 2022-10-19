@@ -31,7 +31,6 @@ public class UserService {
     private final UserRepository userRepo;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
-
     private final JavaMailSender mailSender;
 
 

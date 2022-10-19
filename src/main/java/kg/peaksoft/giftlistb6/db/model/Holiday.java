@@ -3,9 +3,11 @@ package kg.peaksoft.giftlistb6.db.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,10 +15,11 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Holiday {
 
     @Id
-    @SequenceGenerator(name = "holiday_seq", sequenceName = "holiday_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "holiday_seq", sequenceName = "holiday_seq", allocationSize = 1, initialValue = 10)
     @GeneratedValue(generator = "holiday_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 

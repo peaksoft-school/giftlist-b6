@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.*;
 
@@ -17,7 +18,7 @@ import java.util.List;
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 10)
     @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -46,10 +47,12 @@ public class Wish {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wish")
     private List<Complaint> complaints;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.REFRESH
             , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private User user;
 
+    @JsonIgnore
     @ManyToOne(cascade = {CascadeType.REFRESH
             , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private Holiday holiday;
