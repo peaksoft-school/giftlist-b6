@@ -1,0 +1,32 @@
+package kg.peaksoft.giftlistb6.db.repository;
+
+import kg.peaksoft.giftlistb6.db.model.User;
+import kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface FriendRepository extends JpaRepository<User,Long> {
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse( " +
+            "f.id," +
+            "f.photo," +
+            "concat(f.firstName,' ',f.lastName)," +
+            "f.holidays.size" +
+            ",f.wishes.size) from User u join u.friends f where u.email =?1")
+    List<FriendInfoResponse> getAllFriends(String email);
+
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse( " +
+            "f.id," +
+            "f.photo," +
+            "concat(f.firstName,' ',f.lastName)," +
+            "f.holidays.size" +
+            ",f.wishes.size) from User u join u.requests f where u.email =?1")
+    List<FriendInfoResponse>getAllRequests(String email);
+
+}
