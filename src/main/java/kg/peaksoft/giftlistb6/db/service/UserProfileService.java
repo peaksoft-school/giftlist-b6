@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,16 +47,16 @@ public class UserProfileService {
 
     }
 
-    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
-        UserInfo userInfo = repository.findById(id).get().getUserInfo();
-        UserInfo userInfo1 = updateUser(userInfo,request);
-        return convertToResponse(userInfo1);
-    }
+//    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
+//        UserInfo userInfo = repository.findById(id).get().getUserInfo();
+//        UserInfo userInfo1 = updateUser(userInfo,request);
+//        return convertToResponse(userInfo1);
+//    }
 
+    @Transactional
     public UserInfo convertToEntity(ProfileRequest request) {
         User user = getAuthPrincipal();
         UserInfo userInfo = new UserInfo();
-        user.setUserInfo(userInfo);
         userInfo.setPhoto(request.getPhoto());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
@@ -64,9 +65,12 @@ public class UserProfileService {
         userInfo.setImportant(request.getImportant());
         userInfo.setShoeSize(request.getShoeSize());
         userInfo.setClothingSize(request.getClothingSize());
+        user.setUserInfo(userInfo);
+        repository.save(userInfo);
         return userInfo;
     }
 
+    @Transactional
     public ProfileResponse convertToResponse(UserInfo userInfo) {
         ProfileResponse response = new ProfileResponse();
         response.setId(userInfo.getId());
@@ -85,7 +89,48 @@ public class UserProfileService {
         User user  = userRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException(String.format("user with id %s not found",id))
         );
-        return friendProfileResponse(user);
+        FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
+
+        List<WishResponse> wishResponses = new ArrayList<>();
+        for (Wish wish : user.getWishes()) {
+            WishResponse wishResponse = new WishResponse(
+                    wish.getId(),
+                    wish.getWishName(),
+                    wish.getLinkToGift(),
+                    wish.getDateOfHoliday(),
+                    wish.getDescription(),
+                    wish.getImage(),
+                    wish.getWishStatus());
+            wishResponses.add(wishResponse);
+        }
+
+        List<HolidayResponse> holidayResponses = new ArrayList<>();
+        for (Holiday holiday : user.getHolidays()) {
+            HolidayResponse holidayResponse = new HolidayResponse(
+                    holiday.getId(),
+                    holiday.getName(),
+                    holiday.getDateOfHoliday(),
+                    holiday.getImage());
+            holidayResponses.add(holidayResponse);
+        }
+
+        List<CharityResponse> charityResponses = new ArrayList<>();
+        for (Charity charity : user.getCharities()) {
+            CharityResponse charityResponse = new CharityResponse(
+                    charity.getId(),
+                    charity.getName(),
+                    charity.getCharityStatus(),
+                    charity.getDescription(),
+                    charity.getCondition(),
+                    charity.getImage(),
+                    charity.getCreatedDate());
+            charityResponses.add(charityResponse);
+        }
+        friendProfileResponse.setWishResponses(wishResponses);
+        friendProfileResponse.setHolidayResponses(holidayResponses);
+        friendProfileResponse.setCharityResponses(charityResponses);
+
+        return friendProfileResponse;
     }
 
     public FriendProfileResponse friendProfileResponse(User user ) {

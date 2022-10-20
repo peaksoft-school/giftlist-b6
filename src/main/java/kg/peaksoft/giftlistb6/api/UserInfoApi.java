@@ -19,10 +19,10 @@ public class UserInfoApi {
         return service.saveProfile(request);
     }
 
-    @PutMapping("{id}")
-    public ProfileResponse updateProfileUser(@PathVariable Long id, @RequestBody ProfileRequest request) {
-        return service.saveUpdateUser(id,request);
-    }
+//    @PutMapping("{id}")
+//    public ProfileResponse updateProfileUser(@PathVariable Long id, @RequestBody ProfileRequest request) {
+//        return service.saveUpdateUser(id,request);
+//    }
 
     @GetMapping("{id}")
     public FriendProfileResponse showFriendProfile(@PathVariable Long id){
