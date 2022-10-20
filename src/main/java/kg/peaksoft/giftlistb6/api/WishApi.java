@@ -23,7 +23,7 @@ public class WishApi {
     private final WishService wishService;
 
     @Operation(summary = "Save wish", description = "User can save wish")
-    @PostMapping("/")
+    @PostMapping
     public WishResponse saveWish(@RequestBody WishRequest wishRequest) {
         return wishService.saveWish(wishRequest);
     }
@@ -51,7 +51,7 @@ public class WishApi {
 
 
     @Operation(summary = "Get all wishes", description = "User can get all wishes")
-    @GetMapping("/")
+    @GetMapping
     public List<WishResponse> getAllWishes() {
         return wishService.findAll();
     }
