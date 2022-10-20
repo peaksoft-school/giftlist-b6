@@ -28,9 +28,9 @@ VALUES (1, '12-12-2020', null, 'Нооруз', 4),
 
 INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, holiday_id,
                    reservoir_id, user_id)
-VALUES (1, '12-12-2020', 'роман', null, null, 'книга', 'RESERVE', 1, 4, 3),
-       (2, '11-10-2020', 'телефон', null, null, 'iphone 14pro', 'RESERVE', 2, 3, 4),
-       (3, '02-10-2020', 'шоколад', null, null, 'sneakers', 'RESERVE', 3, 3, 3),
+VALUES (1, '12-12-2020', 'роман', null, null, 'книга', 'RESERVED', 1, 4, 3),
+       (2, '11-10-2020', 'телефон', null, null, 'iphone 14pro', 'RESERVED', 2, 3, 4),
+       (3, '02-10-2020', 'шоколад', null, null, 'sneakers', 'RESERVED', 3, 3, 3),
        (4, '11-11-2020', 'ноутбук', null, null, 'macbook air pro', 'WAIT', 4, null, 4);
 
 INSERT INTO gift(id, user_id, wish_id)
