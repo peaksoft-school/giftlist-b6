@@ -15,7 +15,7 @@ import java.time.LocalDate;
 public class UserInfo {
 
     @Id
-    @SequenceGenerator(name = "userInfo_seq", sequenceName = "userInfo_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "userInfo_seq", sequenceName = "userInfo_seq", allocationSize = 1, initialValue = 25)
     @GeneratedValue(generator = "userInfo_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
