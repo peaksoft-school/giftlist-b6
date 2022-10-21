@@ -2,7 +2,12 @@ INSERT INTO user_info(id, clothing_size, country, date_of_birth, hobby, importan
 VALUES (1, 'XS', 'Kyrgyzstan', '14-12-1998', 'tennis', null, '0999234554', 36),
        (2, 'S', 'Kyrgyzstan', '14-08-2000', 'volleyball', null, '0709899876', 37),
        (3, 'XL', 'Kyrgyzstan', '15-12-2002', 'football', null, '0709465733', 38),
-       (4, 'XXL', 'Kyrgyzstan', '09-01-1999', null, null, '0559234595', 35);
+       (4, 'XS', 'Kyrgyzstan', '09-01-2009', null, null, '0559234595', 35),
+       (5, 'XL', 'Kyrgyzstan', '09-01-1888', null, null, '0559234595', 36),
+       (6, 'XS', 'Kyrgyzstan', '09-01-1998', null, null, '0559290595', 37),
+       (7, 'S', 'Kyrgyzstan', '09-01-2002', null, null, '0959234845', 38),
+       (8, 'M', 'Kyrgyzstan', '09-01-2001', null, null, '0999234595', 35),
+       (9, 'M', 'Kyrgyzstan', '09-01-2001', null, null, '0999234595', 35);
 
 INSERT INTO users(id, first_name, last_name, is_block, email, password, photo, role, user_info_id)
 VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQeybae.dumhUkp1ABxxESQN7c5zgmK9GFwHeIW',
@@ -12,7 +17,17 @@ VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQe
        (3, 'Aiza', 'Anarbekova', false, 'aiza@gmail.com',
         '$2a$12$yU5x4BST3FpXc0af1mwSfu3pGe./QBMU58VHinr9soYes/pf9jUca', 'image', 'USER', 3),
        (4, 'Aiperi', 'Mirlanova', false, 'mirlanova@gmail.com',
-        '$2a$12$j1yNeUrGbQhG5HPNUkczjeFye7Y8Gawi2mS94afZKi4FC/s6BEoHS', 'image', 'USER', 4);
+        '$2a$12$j1yNeUrGbQhG5HPNUkczjeFye7Y8Gawi2mS94afZKi4FC/s6BEoHS', 'image', 'USER', 4),
+       (5, 'Nurisa', 'Mamiraimova', false, 'nurisa@gmail.com',
+        '$2a$12$fUGH/gruCqYHD7MTy0Io8edOa0x3MsRtNlHJGUzyDPosGDUyU7.sa', 'image', 'USER', 5),
+       (6, 'Sunat', 'Januzakov', false, 'sunat@gmail.com',
+        '$2a$12$DzNum5bGvbAy67AR0aHZ6u48jJGHdGL14z3JZhQDsSwKSKiR8C.Ze', 'image', 'USER', 6),
+       (7, 'Klara', 'Azimova', false, 'klara@gmail.com', '$2a$12$VAo1JkaqTlw9PYwC5hPIs.7u.h3uCXOFqNlLM8LFKVOj3y3ZnFGBi',
+        'image', 'USER', 7),
+       (8, 'Maksat', 'Bekmurza uulu', false, 'maksat@gmail.com',
+        '$2a$12$NMl9xX0HFgbegagu..mUS./ncOeJq80WuNTlG23Zj47Z1uT0Wii7', 'image', 'USER', 8),
+       (9, 'Nurgazy', 'Nurmamatov', false, 'nurgazy@gmail.com',
+        '$2a$12$HdYBNIIcIMx1gJ90DKwmt.wnAEEAmXgSlB2q6SP1xkgtoye1e6UjK', 'image', 'USER', 9);
 
 INSERT INTO charity(id, charity_status, condition, created_date,
                     description, image, name, reservoir_id, user_id)
@@ -61,10 +76,16 @@ VALUES (1, 'телефон', 1),
        (12, 'велосипед', 6);
 
 INSERT INTO users_requests(user_id, requests_id)
-VALUES (3, 4);
+VALUES (3, 4),
+       (3, 5),
+       (3, 9);
 
-INSERT INTO users_friends(user_id, friends_id)
-VALUES (4, 3);
+     INSERT
+INTO users_friends(user_id, friends_id)
+VALUES (5, 6),
+       (5, 7),
+       (5, 8),
+       (5, 4);
 
 INSERT INTO complaints(id, is_seen, reason_text, complainer_id, wish_id)
 VALUES (1, false, 'SPAM', 3, 1);

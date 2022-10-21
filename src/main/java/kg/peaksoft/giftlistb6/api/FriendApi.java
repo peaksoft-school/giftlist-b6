@@ -15,51 +15,51 @@ import java.util.List;
 @RequiredArgsConstructor
 @PreAuthorize("hasAuthority('USER')")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Tag(name = "Friend Api", description = "Friends")
-@RequestMapping("/friends")
+@Tag(name = "Friends Api", description = "User can send request,add and delete friends")
+@RequestMapping("api/friends")
 public class FriendApi {
 
     private final FriendService friendService;
 
-    @Operation(summary = "Get all friends", description = "Get all friends by authentication(token) user")
-    @GetMapping("/getAllFriends")
+    @Operation(summary = "Get all friends", description = "User can see get all friends list")
+    @GetMapping
     public List<FriendInfoResponse> getAllFriends() {
         return friendService.getAllFriends();
     }
 
-    @Operation(summary = "Get all requests", description = "Get all requests by authentication(token) user")
-    @GetMapping("/getAllRequests")
+    @Operation(summary = "Get all requests", description = "User can see get all requests")
+    @GetMapping("/requests")
     public List<FriendInfoResponse> getAllRequests() {
         return friendService.getAllRequests();
     }
 
-    @Operation(summary = "Send request to friend", description = "Send request to friend by friend id and by authentication(token) user")
-    @PostMapping("/request/{friendId}")
-    public SimpleResponse requestToFriend(@PathVariable Long friendId) {
-        return friendService.sendRequestToFriend(friendId);
+    @Operation(summary = "Send request to friend", description = "User can send request to friend")
+    @PostMapping("/request/{id}")
+    public SimpleResponse requestToFriend(@PathVariable Long id) {
+        return friendService.sendRequestToFriend(id);
     }
 
-    @Operation(summary = "Reject request to friend", description = "Reject request to friend by sender user id and by authentication(token) user")
-    @PostMapping("/reject/{senderId}")
-    public SimpleResponse reject(@PathVariable Long senderId) {
-        return friendService.rejectRequest(senderId);
+    @Operation(summary = "Reject request to friend", description = "User can reject request to friend")
+    @PostMapping("/reject/{id}")
+    public SimpleResponse reject(@PathVariable Long id) {
+        return friendService.rejectRequest(id);
     }
 
-    @Operation(summary = "Accept request to friend", description = "Accept request to friend by sender user id and by authentication(token) user")
-    @PostMapping("/accept/{senderId}")
-    public SimpleResponse accept(@PathVariable Long senderId) {
-        return friendService.acceptRequest(senderId);
+    @Operation(summary = "Accept request to friend", description = "User can accept request to friend")
+    @PostMapping("/accept/{id}")
+    public SimpleResponse accept(@PathVariable Long id) {
+        return friendService.acceptRequest(id);
     }
 
-    @Operation(summary = "Delete from friend", description = "Delete from friend by friend id and by authentication(token) user")
-    @DeleteMapping("/delete/{friendId}")
-    public SimpleResponse deleteFromFriend(@PathVariable Long friendId) {
-        return friendService.deleteFromFriends(friendId);
+    @Operation(summary = "Delete from friend", description = "User can delete from friends")
+    @DeleteMapping("/{id}")
+    public SimpleResponse deleteFromFriend(@PathVariable Long id) {
+        return friendService.deleteFromFriends(id);
     }
 
-    @Operation(summary = "Cancel request to friend", description = "Cancel request to friend by friend id and by authentication(token) user")
-    @PostMapping("/cancelRequest/{friendId}")
-    public SimpleResponse cancelRequestToFriend(@PathVariable Long friendId) {
-        return friendService.cancelRequestToFriend(friendId);
+    @Operation(summary = "Cancel request to friend", description = "User can cancel request to friend")
+    @PostMapping("/cancel/{id}")
+    public SimpleResponse cancelRequestToFriend(@PathVariable Long id) {
+        return friendService.cancelRequestToFriend(id);
     }
 }

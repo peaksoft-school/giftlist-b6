@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.model;
 
+import kg.peaksoft.giftlistb6.enums.NotificationType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,6 +25,9 @@ public class Notification {
     private LocalDate createdDate;
 
     private Boolean isSeen;
+
+    @Enumerated(EnumType.STRING)
+    private NotificationType notificationType;
 
     @OneToOne
     private User requestToFriend;
