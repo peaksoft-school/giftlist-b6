@@ -12,6 +12,5 @@ import java.time.LocalDate;
 public class HolidayResponse {
 
     private String name;
-
     private LocalDate localDate;
 }

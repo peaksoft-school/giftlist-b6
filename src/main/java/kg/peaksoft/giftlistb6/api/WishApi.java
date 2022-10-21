@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/wishList")
+@RequestMapping("/api/wish-list")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Wish Api", description = "Wish CRUD")
 public class WishApi {

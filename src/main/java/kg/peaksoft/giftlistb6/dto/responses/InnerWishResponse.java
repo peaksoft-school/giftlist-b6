@@ -8,14 +8,9 @@ import lombok.Setter;
 public class InnerWishResponse {
 
     private Long id;
-
     private String wishName;
-
     private String linkToGift;
-
     private HolidayResponse holiday;
-
     private String description;
-
     private String image;
 }
