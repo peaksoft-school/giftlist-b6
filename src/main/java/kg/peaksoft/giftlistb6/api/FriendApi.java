@@ -7,7 +7,14 @@ import kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -28,37 +35,37 @@ public class FriendApi {
     }
 
     @Operation(summary = "Get all requests", description = "User can see get all requests")
-    @GetMapping("/requests")
+    @GetMapping("requests")
     public List<FriendInfoResponse> getAllRequests() {
         return friendService.getAllRequests();
     }
 
     @Operation(summary = "Send request to friend", description = "User can send request to friend")
-    @PostMapping("/request/{id}")
+    @PostMapping("request/{id}")
     public SimpleResponse requestToFriend(@PathVariable Long id) {
         return friendService.sendRequestToFriend(id);
     }
 
     @Operation(summary = "Reject request to friend", description = "User can reject request to friend")
-    @PostMapping("/reject/{id}")
+    @PostMapping("reject/{id}")
     public SimpleResponse reject(@PathVariable Long id) {
         return friendService.rejectRequest(id);
     }
 
     @Operation(summary = "Accept request to friend", description = "User can accept request to friend")
-    @PostMapping("/accept/{id}")
+    @PostMapping("accept/{id}")
     public SimpleResponse accept(@PathVariable Long id) {
         return friendService.acceptRequest(id);
     }
 
     @Operation(summary = "Delete from friend", description = "User can delete from friends")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public SimpleResponse deleteFromFriend(@PathVariable Long id) {
         return friendService.deleteFromFriends(id);
     }
 
     @Operation(summary = "Cancel request to friend", description = "User can cancel request to friend")
-    @PostMapping("/cancel/{id}")
+    @PostMapping("cancel/{id}")
     public SimpleResponse cancelRequestToFriend(@PathVariable Long id) {
         return friendService.cancelRequestToFriend(id);
     }
