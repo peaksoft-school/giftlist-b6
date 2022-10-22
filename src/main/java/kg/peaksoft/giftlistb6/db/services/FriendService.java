@@ -1,15 +1,15 @@
-package kg.peaksoft.giftlistb6.db.service;
+package kg.peaksoft.giftlistb6.db.services;
 
-import kg.peaksoft.giftlistb6.db.model.Notification;
-import kg.peaksoft.giftlistb6.db.model.User;
-import kg.peaksoft.giftlistb6.db.repository.FriendRepository;
-import kg.peaksoft.giftlistb6.db.repository.NotificationRepository;
-import kg.peaksoft.giftlistb6.db.repository.UserRepository;
+import kg.peaksoft.giftlistb6.db.models.Notification;
+import kg.peaksoft.giftlistb6.db.models.User;
+import kg.peaksoft.giftlistb6.db.repositories.FriendRepository;
+import kg.peaksoft.giftlistb6.db.repositories.NotificationRepository;
+import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.NotificationType;
-import kg.peaksoft.giftlistb6.exception.BadRequestException;
-import kg.peaksoft.giftlistb6.exception.NotFoundException;
+import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
+import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -54,7 +54,8 @@ public class FriendService {
         }
         if (friend.getRequests().contains(user)) {
             throw new BadRequestException("вы уже отправили запрос!");
-        } else if (user.getFriends().contains(friend)) {
+        }
+        if (friend.getFriends().contains(user)) {
             throw new BadRequestException("вы уже в друзьях!");
         }
         friend.setRequests(List.of(user));
@@ -73,21 +74,18 @@ public class FriendService {
         User user = getAuthPrincipal();
         User request = userRepository.findById(senderUserId).orElseThrow(
                 () -> new NotFoundException(String.format("User with id: %s not found!", senderUserId)));
-        for (Notification n: user.getNotifications()) {
-            System.out.println("for");
-//            for (User u:user.getFriends()) {
-                if (n.getRequestToFriend().equals(request)){
-                    System.out.println("ifff");
-                    notificationRepository.deleteById(n.getId());
-                    System.out.println("delete");
-                }
-//            }
+        for (Notification n : user.getNotifications()) {
+            if (n.getRequestToFriend().getId().equals(senderUserId)) {
+                notificationRepository.delete(n);
+                user.getNotifications().remove(n);
+                break;
+            }
+        }
         if (user.getRequests().contains(request)) {
             user.setFriends(List.of(request));
             user.getRequests().remove(request);
-        } else
+        } else {
             return new SimpleResponse("request not found", "");
-
         }
         return new SimpleResponse("successful", "FRIEND");
     }
@@ -97,11 +95,18 @@ public class FriendService {
         User user = getAuthPrincipal();
         User sender = userRepository.findById(senderUserId).orElseThrow(
                 () -> new NotFoundException(String.format("user with id: %s not found", senderUserId)));
+        for (Notification n : user.getNotifications()) {
+            if (n.getRequestToFriend().getId().equals(senderUserId)) {
+                notificationRepository.delete(n);
+                user.getNotifications().remove(n);
+            }
+            break;
+        }
         if (user.getRequests().contains(sender)) {
             user.getRequests().remove(sender);
-        } else
+        } else {
             return new SimpleResponse("request not found", "");
-
+        }
         return new SimpleResponse("successful", "NOT FRIEND");
     }
 
@@ -113,9 +118,9 @@ public class FriendService {
         if (user.getFriends().contains(friend)) {
             user.getFriends().remove(friend);
             friend.getFriends().remove(user);
-        } else
+        } else {
             return new SimpleResponse("friend not found", "");
-
+        }
         return new SimpleResponse("successful", "NOT FRIEND");
     }
 
@@ -124,11 +129,18 @@ public class FriendService {
         User user = getAuthPrincipal();
         User friend = userRepository.findById(friendId).orElseThrow(
                 () -> new NotFoundException(String.format("user with id %s not found", friendId)));
-        if (user.getRequests().contains(friend)) {
-            user.getRequests().remove(friend);
-        } else
+        for (Notification n : friend.getNotifications()) {
+            if (n.getRequestToFriend().getId().equals(user.getId())) {
+                notificationRepository.delete(n);
+                friend.getNotifications().remove(n);
+            }
+            break;
+        }
+        if (friend.getRequests().contains(user)) {
+            friend.getRequests().remove(user);
+        } else {
             return new SimpleResponse("request not found", "");
-
+        }
         return new SimpleResponse("successful", "NOT FRIEND");
     }
 

@@ -25,7 +25,7 @@ VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQe
        (7, 'Klara', 'Azimova', false, 'klara@gmail.com', '$2a$12$VAo1JkaqTlw9PYwC5hPIs.7u.h3uCXOFqNlLM8LFKVOj3y3ZnFGBi',
         'image', 'USER', 7),
        (8, 'Maksat', 'Bekmurza uulu', false, 'maksat@gmail.com',
-        '$2a$12$NMl9xX0HFgbegagu..mUS./ncOeJq80WuNTlG23Zj47Z1uT0Wii7', 'image', 'USER', 8),
+        '$2a$12$FluRPUh71oKI/UqjxdLz8e9ltAO0vqGvxMsWzSF2X4zemBfKfJGWu', 'image', 'USER', 8),
        (9, 'Nurgazy', 'Nurmamatov', false, 'nurgazy@gmail.com',
         '$2a$12$HdYBNIIcIMx1gJ90DKwmt.wnAEEAmXgSlB2q6SP1xkgtoye1e6UjK', 'image', 'USER', 9);
 

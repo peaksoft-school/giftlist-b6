@@ -2,7 +2,7 @@ package kg.peaksoft.giftlistb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.peaksoft.giftlistb6.db.service.FriendService;
+import kg.peaksoft.giftlistb6.db.services.FriendService;
 import kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;

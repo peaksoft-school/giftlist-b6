@@ -1,6 +1,7 @@
-package kg.peaksoft.giftlistb6.db.repository;
+package kg.peaksoft.giftlistb6.db.repositories;
 
-import kg.peaksoft.giftlistb6.db.model.Notification;
+
+import kg.peaksoft.giftlistb6.db.models.Notification;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long> {
