@@ -42,20 +42,20 @@ public class AuthApi {
     }
 
     @Operation(summary = "Google authentication", description = "Authenticate with google")
-    @PostMapping("/authenticate/google")
+    @PostMapping("auth-google")
     public AuthResponse authWithGoogle(String tokenId) throws FirebaseAuthException {
         return userService.authWithGoogle(tokenId);
     }
 
     @Operation(summary = "Forgot password", description = "Send link forgot password")
-    @PostMapping("/forgot/password")
+    @PostMapping("forgot-password")
     public SimpleResponse forgotPassword(@RequestParam String email,
                                          @RequestParam String link) throws MessagingException {
         return userService.forgotPassword(email,link);
     }
 
     @Operation(summary = "Reset Password", description = "Change password")
-    @PostMapping("/resetPassword")
+    @PostMapping("reset-password")
     public SimpleResponse resetPassword(@RequestBody ResetPasswordRequest request){
         return userService.resetPassword(request);
     }
