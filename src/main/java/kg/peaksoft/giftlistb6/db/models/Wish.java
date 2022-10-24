@@ -40,6 +40,9 @@ public class Wish {
     @Enumerated(EnumType.STRING)
     private Status wishStatus;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Gift gift;
+
     @OneToOne
     private User reservoir;
 
