@@ -9,8 +9,8 @@ RUN mvn clean install -DskiptTests=true
 FROM openjdk:11.0.11-jre-slim
 WORKDIR /b6/app
 
-COPY --from=build /b6/build/target/taigan.jar /onroad/app/
+COPY --from=build /b6/build/target/giftlist-b6-0.0.1-SNAPSHOT.jar /b6/app/
 
 EXPOSE 8080
 
-ENTRYPOINT ["java","-jar","/b6/app/taigan.jar"]
+ENTRYPOINT ["java","-jar","/b6/app/giftlist-b6-0.0.1-SNAPSHOT.jar"]
