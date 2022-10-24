@@ -11,6 +11,6 @@ WORKDIR /b6/app
 
 COPY --from=build /b6/build/target/giftlist-b6-0.0.1-SNAPSHOT.jar /b6/app/
 
-EXPOSE 8080
+EXPOSE 80
 
 ENTRYPOINT ["java","-jar","/b6/app/giftlist-b6-0.0.1-SNAPSHOT.jar"]
