@@ -25,11 +25,7 @@ import java.util.List;
 public class HolidayService {
 
     private final HolidayRepository holidayRepository;
-
     private final UserRepository userRepository;
-
-    private final WishRepository repository;
-
     private final GiftRepository giftRepository;
 
     public User getPrinciple() {
