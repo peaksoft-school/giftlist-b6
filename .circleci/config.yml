@@ -1,0 +1,80 @@
+version: 2.1
+
+orbs:
+  aws-ecr: circleci/aws-ecr@7.0.0
+  aws-ecs: circleci/aws-ecs@3.2
+
+commands:
+  build-image: aws-ecr/build-image
+
+workflows:
+  deploy-to-development:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          name: "build-and-push-image"
+          context:
+            - GIFTLIST_CONTEXT
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          account-url: AWS_ECR_URL
+          create-repo: false
+          dockerfile: Dockerfile
+          no-output-timeout: 20m
+          path: ./
+          region: AWS_DEFAULT_REGION
+          repo: giftlist-b6
+          skip-when-tags-exist: false
+          tag: $CIRCLE_SHA1
+          filters:
+            branches:
+              only:
+                - main
+#      - aws-ecs/deploy-service-update:
+#          context:
+#            - TAIGAN_CONTEXT
+#          cluster: taigan-backend-dev
+#          container-image-name-updates: 'container=taiganbackenddev,tag=${CIRCLE_SHA1}'
+#          family: taigan-backenddev
+#          service-name: taiganbackenddevservice
+#          force-new-deployment: true
+#          filters:
+#            branches:
+#              only:
+#                - main
+#          requires:
+#            - build-and-push-image
+#  deploy-to-production:
+#    jobs:
+#      - aws-ecr/build-and-push-image:
+#          name: "build-and-push-image"
+#          context:
+#            - TAIGAN_CONTEXT
+#          aws-access-key-id: AWS_ACCESS_KEY_ID
+#          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+#          account-url: AWS_ECR_URL
+#          create-repo: false
+#          dockerfile: Dockerfile
+#          no-output-timeout: 20m
+#          path: ./
+#          region: AWS_DEFAULT_REGION
+#          repo: taigan-backend
+#          skip-when-tags-exist: false
+#          tag: $CIRCLE_SHA1
+#          filters:
+#            branches:
+#              only:
+#                - production
+#      - aws-ecs/deploy-service-update:
+#          context:
+#            - TAIGAN_CONTEXT
+#          cluster: taigan-backend-dev
+#          container-image-name-updates: 'container=taiganbackenddevcontainer,tag=${CIRCLE_SHA1}'
+#          family: taigan-backend-dev
+#          service-name: taiganbackenddevservice1
+#          force-new-deployment: true
+#          filters:
+#            branches:
+#              only:
+#                - production
+#          requires:
+#            - build-and-push-image
