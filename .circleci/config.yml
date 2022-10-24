@@ -29,20 +29,20 @@ workflows:
             branches:
               only:
                 - main
-#      - aws-ecs/deploy-service-update:
-#          context:
-#            - TAIGAN_CONTEXT
-#          cluster: taigan-backend-dev
-#          container-image-name-updates: 'container=taiganbackenddev,tag=${CIRCLE_SHA1}'
-#          family: taigan-backenddev
-#          service-name: taiganbackenddevservice
-#          force-new-deployment: true
-#          filters:
-#            branches:
-#              only:
-#                - main
-#          requires:
-#            - build-and-push-image
+      - aws-ecs/deploy-service-update:
+          context:
+            - GIFTLIST_CONTEXT
+          cluster: giftlist-b6
+          container-image-name-updates: 'container=giftlisft-b6-container,tag=${CIRCLE_SHA1}'
+          family: giftlist-b6-task
+          service-name: giftlist-b6-service
+          force-new-deployment: true
+          filters:
+            branches:
+              only:
+                - main
+          requires:
+            - build-and-push-image
 #  deploy-to-production:
 #    jobs:
 #      - aws-ecr/build-and-push-image:
