@@ -44,7 +44,6 @@ public class UserProfileService {
         userInfo.setShoeSize(request.getShoeSize());
         userInfo.setClothingSize(request.getClothingSize());
         return userInfo;
-
     }
 
     public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
@@ -85,6 +84,18 @@ public class UserProfileService {
         return response;
     }
 
+    public FriendShowResponse getProfile(Long id) {
+        FriendShowResponse friendShowResponse = new FriendShowResponse();
+        User user = userRepository.findById(id).orElseThrow(
+                ()-> new NotFoundException(String.format("user with id %s not found", id))
+        );
+        friendShowResponse.setId(user.getId());
+        friendShowResponse.setFullName(user.getFirstName() + " " + user.getLastName());
+        friendShowResponse.setPhoto(user.getPhoto());
+        friendShowResponse.setEmail(user.getEmail());
+        return friendShowResponse;
+    }
+
     public FriendProfileResponse friendProfile(Long id){
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
         User user  = userRepository.findById(id).orElseThrow(
@@ -112,9 +123,9 @@ public class UserProfileService {
             wishResponses.add(wishResponse);
         }
 
-        List<HolidayResponsess> holidayResponses = new ArrayList<>();
+        List<HolidayResponses2> holidayResponses = new ArrayList<>();
         for (Holiday holiday : user.getHolidays()) {
-            HolidayResponsess holidayResponse = new HolidayResponsess(
+            HolidayResponses2 holidayResponse = new HolidayResponses2(
                     holiday.getId(),
                     holiday.getName(),
                     holiday.getDateOfHoliday(),

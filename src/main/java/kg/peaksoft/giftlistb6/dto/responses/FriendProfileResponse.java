@@ -20,6 +20,6 @@ public class FriendProfileResponse {
     private String hobby;
     private String important;
     private List<WishResponses> wishResponses;
-    private List<HolidayResponsess> holidayResponses;
+    private List<HolidayResponses2> holidayResponses;
     private List<CharityResponse> charityResponses;
 }
