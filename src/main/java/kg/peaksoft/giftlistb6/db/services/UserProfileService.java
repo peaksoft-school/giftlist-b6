@@ -1,11 +1,11 @@
-package kg.peaksoft.giftlistb6.db.service;
+package kg.peaksoft.giftlistb6.db.services;
 
-import kg.peaksoft.giftlistb6.db.model.*;
-import kg.peaksoft.giftlistb6.db.repository.UserProfileRepository;
-import kg.peaksoft.giftlistb6.db.repository.UserRepository;
+import kg.peaksoft.giftlistb6.db.models.*;
+import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
+import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
-import kg.peaksoft.giftlistb6.exception.NotFoundException;
+import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -99,9 +99,9 @@ public class UserProfileService {
         friendProfileResponse.setImportant(user.getUserInfo().getImportant());
         friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
         friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
-        List<WishResponse> wishResponses = new ArrayList<>();
+        List<WishResponses> wishResponses = new ArrayList<>();
         for (Wish wish : user.getWishes()) {
-            WishResponse wishResponse = new WishResponse(
+            WishResponses wishResponse = new WishResponses(
                     wish.getId(),
                     wish.getWishName(),
                     wish.getLinkToGift(),
@@ -112,9 +112,9 @@ public class UserProfileService {
             wishResponses.add(wishResponse);
         }
 
-        List<HolidayResponse> holidayResponses = new ArrayList<>();
+        List<HolidayResponsess> holidayResponses = new ArrayList<>();
         for (Holiday holiday : user.getHolidays()) {
-            HolidayResponse holidayResponse = new HolidayResponse(
+            HolidayResponsess holidayResponse = new HolidayResponsess(
                     holiday.getId(),
                     holiday.getName(),
                     holiday.getDateOfHoliday(),
@@ -140,59 +140,5 @@ public class UserProfileService {
 
         return friendProfileResponse;
     }
-
-//    public FriendProfileResponse friendProfileResponse(User user ) {
-//        UserInfo userInfo = new UserInfo();
-//        FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-//        friendProfileResponse.setId(userInfo.getId());
-//        friendProfileResponse.setCountry(userInfo.getCountry());
-//        friendProfileResponse.setClothingSize(userInfo.getClothingSize());
-//        friendProfileResponse.setHobby(userInfo.getHobby());
-//        friendProfileResponse.setImportant(userInfo.getImportant());
-//        friendProfileResponse.setPhoto(userInfo.getPhoto());
-//        friendProfileResponse.setPhoneNumber(userInfo.getPhoneNumber());
-//        friendProfileResponse.setShoeSize(userInfo.getShoeSize());
-//        friendProfileResponse.setDateOfBirth(userInfo.getDateOfBirth());
-//        List<WishResponse> wishResponses = new ArrayList<>();
-//        for (Wish wish : user.getWishes()) {
-//            WishResponse wishResponse = new WishResponse(
-//                    wish.getId(),
-//                    wish.getWishName(),
-//                    wish.getLinkToGift(),
-//                    wish.getDateOfHoliday(),
-//                    wish.getDescription(),
-//                    wish.getImage(),
-//                    wish.getWishStatus());
-//            wishResponses.add(wishResponse);
-//        }
-//
-//        List<HolidayResponse> holidayResponses = new ArrayList<>();
-//        for (Holiday holiday : user.getHolidays()) {
-//            HolidayResponse holidayResponse = new HolidayResponse(
-//                    holiday.getId(),
-//                    holiday.getName(),
-//                    holiday.getDateOfHoliday(),
-//                    holiday.getImage());
-//            holidayResponses.add(holidayResponse);
-//        }
-//
-//        List<CharityResponse> charityResponses = new ArrayList<>();
-//        for (Charity charity : user.getCharities()) {
-//            CharityResponse charityResponse = new CharityResponse(
-//                    charity.getId(),
-//                    charity.getName(),
-//                    charity.getCharityStatus(),
-//                    charity.getDescription(),
-//                    charity.getCondition(),
-//                    charity.getImage(),
-//                    charity.getCreatedDate());
-//            charityResponses.add(charityResponse);
-//        }
-//
-//        friendProfileResponse.setWishResponses(wishResponses);
-//        friendProfileResponse.setHolidayResponses(holidayResponses);
-//        friendProfileResponse.setCharityResponses(charityResponses);
-//        return friendProfileResponse;
-//    }
 
 }

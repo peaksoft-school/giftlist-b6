@@ -1,7 +1,7 @@
 package kg.peaksoft.giftlistb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
-import kg.peaksoft.giftlistb6.db.service.UserProfileService;
+import kg.peaksoft.giftlistb6.db.services.UserProfileService;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.FriendProfileResponse;
 import kg.peaksoft.giftlistb6.dto.responses.ProfileResponse;

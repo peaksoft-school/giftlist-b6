@@ -2,7 +2,6 @@ package kg.peaksoft.giftlistb6.db.models;
 
 import kg.peaksoft.giftlistb6.enums.Role;
 import lombok.*;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

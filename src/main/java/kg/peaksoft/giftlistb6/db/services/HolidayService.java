@@ -6,7 +6,6 @@ import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.db.repositories.GiftRepository;
 import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
-import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.requests.HolidayRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;

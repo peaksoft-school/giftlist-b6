@@ -9,17 +9,10 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class HolidayResponse {
 
     private String name;
     private LocalDate localDate;
-@NoArgsConstructor
-@AllArgsConstructor
-public class HolidayResponse {
-
-    private Long id;
-    private String name;
-    private LocalDate dateOfHoliday;
-    private String image;
 }
