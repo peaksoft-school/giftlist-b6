@@ -47,11 +47,11 @@ public class UserProfileService {
 
     }
 
-//    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
-//        UserInfo userInfo = repository.findById(id).get().getUserInfo();
-//        UserInfo userInfo1 = updateUser(userInfo,request);
-//        return convertToResponse(userInfo1);
-//    }
+    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
+        UserInfo userInfo = repository.findById(id).get();
+        UserInfo userInfo1 = updateUser(userInfo,request);
+        return convertToResponse(repository.save(userInfo1));
+    }
 
     @Transactional
     public UserInfo convertToEntity(ProfileRequest request) {
@@ -86,11 +86,19 @@ public class UserProfileService {
     }
 
     public FriendProfileResponse friendProfile(Long id){
+        FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
         User user  = userRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException(String.format("user with id %s not found",id))
         );
-        FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-
+        friendProfileResponse.setId(user.getId());
+        friendProfileResponse.setPhoto(user.getPhoto());
+        friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
+        friendProfileResponse.setCountry(user.getUserInfo().getCountry());
+        friendProfileResponse.setClothingSize(user.getUserInfo().getClothingSize());
+        friendProfileResponse.setHobby(user.getUserInfo().getHobby());
+        friendProfileResponse.setImportant(user.getUserInfo().getImportant());
+        friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
+        friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
         List<WishResponse> wishResponses = new ArrayList<>();
         for (Wish wish : user.getWishes()) {
             WishResponse wishResponse = new WishResponse(
@@ -133,58 +141,58 @@ public class UserProfileService {
         return friendProfileResponse;
     }
 
-    public FriendProfileResponse friendProfileResponse(User user ) {
-        UserInfo userInfo = new UserInfo();
-        FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        friendProfileResponse.setId(userInfo.getId());
-        friendProfileResponse.setCountry(userInfo.getCountry());
-        friendProfileResponse.setClothingSize(userInfo.getClothingSize());
-        friendProfileResponse.setHobby(userInfo.getHobby());
-        friendProfileResponse.setImportant(userInfo.getImportant());
-        friendProfileResponse.setPhoto(userInfo.getPhoto());
-        friendProfileResponse.setPhoneNumber(userInfo.getPhoneNumber());
-        friendProfileResponse.setShoeSize(userInfo.getShoeSize());
-        friendProfileResponse.setDateOfBirth(userInfo.getDateOfBirth());
-        List<WishResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : user.getWishes()) {
-            WishResponse wishResponse = new WishResponse(
-                    wish.getId(),
-                    wish.getWishName(),
-                    wish.getLinkToGift(),
-                    wish.getDateOfHoliday(),
-                    wish.getDescription(),
-                    wish.getImage(),
-                    wish.getWishStatus());
-            wishResponses.add(wishResponse);
-        }
-
-        List<HolidayResponse> holidayResponses = new ArrayList<>();
-        for (Holiday holiday : user.getHolidays()) {
-            HolidayResponse holidayResponse = new HolidayResponse(
-                    holiday.getId(),
-                    holiday.getName(),
-                    holiday.getDateOfHoliday(),
-                    holiday.getImage());
-            holidayResponses.add(holidayResponse);
-        }
-
-        List<CharityResponse> charityResponses = new ArrayList<>();
-        for (Charity charity : user.getCharities()) {
-            CharityResponse charityResponse = new CharityResponse(
-                    charity.getId(),
-                    charity.getName(),
-                    charity.getCharityStatus(),
-                    charity.getDescription(),
-                    charity.getCondition(),
-                    charity.getImage(),
-                    charity.getCreatedDate());
-            charityResponses.add(charityResponse);
-        }
-
-        friendProfileResponse.setWishResponses(wishResponses);
-        friendProfileResponse.setHolidayResponses(holidayResponses);
-        friendProfileResponse.setCharityResponses(charityResponses);
-        return friendProfileResponse;
-    }
+//    public FriendProfileResponse friendProfileResponse(User user ) {
+//        UserInfo userInfo = new UserInfo();
+//        FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
+//        friendProfileResponse.setId(userInfo.getId());
+//        friendProfileResponse.setCountry(userInfo.getCountry());
+//        friendProfileResponse.setClothingSize(userInfo.getClothingSize());
+//        friendProfileResponse.setHobby(userInfo.getHobby());
+//        friendProfileResponse.setImportant(userInfo.getImportant());
+//        friendProfileResponse.setPhoto(userInfo.getPhoto());
+//        friendProfileResponse.setPhoneNumber(userInfo.getPhoneNumber());
+//        friendProfileResponse.setShoeSize(userInfo.getShoeSize());
+//        friendProfileResponse.setDateOfBirth(userInfo.getDateOfBirth());
+//        List<WishResponse> wishResponses = new ArrayList<>();
+//        for (Wish wish : user.getWishes()) {
+//            WishResponse wishResponse = new WishResponse(
+//                    wish.getId(),
+//                    wish.getWishName(),
+//                    wish.getLinkToGift(),
+//                    wish.getDateOfHoliday(),
+//                    wish.getDescription(),
+//                    wish.getImage(),
+//                    wish.getWishStatus());
+//            wishResponses.add(wishResponse);
+//        }
+//
+//        List<HolidayResponse> holidayResponses = new ArrayList<>();
+//        for (Holiday holiday : user.getHolidays()) {
+//            HolidayResponse holidayResponse = new HolidayResponse(
+//                    holiday.getId(),
+//                    holiday.getName(),
+//                    holiday.getDateOfHoliday(),
+//                    holiday.getImage());
+//            holidayResponses.add(holidayResponse);
+//        }
+//
+//        List<CharityResponse> charityResponses = new ArrayList<>();
+//        for (Charity charity : user.getCharities()) {
+//            CharityResponse charityResponse = new CharityResponse(
+//                    charity.getId(),
+//                    charity.getName(),
+//                    charity.getCharityStatus(),
+//                    charity.getDescription(),
+//                    charity.getCondition(),
+//                    charity.getImage(),
+//                    charity.getCreatedDate());
+//            charityResponses.add(charityResponse);
+//        }
+//
+//        friendProfileResponse.setWishResponses(wishResponses);
+//        friendProfileResponse.setHolidayResponses(holidayResponses);
+//        friendProfileResponse.setCharityResponses(charityResponses);
+//        return friendProfileResponse;
+//    }
 
 }
