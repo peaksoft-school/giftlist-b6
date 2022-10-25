@@ -6,19 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class WishResponse {
 
     private Long id;
     private String wishName;
-    private String linkToGift;
-    private LocalDate dateOfHoliday;
-    private String description;
-    private String image;
+    private HolidayResponse holiday;
     private Status wishStatus;
 }

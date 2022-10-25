@@ -10,16 +10,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-public class HolidayResponse {
-
-    private String name;
-    private LocalDate localDate;
 @NoArgsConstructor
-@AllArgsConstructor
-public class HolidayResponse {
+public class HolidayResponses {
 
     private Long id;
     private String name;
     private LocalDate dateOfHoliday;
     private String image;
+    private Long user;
 }

@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,16 +11,14 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @AllArgsConstructor
-public class HolidayResponse {
-
-    private String name;
-    private LocalDate localDate;
 @NoArgsConstructor
-@AllArgsConstructor
-public class HolidayResponse {
+public class WishResponses {
 
     private Long id;
-    private String name;
+    private String wishName;
+    private String linkToGift;
     private LocalDate dateOfHoliday;
+    private String description;
     private String image;
+    private Status wishStatus;
 }

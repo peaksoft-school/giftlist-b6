@@ -6,20 +6,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
-public class HolidayResponse {
-
-    private String name;
-    private LocalDate localDate;
 @NoArgsConstructor
-@AllArgsConstructor
-public class HolidayResponse {
+public class HolidayResponseForGet {
 
     private Long id;
     private String name;
     private LocalDate dateOfHoliday;
     private String image;
+    private Long user;
+    private List<WishResponses> wishResponse;
 }
