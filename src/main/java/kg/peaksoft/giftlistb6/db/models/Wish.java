@@ -17,7 +17,7 @@ import java.util.List;
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
     @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
@@ -39,6 +39,9 @@ public class Wish {
     @Column(name = "wish_status")
     @Enumerated(EnumType.STRING)
     private Status wishStatus;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Gift gift;
 
     @OneToOne
     private User reservoir;

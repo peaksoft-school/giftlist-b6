@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class Gift {
 
     @Id
-    @SequenceGenerator(name = "gift_seq", sequenceName = "gift_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "gift_seq", sequenceName = "gift_seq", allocationSize = 1, initialValue = 15)
     @GeneratedValue(generator = "gift_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
