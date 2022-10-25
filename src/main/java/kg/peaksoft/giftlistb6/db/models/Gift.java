@@ -23,4 +23,6 @@ public class Gift {
 
     @OneToOne
     private Wish wish;
+
+
 }

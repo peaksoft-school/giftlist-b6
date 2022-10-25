@@ -1,8 +1,8 @@
 INSERT INTO user_info(id, clothing_size, country, date_of_birth, hobby, important, phone_number, shoe_size)
-VALUES (1, 'XS', 'Kyrgyzstan', '14-12-1998', 'tennis', null, '0999234554', 36),
-       (2, 'S', 'Kyrgyzstan', '14-08-2000', 'volleyball', null, '0709899876', 37),
-       (3, 'XL', 'Kyrgyzstan', '15-12-2002', 'football', null, '0709465733', 38),
-       (4, 'XXL', 'Kyrgyzstan', '09-01-1999', null, null, '0559234595', 35);
+VALUES (1, 'XS', 'Kyrgyzstan', '1998-12-14', 'tennis', null, '0999234554', 36),
+        (2, 'S', 'Kyrgyzstan', '2000-08-14', 'volleyball', null, '0709899876', 37),
+        (3, 'XL', 'Kyrgyzstan', '2002-12-15', 'football', null, '0709465733', 38),
+        (4, 'XXL', 'Kyrgyzstan', '1999-01-09', null, null, '0559234595', 35);
 
 INSERT INTO users(id, first_name, last_name, is_block, email, password, photo, role, user_info_id)
 VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQeybae.dumhUkp1ABxxESQN7c5zgmK9GFwHeIW',
@@ -28,9 +28,9 @@ VALUES (1, '12-12-2020', null, 'Нооруз', 4),
 
 INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, holiday_id,
                    reservoir_id, user_id)
-VALUES (1, '12-12-2020', 'роман', null, null, 'книга', 'RESERVE', 1, 4, 3),
-       (2, '11-10-2020', 'телефон', null, null, 'iphone 14pro', 'RESERVE', 2, 3, 4),
-       (3, '02-10-2020', 'шоколад', null, null, 'sneakers', 'RESERVE', 3, 3, 3),
+VALUES (1, '12-12-2020', 'роман', null, null, 'книга', 'RESERVED', 1, 4, 3),
+       (2, '11-10-2020', 'телефон', null, null, 'iphone 14pro', 'RESERVED', 2, 3, 4),
+       (3, '02-10-2020', 'шоколад', null, null, 'sneakers', 'RESERVED', 3, 3, 3),
        (4, '11-11-2020', 'ноутбук', null, null, 'macbook air pro', 'WAIT', 4, null, 4);
 
 INSERT INTO gift(id, user_id, wish_id)
