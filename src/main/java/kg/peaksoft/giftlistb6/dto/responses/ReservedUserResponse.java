@@ -10,8 +10,6 @@ import lombok.Setter;
 public class ReservedUserResponse {
 
     private Long id;
-
     private String fullName;
-
     private String image;
 }

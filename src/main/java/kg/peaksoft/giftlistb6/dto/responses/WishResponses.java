@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,4 +22,5 @@ public class WishResponses {
     private String description;
     private String image;
     private Status wishStatus;
+
 }

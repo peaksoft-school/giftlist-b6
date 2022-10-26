@@ -8,6 +8,5 @@ import lombok.Setter;
 public class ResetPasswordRequest {
 
     private Long id;
-
     private String newPassword;
 }

@@ -10,7 +10,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.responses.GiftResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
-import kg.peaksoft.giftlistb6.dto.responses.WishResponse;
+import kg.peaksoft.giftlistb6.dto.responses.WishResponse1;
 import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -77,7 +77,7 @@ public class BookedService {
         return new SimpleResponse("ok", "wait");
     }
 
-    public List<WishResponse> getAllReservedWishes() {
+    public List<WishResponse1> getAllReservedWishes() {
         User user = getPrinciple();
         return wishRepository.getALlReservoirWishes(user.getEmail());
     }
@@ -87,7 +87,7 @@ public class BookedService {
         return giftRepository.getAllGifts(user.getEmail());
     }
 
-    public SimpleResponse  saveWish(Long wishId) {
+    public SimpleResponse saveWish(Long wishId) {
         User user = getPrinciple();
         Wish wishUser = wishRepository.findById(wishId).get();
         Wish newWish = new Wish();
@@ -106,6 +106,6 @@ public class BookedService {
         user.setWishes(List.of(newWish));
         user.setHolidays(List.of(holiday));
         wishRepository.save(wishUser);
-        return new SimpleResponse("ok","ok");
+        return new SimpleResponse("ok", "ok");
     }
 }
