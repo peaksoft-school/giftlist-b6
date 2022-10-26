@@ -23,7 +23,7 @@ public class UserProfileApi {
 
     @PostMapping
     @Operation(summary = "Save profile", description = "user can save profile  ")
-    public ProfileResponse saveUserInfo(@RequestBody ProfileRequest request) {
+    public ProfileResponse saveUserInfo(@RequestBody ProfileRequest request)  {
         return service.saveProfile(request);
     }
 
