@@ -16,14 +16,9 @@ import java.time.LocalDate;
 public class GiftResponse {
 
     private Long id;
-
     private String fullName;
-
     private Status status;
-
     private LocalDate date;
-
     private String image;
-
     private String name;
 }

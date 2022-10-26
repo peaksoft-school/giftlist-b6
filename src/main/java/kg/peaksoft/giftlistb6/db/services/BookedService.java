@@ -87,6 +87,7 @@ public class BookedService {
         return giftRepository.getAllGifts(user.getEmail());
     }
 
+    @Transactional
     public SimpleResponse saveWish(Long wishId) {
         User user = getPrinciple();
         Wish wishUser = wishRepository.findById(wishId).get();

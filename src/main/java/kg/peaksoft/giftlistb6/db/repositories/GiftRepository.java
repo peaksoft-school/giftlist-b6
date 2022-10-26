@@ -4,9 +4,11 @@ import kg.peaksoft.giftlistb6.db.models.Gift;
 import kg.peaksoft.giftlistb6.dto.responses.GiftResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface GiftRepository extends JpaRepository<Gift, Long> {
 
     void deleteByWishId(Long id);

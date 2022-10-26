@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -23,20 +24,20 @@ public class WishResponse1 {
     private ReservedUserResponse reservedUserResponse;
 
 
-    public WishResponse1(Wish wish){
-        this.id=wish.getId();
-        this.wishName=wish.getWishName();
-        this.linkToGift=wish.getLinkToGift();
-        this.dateOfHoliday=wish.getDateOfHoliday();
-        this.description=wish.getDescription();
-        this.image=wish.getImage();
-        this.wishStatus=Status.RESERVED;
-        if (wish.getReservoir()!=null){
-            this.reservedUserResponse=new ReservedUserResponse(wish.getReservoir().getId(),
-                    wish.getReservoir().getFirstName()+""+ wish.getReservoir().getLastName(),
+    public WishResponse1(Wish wish) {
+        this.id = wish.getId();
+        this.wishName = wish.getWishName();
+        this.linkToGift = wish.getLinkToGift();
+        this.dateOfHoliday = wish.getDateOfHoliday();
+        this.description = wish.getDescription();
+        this.image = wish.getImage();
+        this.wishStatus = Status.RESERVED;
+        if (wish.getReservoir() != null) {
+            this.reservedUserResponse = new ReservedUserResponse(wish.getReservoir().getId(),
+                    wish.getReservoir().getFirstName() + "" + wish.getReservoir().getLastName(),
                     wish.getImage());
-        }else {
-            this.reservedUserResponse=null;
+        } else {
+            this.reservedUserResponse = null;
         }
     }
 }
