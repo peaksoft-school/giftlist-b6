@@ -33,4 +33,8 @@ public class Holiday {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "holiday")
     private List<Wish> wishes;
+
+    public void addWish(Wish wish){
+        this.wishes.add(wish);
+    }
 }
