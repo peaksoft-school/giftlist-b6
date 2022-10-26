@@ -19,7 +19,6 @@ public class FriendProfileResponse {
     private String clothingSize;
     private String hobby;
     private String important;
-    private boolean isFriend;
     private List<WishResponses> wishResponses;
     private List<HolidayResponses2> holidayResponses;
     private List<CharityResponse> charityResponses;
