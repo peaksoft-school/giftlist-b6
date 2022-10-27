@@ -24,32 +24,32 @@ public class BookedApi {
 
 
     @Operation(summary = "Book wishes",description = "User can book wish")
-    @PostMapping("{id}")
-    public SimpleResponse reserve(@PathVariable Long id,
-                                  @RequestParam Boolean isAnonymous) {
+    @PostMapping("reserve/{id}")
+    public SimpleResponse reservation(@PathVariable Long id,
+                                      @RequestParam Boolean isAnonymous) {
         return bookedService.reserveWish(id, isAnonymous);
     }
 
-    @Operation(summary = "All book wishes",description = "List of all canceled wishes")
-    @GetMapping("/wishes")
-    public List<BookResponse> getAll() {
+    @Operation(summary = "Get all booked wishes",description = "User can get own booked wishes.")
+    @GetMapping("wishes")
+    public List<BookResponse> getAllWishes() {
         return bookedService.getAllReservedWishes();
     }
 
-    @Operation(summary = "All books",description = "List of all gifts that I want to give")
+    @Operation(summary = "Get all booked gifts",description = "User can get own booked gifts.")
     @GetMapping
     public List<GiftResponse> getAllGifts() {
         return bookedService.getAllGifts();
     }
 
-    @Operation(summary = "Un reserve",description = "Un reserve wish")
-    @PostMapping("/unReserve/{id}")
+    @Operation(summary = "unreserved",description = "unreserved wish")
+    @PostMapping("un-reservation/{id}")
     public SimpleResponse unReserve(@PathVariable Long id) {
         return bookedService.waitStatus(id);
     }
 
-    @Operation(summary = "Add friend Wish to my wish",description = "If I want the same gift for myself as another user, the gift card will be copied to the “My wishes” section, while the holiday of the gift will be copied to the “My holidays” section")
-    @PostMapping("add/{id}")
+    @Operation(summary = "Add friend's wish to my wish",description = "User can add friend's wish to own wish")
+    @PostMapping("/{id}")
     public SimpleResponse addFriendWishToMyWish(@PathVariable Long id) {
         return bookedService.saveWish(id);
     }

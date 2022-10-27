@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookResponse {
+
     private Long id;
     private String wishName;
     private String linkToGift;
