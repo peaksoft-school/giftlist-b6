@@ -37,12 +37,12 @@ public class BookedApi {
     }
 
     @Operation(summary = "Get all booked gifts",description = "User can get own booked gifts.")
-    @GetMapping
+    @GetMapping("gifts")
     public List<GiftResponse> getAllGifts() {
         return bookedService.getAllGifts();
     }
 
-    @Operation(summary = "unreserved",description = "unreserved wish")
+    @Operation(summary = "Unreserved",description = "Unreserved wish")
     @PostMapping("un-reservation/{id}")
     public SimpleResponse unReserve(@PathVariable Long id) {
         return bookedService.waitStatus(id);
