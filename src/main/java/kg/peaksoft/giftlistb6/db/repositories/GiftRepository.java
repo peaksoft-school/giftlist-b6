@@ -21,6 +21,4 @@ public interface GiftRepository extends JpaRepository<Gift, Long> {
             "g.wish.image," +
             "g.wish.wishName) from Gift g join g.wish w join g.user u where u.email =?1 ")
     List<GiftResponse> getAllGifts(String email);
-
-
 }

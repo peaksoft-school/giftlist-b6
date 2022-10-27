@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.BookedService;
 import kg.peaksoft.giftlistb6.dto.responses.GiftResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
-import kg.peaksoft.giftlistb6.dto.responses.WishResponse1;
+import kg.peaksoft.giftlistb6.dto.responses.BookResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +32,7 @@ public class BookedApi {
 
     @Operation(summary = "All book wishes",description = "List of all canceled wishes")
     @GetMapping("/wishes")
-    public List<WishResponse1> getAll() {
+    public List<BookResponse> getAll() {
         return bookedService.getAllReservedWishes();
     }
 

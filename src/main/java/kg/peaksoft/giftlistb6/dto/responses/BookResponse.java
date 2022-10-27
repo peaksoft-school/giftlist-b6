@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WishResponse1 {
+public class BookResponse {
     private Long id;
     private String wishName;
     private String linkToGift;
@@ -24,7 +24,7 @@ public class WishResponse1 {
     private ReservedUserResponse reservedUserResponse;
 
 
-    public WishResponse1(Wish wish) {
+    public BookResponse(Wish wish) {
         this.id = wish.getId();
         this.wishName = wish.getWishName();
         this.linkToGift = wish.getLinkToGift();

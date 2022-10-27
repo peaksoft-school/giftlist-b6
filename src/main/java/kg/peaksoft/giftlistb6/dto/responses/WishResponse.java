@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,5 +16,4 @@ public class WishResponse {
     private String wishName;
     private HolidayResponse holiday;
     private Status wishStatus;
-
 }
