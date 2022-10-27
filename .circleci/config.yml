@@ -33,7 +33,7 @@ workflows:
           context:
             - GIFTLIST_CONTEXT
           cluster: giftlist-b6
-          container-image-name-updates: 'container=giftlisft-b6,tag=${CIRCLE_SHA1}'
+          container-image-name-updates: 'container=giftlisft-b6-container,tag=${CIRCLE_SHA1}'
           family: giftlist-b6-task
           service-name: giftlist-b6-service
           force-new-deployment: true
