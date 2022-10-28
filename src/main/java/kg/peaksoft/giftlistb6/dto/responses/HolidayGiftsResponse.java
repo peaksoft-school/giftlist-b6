@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WishResponses {
+public class HolidayGiftsResponse {
 
     private Long id;
     private String wishName;
@@ -21,4 +21,5 @@ public class WishResponses {
     private String description;
     private String image;
     private Status wishStatus;
+
 }
