@@ -14,11 +14,20 @@ VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQe
        (4, 'Aiperi', 'Mirlanova', false, 'mirlanova@gmail.com',
         '$2a$12$j1yNeUrGbQhG5HPNUkczjeFye7Y8Gawi2mS94afZKi4FC/s6BEoHS', 'image', 'USER', 4);
 
+INSERT INTO categories(id, name)
+VALUES (1, 'электроника'),
+       (2, 'одежда'),
+       (3, 'школа'),
+       (4, 'дом и сад'),
+       (5, 'обувь'),
+       (6, 'транспорт');
+
+
 INSERT INTO charity(id, charity_status, condition, created_date,
-                    description, image, name, reservoir_id, user_id)
-VALUES (1, 'WAIT', 'Б/У', '12-12-2020', 'white', null, 'сумка', 3, 4),
-       (2, 'WAIT', 'Б/У', '09-04-2021', null, null, 'ноутбук', 3, 4),
-       (3, 'WAIT', 'Новый', '07-04-2021', null, null, 'платье', 3, 4);
+                    description, image, name, reservoir_id, user_id,category_id)
+VALUES (1, 'WAIT', 'Б/У', '12-12-2020', 'white', null, 'сумка', 3, 4,1),
+       (2, 'WAIT', 'Б/У', '09-04-2021', null, null, 'ноутбук', 3, 4,2),
+       (3, 'WAIT', 'Новый', '07-04-2021', null, null, 'платье', 3, 4,2);
 
 INSERT INTO holidays(id, date_of_holiday, image, name, user_id)
 VALUES (1, '12-12-2020', null, 'Нооруз', 4),
@@ -39,13 +48,6 @@ VALUES (1, 3, 1),
        (3, 3, 3),
        (4, 3, 4);
 
-INSERT INTO categories(id, name, charity_id)
-VALUES (1, 'электроника', 1),
-       (2, 'одежда', 2),
-       (3, 'школа', 3),
-       (4, 'дом и сад', 1),
-       (5, 'обувь', 1),
-       (6, 'транспорт', 1);
 
 INSERT INTO sub_category(id, name, category_id)
 VALUES (1, 'телефон', 1),

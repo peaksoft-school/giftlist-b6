@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class SubCategory {
 
     @Id
@@ -22,4 +24,12 @@ public class SubCategory {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Category category;
+
+    @OneToOne (cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH},mappedBy = "subCategory")
+    private Charity charity;
+
+    public SubCategory(String name, Category category) {
+        this.name = name;
+        this.category = category;
+    }
 }

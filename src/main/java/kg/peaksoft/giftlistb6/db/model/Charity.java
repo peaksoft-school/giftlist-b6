@@ -1,19 +1,22 @@
 package kg.peaksoft.giftlistb6.db.model;
 
+import kg.peaksoft.giftlistb6.dto.requests.CharityRequest;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Table(name = "charity")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
+
 public class Charity {
 
     @Id
@@ -23,13 +26,16 @@ public class Charity {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "charity")
-    private List<Category> category;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Category category;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private SubCategory subCategory;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User reservoir;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.EAGER)
     private User user;
 
     @Enumerated(EnumType.STRING)
@@ -46,4 +52,13 @@ public class Charity {
 
     @Column(name = "created_date")
     private LocalDate createdDate;
+
+    public Charity(CharityRequest charityRequest) {
+        this.name = charityRequest.getName();
+        this.charityStatus = Status.WAIT;
+        this.description = charityRequest.getDescription();
+        this.condition = charityRequest.getCondition();
+        this.image = charityRequest.getImage();
+        this.createdDate = LocalDate.now();
+    }
 }
