@@ -17,11 +17,14 @@ public class RegisterRequest {
     @NotNull
     @NotBlank
     private String firstName;
+
     @NotNull
     @NotBlank
     private String lastName;
+
     @Email
     private String email;
+
     @NotBlank
     @NotNull
     @PasswordValid

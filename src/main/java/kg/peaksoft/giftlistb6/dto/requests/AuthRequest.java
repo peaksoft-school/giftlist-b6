@@ -11,8 +11,10 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 public class AuthRequest {
+
     @Email
     private String email;
+
     @NotNull
     @NotBlank
     @PasswordValid
