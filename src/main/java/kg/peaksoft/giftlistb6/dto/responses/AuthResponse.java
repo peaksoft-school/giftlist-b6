@@ -21,7 +21,6 @@ public class AuthResponse {
     private String jwt;
 
 
-
     public AuthResponse(Long id, String firstName, String lastName, String email, String email1, Role role, String token) {
         this.id = id;
         this.firstName = firstName;

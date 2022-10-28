@@ -15,4 +15,5 @@ public class WishRequest {
     private LocalDate dateOfHoliday;
     private String description;
     private String image;
+
 }

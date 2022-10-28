@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,13 +32,13 @@ public class AuthApi {
 
     @Operation(summary = "Sign up",description = "Any user can register")
     @PostMapping("register")
-    public AuthResponse register(@RequestBody RegisterRequest registerRequest) {
+    public AuthResponse register(@RequestBody @Valid RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 
     @Operation(summary = "Sign in",description = "Only registered users can login")
     @PostMapping("login")
-    public AuthResponse login(@RequestBody AuthRequest authRequest) {
+    public AuthResponse login(@RequestBody @Valid AuthRequest authRequest) {
         return userService.login(authRequest);
     }
 
@@ -56,7 +57,7 @@ public class AuthApi {
 
     @Operation(summary = "Reset Password", description = "Change password")
     @PostMapping("reset-password")
-    public SimpleResponse resetPassword(@RequestBody ResetPasswordRequest request){
+    public SimpleResponse resetPassword(@RequestBody @Valid ResetPasswordRequest request){
         return userService.resetPassword(request);
     }
 }
