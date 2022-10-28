@@ -37,13 +37,6 @@ public class UserService {
 
     public AuthResponse register(RegisterRequest registerRequest) {
 
-        if (registerRequest.getPassword().isBlank()) {
-            throw new BadRequestException("password can not be empty!");
-        }
-        if (userRepo.existsByEmail(registerRequest.getEmail())) {
-            throw new BadRequestException("this email: " + registerRequest.getEmail() + " is already in use!");
-        }
-
         User user = convertToRegisterEntity(registerRequest);
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setRole(Role.USER);
