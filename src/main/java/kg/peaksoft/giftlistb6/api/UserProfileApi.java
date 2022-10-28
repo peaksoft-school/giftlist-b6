@@ -34,14 +34,14 @@ public class UserProfileApi {
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Show my friend profile", description = "user can see friend profile")
-    public FriendProfileResponse showFriendProfile(@PathVariable Long id){
+    @Operation(summary = "My friend profile", description = "user can see friend profile")
+    public FriendProfileResponse FriendProfile(@PathVariable Long id){
         return service.friendProfile(id);
     }
 
     @GetMapping("/show/{id}")
-    @Operation(summary = "Show my profile", description = "user can see profile")
-    public FriendShowResponse showFriendProfile2(@PathVariable Long id) {
+    @Operation(summary = "My profile", description = "user can see profile")
+    public FriendShowResponse myProfile(@PathVariable Long id) {
         return service.getProfile(id);
     }
 }

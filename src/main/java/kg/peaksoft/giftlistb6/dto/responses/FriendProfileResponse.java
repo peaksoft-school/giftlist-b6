@@ -19,7 +19,7 @@ public class FriendProfileResponse {
     private String clothingSize;
     private String hobby;
     private String important;
-    private List<WishResponses> wishResponses;
-    private List<HolidayResponses2> holidayResponses;
+    private List<HolidayGiftsResponse> wishResponses;
+    private List<HolidayResponses> holidayResponses;
     private List<CharityResponse> charityResponses;
 }

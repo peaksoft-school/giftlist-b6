@@ -110,9 +110,9 @@ public class UserProfileService {
         friendProfileResponse.setImportant(user.getUserInfo().getImportant());
         friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
         friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
-        List<WishResponses> wishResponses = new ArrayList<>();
+        List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
         for (Wish wish : user.getWishes()) {
-            WishResponses wishResponse = new WishResponses(
+            HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
                     wish.getId(),
                     wish.getWishName(),
                     wish.getLinkToGift(),
@@ -123,9 +123,9 @@ public class UserProfileService {
             wishResponses.add(wishResponse);
         }
 
-        List<HolidayResponses2> holidayResponses = new ArrayList<>();
+        List<HolidayResponses> holidayResponses = new ArrayList<>();
         for (Holiday holiday : user.getHolidays()) {
-            HolidayResponses2 holidayResponse = new HolidayResponses2(
+            HolidayResponses holidayResponse = new HolidayResponses(
                     holiday.getId(),
                     holiday.getName(),
                     holiday.getDateOfHoliday(),
@@ -151,5 +151,4 @@ public class UserProfileService {
 
         return friendProfileResponse;
     }
-
 }

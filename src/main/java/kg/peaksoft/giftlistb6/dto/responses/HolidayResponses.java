@@ -18,4 +18,11 @@ public class HolidayResponses {
     private LocalDate dateOfHoliday;
     private String image;
     private Long user;
+
+    public HolidayResponses(Long id, String name, LocalDate dateOfHoliday, String image) {
+        this.id = id;
+        this.name = name;
+        this.dateOfHoliday = dateOfHoliday;
+        this.image = image;
+    }
 }
