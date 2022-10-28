@@ -6,7 +6,6 @@ import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.db.repositories.GiftRepository;
 import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
-import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.requests.HolidayRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
@@ -93,9 +92,9 @@ public class HolidayService {
     }
 
     public HolidayResponseForGet convertToResponseForGetById(Holiday holiday) {
-        List<WishResponses> wishResponses = new ArrayList<>();
+        List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
         for (Wish wish : holiday.getWishes()) {
-            WishResponses wishResponse = new WishResponses(wish.getId(), wish.getWishName(),
+            HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(wish.getId(), wish.getWishName(),
                     wish.getLinkToGift(), wish.getDateOfHoliday(), wish.getDescription(), wish.getImage(), wish.getWishStatus());
             wishResponses.add(wishResponse);
         }
