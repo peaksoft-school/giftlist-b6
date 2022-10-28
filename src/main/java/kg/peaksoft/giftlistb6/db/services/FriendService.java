@@ -61,7 +61,7 @@ public class FriendService {
         friend.setRequests(List.of(user));
         Notification notification = new Notification();
         notification.setUser(friend);
-        notification.setRequestToFriend(user);
+        notification.setFromUser(user);
         notification.setIsSeen(false);
         notification.setCreatedDate(LocalDate.now());
         notification.setNotificationType(NotificationType.REQUEST_TO_FRIEND);
@@ -75,7 +75,7 @@ public class FriendService {
         User request = userRepository.findById(senderUserId).orElseThrow(
                 () -> new NotFoundException(String.format("User with id: %s not found!", senderUserId)));
         for (Notification n : user.getNotifications()) {
-            if (n.getRequestToFriend().getId().equals(senderUserId)) {
+            if (n.getFromUser().getId().equals(senderUserId)) {
                 notificationRepository.delete(n);
                 user.getNotifications().remove(n);
                 break;
@@ -83,6 +83,7 @@ public class FriendService {
         }
         if (user.getRequests().contains(request)) {
             user.setFriends(List.of(request));
+            request.setFriends(List.of(user));
             user.getRequests().remove(request);
         } else {
             return new SimpleResponse("request not found", "");
@@ -96,7 +97,7 @@ public class FriendService {
         User sender = userRepository.findById(senderUserId).orElseThrow(
                 () -> new NotFoundException(String.format("user with id: %s not found", senderUserId)));
         for (Notification n : user.getNotifications()) {
-            if (n.getRequestToFriend().getId().equals(senderUserId)) {
+            if (n.getFromUser().getId().equals(senderUserId)) {
                 notificationRepository.delete(n);
                 user.getNotifications().remove(n);
             }
@@ -130,7 +131,7 @@ public class FriendService {
         User friend = userRepository.findById(friendId).orElseThrow(
                 () -> new NotFoundException(String.format("user with id %s not found", friendId)));
         for (Notification n : friend.getNotifications()) {
-            if (n.getRequestToFriend().getId().equals(user.getId())) {
+            if (n.getFromUser().getId().equals(user.getId())) {
                 notificationRepository.delete(n);
                 friend.getNotifications().remove(n);
             }

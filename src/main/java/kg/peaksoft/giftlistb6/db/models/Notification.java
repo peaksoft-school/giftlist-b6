@@ -30,9 +30,9 @@ public class Notification {
     private NotificationType notificationType;
 
     @OneToOne
-    private User requestToFriend;
+    private User fromUser;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH,CascadeType.PERSIST})
     private Wish wish;
 
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
