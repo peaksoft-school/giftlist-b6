@@ -1,0 +1,44 @@
+package kg.peaksoft.giftlistb6.api;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import kg.peaksoft.giftlistb6.services.StorageService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Map;
+
+@RestController
+@RequiredArgsConstructor
+@RequestMapping("api/file")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@Tag(name = "Storage Api", description = "Upload and delete files")
+public class StorageFileApi {
+
+    private final StorageService storageService;
+
+    @Operation(summary = "Upload file", description = "Upload file to database")
+    @PostMapping(
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String, String> uploadFile(@RequestParam(name = "file", required = false) MultipartFile file) throws IOException {
+        return storageService.upload(file);
+    }
+
+    @Operation(summary = "Delete file", description = "Delete file from database")
+    @DeleteMapping
+    public Map<String, String> deleteFile(@RequestParam String fileLink) {
+        return storageService.delete(fileLink);
+    }
+
+}

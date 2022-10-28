@@ -4,11 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
-public class SimpleResponse {
+public class HolidayResponse {
 
-    private String message;
-    private String status;
+    private String name;
+    private LocalDate localDate;
 }
