@@ -92,9 +92,9 @@ public class HolidayService {
     }
 
     public HolidayResponseForGet convertToResponseForGetById(Holiday holiday) {
-        List<WishResponses> wishResponses = new ArrayList<>();
+        List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
         for (Wish wish : holiday.getWishes()) {
-            WishResponses wishResponse = new WishResponses(wish.getId(), wish.getWishName(),
+            HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(wish.getId(), wish.getWishName(),
                     wish.getLinkToGift(), wish.getDateOfHoliday(), wish.getDescription(), wish.getImage(), wish.getWishStatus());
             wishResponses.add(wishResponse);
         }

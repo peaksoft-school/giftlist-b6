@@ -7,8 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SimpleResponse {
+public class ReservedUserResponse {
 
-    private String message;
-    private String status;
+    private Long id;
+    private String fullName;
+    private String image;
 }
