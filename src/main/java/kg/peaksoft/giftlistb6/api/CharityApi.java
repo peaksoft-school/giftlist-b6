@@ -2,7 +2,7 @@ package kg.peaksoft.giftlistb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.peaksoft.giftlistb6.db.service.CharityService;
+import kg.peaksoft.giftlistb6.db.services.CharityService;
 import kg.peaksoft.giftlistb6.dto.requests.CharityRequest;
 import kg.peaksoft.giftlistb6.dto.responses.CharityResponse;
 import kg.peaksoft.giftlistb6.dto.responses.InnerPageCharityResponse;

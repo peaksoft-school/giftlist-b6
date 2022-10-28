@@ -22,13 +22,4 @@ public class OtherCharityResponse {
     private Long userId;
     private String fullName;
     private String photo;
-
-//    public OtherCharityResponse(Long id, String image, String name, String condition, LocalDate addedDate, Status status) {
-//        this.id = id;
-//        this.image = image;
-//        this.name = name;
-//        this.condition = condition;
-//        this.addedDate = addedDate;
-//        this.status = status;
-//    }
 }

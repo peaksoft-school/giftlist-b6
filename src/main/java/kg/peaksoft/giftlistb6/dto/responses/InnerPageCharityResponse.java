@@ -1,8 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
-import kg.peaksoft.giftlistb6.db.model.Category;
 import kg.peaksoft.giftlistb6.enums.Status;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
