@@ -70,8 +70,6 @@ public class CharityService {
 
     }
 
-
-    //worked!!!
     @Transactional
     public InnerPageCharityResponse updateCharity(Long id, CharityRequest charityRequest) {
         if (charityRequest == null) {
@@ -92,9 +90,6 @@ public class CharityService {
                 charity1.getCharityStatus());
     }
 
-
-    //  и еще api дан description озгорттум , проверь!
-    // сюда нужно добавить principal, чтобы башка userлердин charityлери очуро албагандай болуп))
     public SimpleResponse deleteCharityById(Long id) {
         User user = getPrinciple();
         if (!user.getCharities().contains(charityRepository.findById(id).get())) {
