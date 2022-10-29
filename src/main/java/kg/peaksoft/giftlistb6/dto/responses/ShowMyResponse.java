@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class FriendShowResponse {
+public class ShowMyResponse {
 
     private Long id;
     private String photo;

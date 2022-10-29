@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,8 +83,8 @@ public class UserProfileService {
         return response;
     }
 
-    public FriendShowResponse getProfile(Long id) {
-        FriendShowResponse friendShowResponse = new FriendShowResponse();
+    public ShowMyResponse myProfile(Long id) {
+        ShowMyResponse friendShowResponse = new ShowMyResponse();
         User user = userRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException(String.format("user with id %s not found", id))
         );
