@@ -68,6 +68,10 @@ public class User implements UserDetails {
     @OneToOne
     private UserInfo userInfo;
 
+    public void addFriend(User friend){
+        friends.add(friend);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);

@@ -30,7 +30,7 @@ public class Notification {
     private NotificationType notificationType;
 
     @OneToOne
-    private User requestToFriend;
+    private User fromUser;
 
     @OneToOne
     private Wish wish;
