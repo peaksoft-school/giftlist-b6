@@ -11,18 +11,9 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class HolidayResponses {
-
+public class HolidayResponses2 {
     private Long id;
     private String name;
-    private LocalDate dateOfHoliday;
+    private LocalDate DateOfHoliday;
     private String image;
-    private Long user;
-
-    public HolidayResponses(Long id, String name, LocalDate dateOfHoliday, String image) {
-        this.id = id;
-        this.name = name;
-        this.dateOfHoliday = dateOfHoliday;
-        this.image = image;
-    }
 }
