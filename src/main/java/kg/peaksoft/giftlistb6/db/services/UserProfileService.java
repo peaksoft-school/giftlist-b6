@@ -83,8 +83,8 @@ public class UserProfileService {
         return response;
     }
 
-    public ShowMyResponse myProfile(Long id) {
-        ShowMyResponse friendShowResponse = new ShowMyResponse();
+    public MyProfileResponse myProfile(Long id) {
+        MyProfileResponse friendShowResponse = new MyProfileResponse();
         User user = userRepository.findById(id).orElseThrow(
                 ()-> new NotFoundException(String.format("user with id %s not found", id))
         );

@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.UserProfileService;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.FriendProfileResponse;
-import kg.peaksoft.giftlistb6.dto.responses.ShowMyResponse;
+import kg.peaksoft.giftlistb6.dto.responses.MyProfileResponse;
 import kg.peaksoft.giftlistb6.dto.responses.ProfileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/profile")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Tag(name = "Profile api", description = "Can save,update profile")
+@Tag(name = "Profile api", description = "Can save, update profile")
 @PreAuthorize("hasAuthority('USER')")
 public class ProfileApi {
 
@@ -41,7 +41,7 @@ public class ProfileApi {
 
     @Operation(summary = "My profile", description = "Can see profile")
     @GetMapping("/me/{id}")
-    public ShowMyResponse myProfile(@PathVariable Long id) {
+    public MyProfileResponse myProfile(@PathVariable Long id) {
         return service.myProfile(id);
     }
 }
