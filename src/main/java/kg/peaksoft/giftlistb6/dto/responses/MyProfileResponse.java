@@ -9,6 +9,8 @@ public class MyProfileResponse {
 
     private Long id;
     private String photo;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String email;
+    private ProfileResponse profileResponse;
 }

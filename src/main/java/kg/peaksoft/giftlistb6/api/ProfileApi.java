@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/profile")
 @CrossOrigin(origins = "*", maxAge = 3600)
-@Tag(name = "Profile api", description = "Can save, update profile")
+@Tag(name = "Profile API", description = "Can save, update profile")
 @PreAuthorize("hasAuthority('USER')")
 public class ProfileApi {
 
@@ -28,9 +28,9 @@ public class ProfileApi {
     }
 
     @Operation(summary = "Update profile", description = "Can update profile")
-    @PutMapping("/{id}")
-    public ProfileResponse updateProfileUser(@PathVariable Long id, @RequestBody ProfileRequest request) {
-        return service.saveUpdateUser(id, request);
+    @PutMapping
+    public ProfileResponse updateProfileUser(@RequestBody ProfileRequest request) {
+        return service.saveUpdateUser(request);
     }
 
     @Operation(summary = "Friends profile", description = "Can see friends profile")
@@ -40,8 +40,8 @@ public class ProfileApi {
     }
 
     @Operation(summary = "My profile", description = "Can see profile")
-    @GetMapping("/me/{id}")
-    public MyProfileResponse myProfile(@PathVariable Long id) {
-        return service.myProfile(id);
+    @GetMapping
+    public MyProfileResponse myProfile() {
+        return service.myProfile();
     }
 }

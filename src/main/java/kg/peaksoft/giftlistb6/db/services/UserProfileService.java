@@ -45,9 +45,9 @@ public class UserProfileService {
         return userInfo;
     }
 
-    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
-        UserInfo userInfo = repository.findById(id).get();
-        UserInfo userInfo1 = updateUser(userInfo,request);
+    public ProfileResponse saveUpdateUser(ProfileRequest request) {
+        User user = getAuthPrincipal();
+        UserInfo userInfo1 = updateUser(user.getUserInfo(),request);
         return convertToResponse(repository.save(userInfo1));
     }
 
@@ -83,16 +83,26 @@ public class UserProfileService {
         return response;
     }
 
-    public MyProfileResponse myProfile(Long id) {
-        MyProfileResponse friendShowResponse = new MyProfileResponse();
-        User user = userRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException(String.format("user with id %s not found", id))
-        );
-        friendShowResponse.setId(user.getId());
-        friendShowResponse.setFullName(user.getFirstName() + " " + user.getLastName());
-        friendShowResponse.setPhoto(user.getPhoto());
-        friendShowResponse.setEmail(user.getEmail());
-        return friendShowResponse;
+    public MyProfileResponse myProfile() {
+        User user = getAuthPrincipal();
+        MyProfileResponse myProfileResponse = new MyProfileResponse();
+        ProfileResponse profileResponse = new ProfileResponse();
+        myProfileResponse.setId(user.getId());
+        myProfileResponse.setFirstName(user.getFirstName());
+        myProfileResponse.setLastName(user.getLastName());
+        myProfileResponse.setPhoto(user.getPhoto());
+        myProfileResponse.setEmail(user.getEmail());
+        profileResponse.setPhoto(user.getPhoto());
+        profileResponse.setId(user.getUserInfo().getId());
+        profileResponse.setCountry(user.getUserInfo().getCountry());
+        profileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
+        profileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        profileResponse.setShoeSize(user.getUserInfo().getShoeSize());
+        profileResponse.setHobby(user.getUserInfo().getHobby());
+        profileResponse.setImportant(user.getUserInfo().getImportant());
+        profileResponse.setClothingSize(user.getUserInfo().getClothingSize());
+        myProfileResponse.setProfileResponse(profileResponse);
+        return myProfileResponse;
     }
 
     public FriendProfileResponse friendProfile(Long id){
@@ -144,10 +154,10 @@ public class UserProfileService {
                     charity.getCreatedDate());
             charityResponses.add(charityResponse);
         }
+
         friendProfileResponse.setWishResponses(wishResponses);
         friendProfileResponse.setHolidayResponses(holidayResponses);
         friendProfileResponse.setCharityResponses(charityResponses);
-
         return friendProfileResponse;
     }
 }
