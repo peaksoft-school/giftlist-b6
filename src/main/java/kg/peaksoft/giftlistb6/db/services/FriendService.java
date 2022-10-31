@@ -55,7 +55,7 @@ public class FriendService {
         if (friend.getRequests().contains(user)) {
             throw new BadRequestException("вы уже отправили запрос!");
         }
-        if (friend.getFriends().contains(user)) {
+        if (friend.getFriends().contains(user) || user.getFriends().contains(friend)) {
             throw new BadRequestException("вы уже в друзьях!");
         }
         friend.setRequests(List.of(user));
@@ -82,8 +82,8 @@ public class FriendService {
             }
         }
         if (user.getRequests().contains(request)) {
-            user.setFriends(List.of(request));
-            request.setFriends(List.of(user));
+            user.addFriend(request);
+            request.addFriend(user);
             user.getRequests().remove(request);
         } else {
             return new SimpleResponse("request not found", "");

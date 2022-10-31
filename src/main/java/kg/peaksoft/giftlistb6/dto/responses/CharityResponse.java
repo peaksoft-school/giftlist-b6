@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +12,13 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class HolidayResponse {
+public class CharityResponse {
 
+    private Long id;
     private String name;
-    private LocalDate localDate;
+    private Status charityStatus;
+    private String description;
+    private String condition;
+    private String image;
+    private LocalDate createdDate;
 }

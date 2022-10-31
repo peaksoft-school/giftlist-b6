@@ -19,6 +19,8 @@ public class UserInfo {
     @GeneratedValue(generator = "userInfo_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    private String photo;
+
     private String country;
 
     @Column(name = "phone_number")

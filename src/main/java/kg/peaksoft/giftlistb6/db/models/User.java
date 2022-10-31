@@ -2,7 +2,6 @@ package kg.peaksoft.giftlistb6.db.models;
 
 import kg.peaksoft.giftlistb6.enums.Role;
 import lombok.*;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -67,6 +66,10 @@ public class User implements UserDetails {
 
     @OneToOne
     private UserInfo userInfo;
+
+    public void addFriend(User friend){
+        friends.add(friend);
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
