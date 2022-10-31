@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.models;
 
+import kg.peaksoft.giftlistb6.dto.requests.CharityRequest;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +24,11 @@ public class Charity {
 
     private String name;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "charity")
-    private List<Category> category;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Category category;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private SubCategory subCategory;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User reservoir;
@@ -46,4 +50,13 @@ public class Charity {
 
     @Column(name = "created_date")
     private LocalDate createdDate;
+
+    public Charity(CharityRequest charityRequest) {
+        this.name = charityRequest.getName();
+        this.charityStatus = Status.WAIT;
+        this.description = charityRequest.getDescription();
+        this.condition = charityRequest.getCondition();
+        this.image = charityRequest.getImage();
+        this.createdDate = LocalDate.now();
+    }
 }
