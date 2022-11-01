@@ -14,17 +14,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
+@PreAuthorize("hasAuthority('USER')")
 @RequestMapping("/api/notifications")
 @Tag(name = "Notification Api", description = "All notifications")
 public class NotificationApi {
 
     private final NotificationService notificationService;
 
-    @PreAuthorize("hasAuthority('USER')")
     @Operation(summary = "all user notifications",description = "User can see all notifications")
     @GetMapping
     public AllNotificationsResponse getAllNotifications(){
         return notificationService.getAllNotifications();
+    }
+
+    @GetMapping("/read")
+    public AllNotificationsResponse isRead(){
+        return notificationService.isRead();
     }
 
 }

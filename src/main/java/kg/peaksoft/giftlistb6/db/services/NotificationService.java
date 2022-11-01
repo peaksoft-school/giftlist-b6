@@ -2,6 +2,7 @@ package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.Notification;
 import kg.peaksoft.giftlistb6.db.models.User;
+import kg.peaksoft.giftlistb6.db.repositories.NotificationRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.responses.AllNotificationsResponse;
 import kg.peaksoft.giftlistb6.dto.responses.NotificationResponse;
@@ -21,6 +22,8 @@ import java.util.List;
 public class NotificationService {
 
     private final UserRepository userRepository;
+
+    private final NotificationRepository notificationRepository;
 
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -71,5 +74,16 @@ public class NotificationService {
         }
         allNotifications.setResponseList(responses);
         return allNotifications;
+    }
+
+    public AllNotificationsResponse isRead(){
+        User user = getAuthPrincipal();
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n:notifications) {
+            if (n.getUser().equals(user)){
+            notificationRepository.deleteById(n.getId());
+            }
+        }
+        return null;
     }
 }
