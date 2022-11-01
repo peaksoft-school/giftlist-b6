@@ -6,10 +6,7 @@ import kg.peaksoft.giftlistb6.db.services.NotificationService;
 import kg.peaksoft.giftlistb6.dto.responses.AllNotificationsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,15 +18,16 @@ public class NotificationApi {
 
     private final NotificationService notificationService;
 
-    @Operation(summary = "all user notifications",description = "User can see all notifications")
+    @Operation(summary = "User notifications", description = "User can see all notifications")
     @GetMapping
-    public AllNotificationsResponse getAllNotifications(){
+    public AllNotificationsResponse getAllNotifications() {
         return notificationService.getAllNotifications();
     }
 
-    @GetMapping("/read")
-    public AllNotificationsResponse isRead(){
-        return notificationService.isRead();
+    @Operation(summary = "Mark as read", description = "User can mark as read all notifications")
+    @PostMapping
+    public AllNotificationsResponse isRead() {
+        return notificationService.markAsRead();
     }
 
 }

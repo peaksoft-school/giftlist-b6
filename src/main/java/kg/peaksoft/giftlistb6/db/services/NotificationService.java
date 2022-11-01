@@ -76,7 +76,7 @@ public class NotificationService {
         return allNotifications;
     }
 
-    public AllNotificationsResponse isRead(){
+    public AllNotificationsResponse markAsRead(){
         User user = getAuthPrincipal();
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n:notifications) {
