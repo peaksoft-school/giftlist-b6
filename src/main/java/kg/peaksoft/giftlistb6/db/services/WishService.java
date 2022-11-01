@@ -1,13 +1,7 @@
 package kg.peaksoft.giftlistb6.db.services;
 
-import kg.peaksoft.giftlistb6.db.models.Holiday;
-import kg.peaksoft.giftlistb6.db.models.Notification;
-import kg.peaksoft.giftlistb6.db.models.User;
-import kg.peaksoft.giftlistb6.db.models.Wish;
-import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
-import kg.peaksoft.giftlistb6.db.repositories.NotificationRepository;
-import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
-import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
+import kg.peaksoft.giftlistb6.db.models.*;
+import kg.peaksoft.giftlistb6.db.repositories.*;
 import kg.peaksoft.giftlistb6.dto.requests.WishRequest;
 import kg.peaksoft.giftlistb6.dto.responses.HolidayResponse;
 import kg.peaksoft.giftlistb6.dto.responses.InnerWishResponse;
@@ -38,6 +32,8 @@ public class WishService {
     private final UserRepository userRepository;
 
     private final NotificationRepository notificationRepository;
+
+    private final GiftRepository giftRepository;
 
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -108,9 +104,19 @@ public class WishService {
     }
 
     public SimpleResponse deleteWishById(Long id) {
-        boolean exists = wishRepository.existsById(id);
-        if (!exists) {
-            throw new NotFoundException("wish with id " + id + " not found!");
+        Wish wish = wishRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("not found!"));
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n : notifications) {
+            if (n.getWish() != null && n.getWish().equals(wish)) {
+                notificationRepository.deleteById(n.getId());
+            }
+        }
+        List<Gift> gifts = giftRepository.findAll();
+        for (Gift g : gifts) {
+            if (g.getWish().equals(wish)) {
+                giftRepository.deleteById(g.getId());
+            }
         }
         wishRepository.deleteById(id);
         return new SimpleResponse(
@@ -151,7 +157,6 @@ public class WishService {
         }
         return wishResponses;
     }
-
 
     private Wish getById(Long id) {
         return wishRepository.findById(id).orElseThrow(() ->

@@ -18,5 +18,4 @@ public class NotificationResponse {
     private LocalDate createdDate;
     private NotificationType notificationType;
     private String message;
-    private String wishName;
 }

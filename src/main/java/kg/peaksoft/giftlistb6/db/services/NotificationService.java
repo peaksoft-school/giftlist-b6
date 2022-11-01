@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,21 +36,37 @@ public class NotificationService {
         for (Notification n : user.getNotifications()) {
             if (n.getNotificationType().equals(NotificationType.ADD_WISH)) {
                 responses.add(new NotificationResponse(
-                        n.getUser().getId(),
+                        n.getFromUser().getId(),
                         n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(), LocalDate.now(),
+                        n.getFromUser().getPhoto(), n.getCreatedDate(),
                         NotificationType.ADD_WISH,
-                        "добавил желаемый подарок",
-                        n.getWish().getWishName()));
+                        "добавил желаемый подарок"));
             }
             if (n.getNotificationType().equals(NotificationType.REQUEST_TO_FRIEND)) {
                 responses.add(new NotificationResponse(
-                        n.getUser().getId(),
+                        n.getFromUser().getId(),
                         n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(), LocalDate.now(),
+                        n.getFromUser().getPhoto(), n.getCreatedDate(),
                         NotificationType.REQUEST_TO_FRIEND,
-                        "отправил запрос в друзья",
-                        null));
+                        "отправил запрос в друзья"));
+            }
+            if (n.getNotificationType().equals(NotificationType.BOOKED_WISH)) {
+                responses.add(new NotificationResponse(
+                        n.getFromUser().getId(),
+                        n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
+                        n.getFromUser().getPhoto(),
+                        n.getCreatedDate(),
+                        NotificationType.BOOKED_WISH,
+                        n.getWish().getWishName() + " было забронировано " + n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName()));
+            }
+            if (n.getNotificationType().equals(NotificationType.BOOKED_WISH_ANONYMOUSLY)) {
+                responses.add(new NotificationResponse(
+                        n.getFromUser().getId(),
+                        n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
+                        n.getWish().getImage(),
+                        n.getCreatedDate(),
+                        NotificationType.BOOKED_WISH_ANONYMOUSLY,
+                        n.getWish().getWishName() + " было забронировано анонимным пользователем "));
             }
         }
         allNotifications.setResponseList(responses);
