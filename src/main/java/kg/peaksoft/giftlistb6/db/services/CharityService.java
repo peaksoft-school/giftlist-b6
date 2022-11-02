@@ -8,6 +8,7 @@ import kg.peaksoft.giftlistb6.db.repositories.SubCategoryRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.CharityRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -56,11 +57,15 @@ public class CharityService {
         return charityRepository.getCharityById(id);
     }
 
+    @Transactional
     public CharityResponses getAllCharityResponse() {
         User user = getPrinciple();
+        CharityResponses charityResponse = new CharityResponses();
         List<YourCharityResponse> yourCharityResponses = charityRepository.getAllMyCharity(user.getEmail());
         List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllOther(user.getEmail());
-        CharityResponses charityResponse = new CharityResponses();
+        for (OtherCharityResponse oth : otherCharityResponses) {
+            oth.setReservoir(new ReservoirResponse());
+        }
         charityResponse.setYourCharityResponses(yourCharityResponses);
         charityResponse.setOtherCharityResponses(otherCharityResponses);
         return charityResponse;
@@ -73,30 +78,53 @@ public class CharityService {
             return null;
         }
         Charity charity1 = charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found"));
-        if (charity1.getUser().equals(user)){
-        charity1.setImage(charityRequest.getImage());
-        charity1.setUser(user);
-        charity1.setName(charityRequest.getName());
-        charity1.setCondition(charityRequest.getCondition());
-        charity1.setCategory(categoryRepository.findByName(charityRequest.getCategory()));
-        charity1.setSubCategory(subCategoryRepository.findByName(charityRequest.getSubCategory()));
-        charity1.setDescription(charityRequest.getDescription());
-        charityRepository.save(charity1);
+        if (charity1.getUser().equals(user)) {
+            System.out.println("if2");
+            charity1.setImage(charityRequest.getImage());
+            charity1.setUser(user);
+            charity1.setName(charityRequest.getName());
+            charity1.setCondition(charityRequest.getCondition());
+            charity1.setCategory(categoryRepository.findByName(charityRequest.getCategory()));
+            charity1.setSubCategory(subCategoryRepository.findByName(charityRequest.getSubCategory()));
+            charity1.setDescription(charityRequest.getDescription());
+            charityRepository.save(charity1);
         }
-
-        return new InnerPageCharityResponse(charity1.getId(), charity1.getImage(),
-                charity1.getName(), charity1.getDescription(), categoryRepository.getByName(charity1.getCategory().getName()),
-                 subCategoryRepository.getByName(charity1.getSubCategory().getName()),
-                 charity1.getCondition(), charity1.getCreatedDate(),
-                charity1.getCharityStatus());
+        return new InnerPageCharityResponse(charity1.getId(), charity1.getImage(), charity1.getName(),
+                charity1.getDescription(), charity1.getCategory().getName(), charity1.getSubCategory().getName(),
+                charity1.getCondition(), charity1.getCreatedDate(), charity1.getCharityStatus(), charity1.getUser().getId(),
+                charity1.getUser().getPhoto(), charity1.getUser().getFirstName() + " " + charity1.getUser().getLastName());
     }
 
     public SimpleResponse deleteCharityById(Long id) {
         User user = getPrinciple();
-        if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(()->new NotFoundException("not found")))) {
+        if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found")))) {
             throw new NotFoundException("You can't delete other charities");
         }
-        charityRepository.deleteCharityById(id,user.getId());
+        charityRepository.deleteCharityById(id, user.getId());
         return new SimpleResponse("Благотворительность успешно удалено!", "");
+    }
+
+    @Transactional
+    public SimpleResponse reserveCharity(Long charityId, boolean is) {
+        User user = getPrinciple();
+        Charity charity = charityRepository.findById(charityId).orElseThrow(
+                () -> new NotFoundException("not found"));
+        if (charity.getCharityStatus().equals(Status.WAIT)) {
+            if (!charity.getUser().equals(user)) {
+                charity.setReservoir(user);
+                if (is) {
+                    charity.setReservoir(null);
+                } else {
+                    charity.setReservoir(user);
+                }
+                charity.setUser(charity.getUser());
+                user.setCharities(List.of(charity));
+                charity.setCharityStatus(Status.RESERVED);
+            } else
+                return new SimpleResponse("you can't reserve your charity", "");
+        } else
+            return new SimpleResponse("charity is reserve", "error");
+
+        return new SimpleResponse("ok", "reserved");
     }
 }

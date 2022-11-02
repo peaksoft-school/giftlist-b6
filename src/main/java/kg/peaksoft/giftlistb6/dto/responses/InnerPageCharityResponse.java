@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class InnerPageCharityResponse {
+public class  InnerPageCharityResponse {
 
     private Long id;
     private String image;
@@ -21,8 +21,11 @@ public class InnerPageCharityResponse {
     private String condition;
     private LocalDate addedTime;
     private Status status;
+    private Long userId;
+    private String userImage;
+    private String fullName;
 
-    public InnerPageCharityResponse(Long id, String image, String name, String description, String category,String subCategory, String condition, LocalDate addedTime, Status status) {
+    public InnerPageCharityResponse(Long id, String image, String name, String description, String category, String subCategory, String condition, LocalDate addedTime, Status status, Long userId, String userImage, String fullName) {
         this.id = id;
         this.image = image;
         this.name = name;
@@ -32,5 +35,8 @@ public class InnerPageCharityResponse {
         this.condition = condition;
         this.addedTime = addedTime;
         this.status = status;
+        this.userId = userId;
+        this.userImage = userImage;
+        this.fullName = fullName;
     }
 }
