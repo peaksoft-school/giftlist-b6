@@ -29,5 +29,4 @@ public class NotificationApi {
     public AllNotificationsResponse isRead() {
         return notificationService.markAsRead();
     }
-
 }

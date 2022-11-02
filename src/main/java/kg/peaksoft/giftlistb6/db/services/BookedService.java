@@ -83,7 +83,6 @@ public class BookedService {
         return new SimpleResponse("ok", "reserved");
     }
 
-
     @Transactional
     public SimpleResponse waitStatus(Long giftId) {
         User user = getPrinciple();
