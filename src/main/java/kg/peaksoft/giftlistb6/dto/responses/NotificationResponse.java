@@ -12,10 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class NotificationResponse {
 
-    private Long id;
-    private String fullName;
+    private Long userId;
+    private String firstName;
+    private String lastName;
     private String photo;
-    private LocalDate createdDate;
+    private LocalDate createdAt;
     private NotificationType notificationType;
     private String message;
 }

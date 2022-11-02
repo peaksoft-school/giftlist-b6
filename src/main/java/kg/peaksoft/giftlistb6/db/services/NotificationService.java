@@ -22,7 +22,6 @@ import java.util.List;
 public class NotificationService {
 
     private final UserRepository userRepository;
-
     private final NotificationRepository notificationRepository;
 
     public User getAuthPrincipal() {
@@ -40,23 +39,28 @@ public class NotificationService {
             if (n.getNotificationType().equals(NotificationType.ADD_WISH)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
-                        n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(), n.getCreatedDate(),
+                        n.getFromUser().getFirstName(),
+                        n.getFromUser().getLastName(),
+                        n.getFromUser().getPhoto(),
+                        n.getCreatedDate(),
                         NotificationType.ADD_WISH,
                         "добавил желаемый подарок"));
             }
             if (n.getNotificationType().equals(NotificationType.REQUEST_TO_FRIEND)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
-                        n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(), n.getCreatedDate(),
+                        n.getFromUser().getFirstName() ,
+                        n.getFromUser().getLastName(),
+                        n.getFromUser().getPhoto(),
+                        n.getCreatedDate(),
                         NotificationType.REQUEST_TO_FRIEND,
                         "отправил запрос в друзья"));
             }
             if (n.getNotificationType().equals(NotificationType.BOOKED_WISH)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
-                        n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
+                        n.getFromUser().getFirstName(),
+                        n.getFromUser().getLastName(),
                         n.getFromUser().getPhoto(),
                         n.getCreatedDate(),
                         NotificationType.BOOKED_WISH,
@@ -65,7 +69,8 @@ public class NotificationService {
             if (n.getNotificationType().equals(NotificationType.BOOKED_WISH_ANONYMOUSLY)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
-                        n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName(),
+                        n.getFromUser().getFirstName(),
+                        n.getFromUser().getLastName(),
                         n.getWish().getImage(),
                         n.getCreatedDate(),
                         NotificationType.BOOKED_WISH_ANONYMOUSLY,
