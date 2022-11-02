@@ -90,6 +90,7 @@ public class WishService {
         WishResponse response = new WishResponse();
         response.setId(wish.getId());
         response.setWishName(wish.getWishName());
+        response.setImage(wish.getImage());
         response.setHoliday(
                 new HolidayResponse(wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         response.setWishStatus(wish.getWishStatus());
