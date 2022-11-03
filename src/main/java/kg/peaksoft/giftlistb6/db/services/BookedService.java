@@ -28,7 +28,6 @@ public class BookedService {
     private final GiftRepository giftRepository;
     private final WishRepository wishRepository;
     private final UserRepository userRepository;
-
     private final HolidayRepository holidayRepository;
 
     public User getPrinciple() {
@@ -58,7 +57,6 @@ public class BookedService {
 
         return new SimpleResponse("ok", "reserved");
     }
-
 
     @Transactional
     public SimpleResponse waitStatus(Long wishId) {

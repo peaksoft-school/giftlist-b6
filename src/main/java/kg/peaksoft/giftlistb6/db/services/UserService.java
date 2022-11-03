@@ -9,6 +9,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
+import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.Role;
@@ -31,9 +32,7 @@ public class UserService {
     private final UserRepository userRepo;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
-
     private final JavaMailSender mailSender;
-
 
     public AuthResponse register(RegisterRequest registerRequest) {
 
@@ -54,18 +53,26 @@ public class UserService {
         );
     }
 
-    public AuthResponse login(AuthRequest authRequest) {
-
+    public AuthResponse login(AuthRequest authRequest) throws MessagingException {
         if (authRequest.getPassword().isBlank()) {
             throw new BadRequestException("password can not be empty!");
         }
-
-        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
-
+        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
+                () -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("incorrect password");
         }
-
+        if (user.getIsBlock().equals(true)) {
+            String message = "для разблокировки вашего аккаунта обратитесь к администратору по nurgazyn03@gmail.com";
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setSubject("[gift_list]");
+            helper.setFrom("giftlistb66@gmail.com");
+            helper.setTo(authRequest.getEmail());
+            helper.setText(message, true);
+            mailSender.send(mimeMessage);
+            throw new BadRequestException("ваш аккаунт заблокирован , на ваш электронный адрес было отправлено письмо!");
+        }
         String jwt = jwtUtils.generateToken(user.getEmail());
 
         return new AuthResponse(
@@ -98,10 +105,10 @@ public class UserService {
             newUser.setRole(Role.USER);
             user = userRepo.save(newUser);
         }
-        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(() -> new NotFoundException("this user is not found"));
+        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
+                () -> new NotFoundException("this user is not found"));
         String token = jwtUtils.generateToken(user.getPassword());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getEmail(), user.getRole(), token);
-
     }
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
@@ -123,5 +130,19 @@ public class UserService {
         );
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return new SimpleResponse("password updated", "ok");
+    }
+
+    public AdminResponse createUser(User user) {
+        if (user == null) {
+            return null;
+        }
+        AdminResponse adminUserGetAllResponse = new AdminResponse();
+        adminUserGetAllResponse.setId(user.getId());
+        adminUserGetAllResponse.setCountGift(user.getGifts().size());
+        adminUserGetAllResponse.setFirst_name(user.getFirstName());
+        adminUserGetAllResponse.setLast_name(user.getLastName());
+        adminUserGetAllResponse.setPhoto(user.getPhoto());
+        adminUserGetAllResponse.setIsBlock(user.getIsBlock());
+        return adminUserGetAllResponse;
     }
 }
