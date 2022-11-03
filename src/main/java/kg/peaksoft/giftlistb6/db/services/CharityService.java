@@ -79,7 +79,6 @@ public class CharityService {
         }
         Charity charity1 = charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found"));
         if (charity1.getUser().equals(user)) {
-            System.out.println("if2");
             charity1.setImage(charityRequest.getImage());
             charity1.setUser(user);
             charity1.setName(charityRequest.getName());
