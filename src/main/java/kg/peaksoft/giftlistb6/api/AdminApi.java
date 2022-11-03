@@ -21,21 +21,21 @@ public class AdminApi {
 
     private final AdminService adminService;
 
-    @Operation(summary = "Get all users", description = "Get all users ")
+    @Operation(summary = "Get all users", description = "Admin can see all users.")
     @GetMapping("/users")
     public List<AdminResponse> getAllUsers() {
         return adminService.getAllUsers();
     }
 
-    @Operation(summary = "Block User", description = "Block user by id")
-    @PutMapping("/block/{userId}")
-    public SimpleResponse block(@PathVariable("userId") Long id) {
+    @Operation(summary = "Block user", description = "Block user by id.")
+    @PutMapping("/block/{id}")
+    public SimpleResponse block(@PathVariable("id") Long id) {
         return adminService.block(id);
     }
 
-    @Operation(summary = "UnBlock User", description = "UnBlock user by id")
-    @PutMapping("/unBlock/{userId}")
-    public SimpleResponse unBlock(@PathVariable("userId") Long id) {
+    @Operation(summary = "Unblock user", description = "UnBlock user by id.")
+    @PutMapping("/un-block/{id}")
+    public SimpleResponse unBlock(@PathVariable("id") Long id) {
         return adminService.unBlock(id);
     }
 }

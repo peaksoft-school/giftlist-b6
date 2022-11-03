@@ -33,7 +33,7 @@ public class AdminService {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("user with id = %s not found"));
         user.setIsBlock(true);
-        return new SimpleResponse("Block", "user with id blocked");
+        return new SimpleResponse("BLOCK", "user with id blocked");
     }
 
     @Transactional
