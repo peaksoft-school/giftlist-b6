@@ -26,7 +26,7 @@ public class UserProfileService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("пользователь с таким  электронным адресом %s не найден", email)));
+                () -> new NotFoundException(String.format("Пользователь с таким  электронным адресом: %s не найден!", email)));
     }
 
     public ProfileResponse saveProfile(ProfileRequest request) {
@@ -109,7 +109,7 @@ public class UserProfileService {
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
         User user = userRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Праздник с таким  id = %s не найден", id))
+                () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
         friendProfileResponse.setId(user.getId());
         friendProfileResponse.setPhoto(user.getPhoto());
