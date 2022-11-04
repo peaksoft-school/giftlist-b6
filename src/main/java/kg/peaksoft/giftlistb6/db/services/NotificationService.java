@@ -91,4 +91,8 @@ public class NotificationService {
         }
         return null;
     }
+
+    public List<NotificationResponse> getAllNotificationsForAdmin(){
+        return notificationRepository.getAllNotificationForAdmin();
+    }
 }
