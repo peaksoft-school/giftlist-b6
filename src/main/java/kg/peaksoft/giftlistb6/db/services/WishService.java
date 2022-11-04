@@ -39,13 +39,13 @@ public class WishService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("user with email %s not found", email)));
+                () -> new NotFoundException(String.format("Праздник с таким  id = %s не найден", email)));
     }
 
     public WishResponse saveWish(WishRequest wishRequest) {
         Wish wish = mapToEntity(wishRequest);
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId()).orElseThrow(
-                () -> new NotFoundException("not found")
+                () -> new NotFoundException("не найден")
         );
         holiday.addWish(wish);
         wish.setHoliday(holiday);
@@ -75,9 +75,9 @@ public class WishService {
         wish.setWishName(wishRequest.getWishName());
         wish.setDescription(wishRequest.getDescription());
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId())
-                .orElseThrow(() -> new NotFoundException("not found"));
+                .orElseThrow(() -> new NotFoundException("не найден"));
         if (!wishRequest.getDateOfHoliday().equals(holiday.getDateOfHoliday())) {
-            throw new BadRequestException("incorrect data of holiday");
+            throw new BadRequestException("неверная дата");
         }
         wish.setDateOfHoliday(holiday.getDateOfHoliday());
         wish.setImage(wishRequest.getImage());
@@ -106,7 +106,7 @@ public class WishService {
 
     public SimpleResponse deleteWishById(Long id) {
         Wish wish = wishRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("not found!"));
+                () -> new NotFoundException("не найден!"));
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
             if (n.getWish() != null && n.getWish().equals(wish)) {
@@ -121,8 +121,8 @@ public class WishService {
         }
         wishRepository.deleteById(id);
         return new SimpleResponse(
-                "DELETED",
-                "wish with id " + id + "deleted successfully");
+                "Удалено",
+                "желание с таким id " + id + "удачно удалено");
     }
 
     public InnerWishResponse findById(Long id) {
@@ -161,6 +161,6 @@ public class WishService {
 
     private Wish getById(Long id) {
         return wishRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("wish with id: " + id + " not found!"));
+                new NotFoundException("желание id: " + id + " не найдено!"));
     }
 }

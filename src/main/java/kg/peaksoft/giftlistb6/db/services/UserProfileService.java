@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class UserProfileService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("user with email %s not found",email)));
+                () -> new NotFoundException(String.format("пользователь с таким  email %s не найден", email)));
     }
 
     public ProfileResponse saveProfile(ProfileRequest request) {
@@ -47,7 +48,7 @@ public class UserProfileService {
 
     public ProfileResponse saveUpdateUser(ProfileRequest request) {
         User user = getAuthPrincipal();
-        UserInfo userInfo1 = updateUser(user.getUserInfo(),request);
+        UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
         return convertToResponse(repository.save(userInfo1));
     }
 
@@ -105,10 +106,10 @@ public class UserProfileService {
         return myProfileResponse;
     }
 
-    public FriendProfileResponse friendProfile(Long id){
+    public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        User user  = userRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException(String.format("user with id %s not found",id))
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Праздник с таким  id = %s не найден", id))
         );
         friendProfileResponse.setId(user.getId());
         friendProfileResponse.setPhoto(user.getPhoto());

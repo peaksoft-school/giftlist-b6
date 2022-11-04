@@ -31,7 +31,6 @@ public class UserService {
     private final UserRepository userRepo;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
-
     private final JavaMailSender mailSender;
 
 
@@ -57,13 +56,13 @@ public class UserService {
     public AuthResponse login(AuthRequest authRequest) {
 
         if (authRequest.getPassword().isBlank()) {
-            throw new BadRequestException("password can not be empty!");
+            throw new BadRequestException("пароль не может быть пустым!");
         }
 
         User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
 
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("incorrect password");
+            throw new BadCredentialsException("неверный пароль!");
         }
 
         String jwt = jwtUtils.generateToken(user.getEmail());
@@ -106,7 +105,7 @@ public class UserService {
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
         User user = userRepo.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("user not found"));
+                () -> new NotFoundException("пользователь не найден!"));
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setSubject("[gift_list] reset password link");
@@ -114,14 +113,14 @@ public class UserService {
         helper.setTo(email);
         helper.setText(link + "/" + user.getId(), true);
         mailSender.send(mimeMessage);
-        return new SimpleResponse("email send", "ok");
+        return new SimpleResponse("отправлено", "ок");
     }
 
     public SimpleResponse resetPassword(ResetPasswordRequest request) {
         User user = userRepo.findById(request.getId()).orElseThrow(
-                () -> new NotFoundException("user not found")
+                () -> new NotFoundException("пользователь не найден!")
         );
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        return new SimpleResponse("password updated", "ok");
+        return new SimpleResponse("пароль обновлен", "ок");
     }
 }

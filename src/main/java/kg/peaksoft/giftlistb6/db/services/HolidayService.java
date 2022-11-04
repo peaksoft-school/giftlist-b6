@@ -31,7 +31,7 @@ public class HolidayService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Holiday with id = %s not found", email))
+                () -> new NotFoundException(String.format("пользователь с таким email: %s не найден", email))
         );
     }
 
@@ -42,13 +42,13 @@ public class HolidayService {
 
     public HolidayResponseForGet getHolidayById(Long id) {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Holiday with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Праздник с таким  id = %s не найден", id)));
         return convertToResponseForGetById(holiday);
     }
 
     public SimpleResponse deleteHolidayById(Long id) {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Holiday with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Праздник с таким  id = %s не найден", id)));
         for (Wish w : holiday.getWishes()) {
             giftRepository.deleteByWishId(w.getId());
         }
@@ -57,14 +57,14 @@ public class HolidayService {
         holidayRepository.delete(holiday);
 
         return new SimpleResponse(
-                "DELETED",
-                "holiday with id: " + holiday.getId() + " deleted successfully"
+                "Удалено",
+                "Праздник с id: " + holiday.getId() + " успешно удалено "
         );
     }
 
     public HolidayResponses saveUpdateHoliday(Long id, HolidayRequest request) {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Holiday with id = %s not found", id)));
+                () -> new NotFoundException(String.format("Праздник с таким  id = %s не найден", id)));
         Holiday holiday1 = updateHoliday(holiday, request);
         return convertToResponse(holiday1);
     }

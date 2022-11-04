@@ -31,7 +31,7 @@ public class FriendService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("user with email: %s not found", email)));
+                () -> new NotFoundException(String.format("пользователь с таким email: %s не найден", email)));
     }
 
     public List<FriendInfoResponse> getAllFriends() {
@@ -48,7 +48,7 @@ public class FriendService {
     public SimpleResponse sendRequestToFriend(Long friendId) {
         User user = getAuthPrincipal();
         User friend = userRepository.findById(friendId).orElseThrow(
-                () -> new NotFoundException(String.format("user with id: %s not found", friendId)));
+                () -> new NotFoundException(String.format("пользователь с таким id: %s не найден", friendId)));
         if (user.equals(friend)) {
             throw new BadRequestException("вы не можете отправить запрос себе!");
         }
@@ -66,14 +66,14 @@ public class FriendService {
         notification.setCreatedDate(LocalDate.now());
         notification.setNotificationType(NotificationType.REQUEST_TO_FRIEND);
         notificationRepository.save(notification);
-        return new SimpleResponse("successful", "REQUEST TO FRIEND");
+        return new SimpleResponse("удачно", "Запрос в друзья");
     }
 
     @Transactional
     public SimpleResponse acceptRequest(Long senderUserId) {
         User user = getAuthPrincipal();
         User request = userRepository.findById(senderUserId).orElseThrow(
-                () -> new NotFoundException(String.format("User with id: %s not found!", senderUserId)));
+                () -> new NotFoundException(String.format("пользователь с таким id: %s не найден", senderUserId)));
         for (Notification n : user.getNotifications()) {
             if (n.getFromUser().getId().equals(senderUserId)) {
                 notificationRepository.delete(n);
@@ -86,16 +86,16 @@ public class FriendService {
             request.addFriend(user);
             user.getRequests().remove(request);
         } else {
-            return new SimpleResponse("request not found", "");
+            return new SimpleResponse("запрос не найден", "");
         }
-        return new SimpleResponse("successful", "FRIEND");
+        return new SimpleResponse("удачно", "В друзьях");
     }
 
     @Transactional
     public SimpleResponse rejectRequest(Long senderUserId) {
         User user = getAuthPrincipal();
         User sender = userRepository.findById(senderUserId).orElseThrow(
-                () -> new NotFoundException(String.format("user with id: %s not found", senderUserId)));
+                () -> new NotFoundException(String.format("пользователь с таким id: %s не найден", senderUserId)));
         for (Notification n : user.getNotifications()) {
             if (n.getFromUser().getId().equals(senderUserId)) {
                 notificationRepository.delete(n);
@@ -106,30 +106,30 @@ public class FriendService {
         if (user.getRequests().contains(sender)) {
             user.getRequests().remove(sender);
         } else {
-            return new SimpleResponse("request not found", "");
+            return new SimpleResponse("запрос не найден", "");
         }
-        return new SimpleResponse("successful", "NOT FRIEND");
+        return new SimpleResponse("удачно", "Не в друзьях");
     }
 
     @Transactional
     public SimpleResponse deleteFromFriends(Long friendId) {
         User user = getAuthPrincipal();
         User friend = userRepository.findById(friendId).orElseThrow(
-                () -> new NotFoundException(String.format("user with id: %s not found", friendId)));
+                () -> new NotFoundException(String.format("пользователь с таким id: %s не найден", friendId)));
         if (user.getFriends().contains(friend)) {
             user.getFriends().remove(friend);
             friend.getFriends().remove(user);
         } else {
-            return new SimpleResponse("friend not found", "");
+            return new SimpleResponse("не найден", "");
         }
-        return new SimpleResponse("successful", "NOT FRIEND");
+        return new SimpleResponse("удачно", "Не в друзьях");
     }
 
     @Transactional
     public SimpleResponse cancelRequestToFriend(Long friendId) {
         User user = getAuthPrincipal();
         User friend = userRepository.findById(friendId).orElseThrow(
-                () -> new NotFoundException(String.format("user with id %s not found", friendId)));
+                () -> new NotFoundException(String.format("пользователь с таким id: %s не найден", friendId)));
         for (Notification n : friend.getNotifications()) {
             if (n.getFromUser().getId().equals(user.getId())) {
                 notificationRepository.delete(n);
@@ -140,9 +140,9 @@ public class FriendService {
         if (friend.getRequests().contains(user)) {
             friend.getRequests().remove(user);
         } else {
-            return new SimpleResponse("request not found", "");
+            return new SimpleResponse("не найден", "");
         }
-        return new SimpleResponse("successful", "NOT FRIEND");
+        return new SimpleResponse("удачно", "Отменено");
     }
 
 }

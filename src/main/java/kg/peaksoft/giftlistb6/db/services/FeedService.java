@@ -60,7 +60,7 @@ public class FeedService {
 
     public InnerFeedResponse getById(Long id) {
         Wish wish = wishRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("wish with id: " + id + " not found!"));
+                new NotFoundException("желание с таким id: " + id + " не найдено!"));
         return mapToIdResponse(wish);
     }
 }
