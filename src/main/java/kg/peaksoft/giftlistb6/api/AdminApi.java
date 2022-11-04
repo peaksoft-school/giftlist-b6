@@ -33,7 +33,7 @@ public class AdminApi {
         return adminService.block(id);
     }
 
-    @Operation(summary = "Unblock user", description = "UnBlock user by id.")
+    @Operation(summary = "Unblock user", description = "Unblock user by id.")
     @PutMapping("/un-block/{id}")
     public SimpleResponse unBlock(@PathVariable("id") Long id) {
         return adminService.unBlock(id);
