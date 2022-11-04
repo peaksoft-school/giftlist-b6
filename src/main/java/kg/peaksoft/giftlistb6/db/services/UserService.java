@@ -36,10 +36,9 @@ public class UserService {
 
 
     public AuthResponse register(RegisterRequest registerRequest) {
-
         User user = convertToRegisterEntity(registerRequest);
         if (userRepo.existsByEmail(registerRequest.getEmail())) {
-            throw new BadCredentialsException("пользователь с этим электронным адресом: " + registerRequest.getEmail() + " уже существует!");
+            throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!",registerRequest.getEmail()));
         } else {
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             user.setRole(Role.USER);
@@ -61,13 +60,12 @@ public class UserService {
     public AuthResponse login(AuthRequest authRequest) {
 
         if (authRequest.getPassword().isBlank()) {
-            throw new BadRequestException("password can not be empty!");
+            throw new BadRequestException("Пароль не может быть пустым!");
         }
-
-        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
-
+        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
+                () -> new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!",authRequest.getEmail())));
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
-            throw new BadCredentialsException("incorrect password");
+            throw new BadCredentialsException("Неверный пароль!");
         }
 
         String jwt = jwtUtils.generateToken(user.getEmail());
@@ -102,7 +100,8 @@ public class UserService {
             newUser.setRole(Role.USER);
             user = userRepo.save(newUser);
         }
-        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(() -> new NotFoundException("this user is not found"));
+        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
+                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",firebaseToken.getEmail())));
         String token = jwtUtils.generateToken(user.getPassword());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getEmail(), user.getRole(), token);
 
@@ -110,7 +109,7 @@ public class UserService {
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
         User user = userRepo.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("user not found"));
+                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",email)));
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setSubject("[gift_list] reset password link");
@@ -118,14 +117,14 @@ public class UserService {
         helper.setTo(email);
         helper.setText(link + "/" + user.getId(), true);
         mailSender.send(mimeMessage);
-        return new SimpleResponse("email send", "ok");
+        return new SimpleResponse("Отправлено", "Ок");
     }
 
     public SimpleResponse resetPassword(ResetPasswordRequest request) {
         User user = userRepo.findById(request.getId()).orElseThrow(
-                () -> new NotFoundException("user not found")
+                () -> new NotFoundException(String.format("Пользователь с таким id: %s не найден!",request.getId()))
         );
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        return new SimpleResponse("password updated", "ok");
+        return new SimpleResponse("Пароль обновлен", "ок");
     }
 }

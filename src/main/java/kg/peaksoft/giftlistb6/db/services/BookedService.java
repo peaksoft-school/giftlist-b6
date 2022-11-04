@@ -31,14 +31,14 @@ public class BookedService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Holiday with id = %s not found", email)));
+                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом: %s не найден!", email)));
     }
 
     @Transactional
     public SimpleResponse reserveWish(Long wishId, boolean is) {
         User user = getPrinciple();
         Wish wish = wishRepository.findById(wishId).orElseThrow(
-                () -> new NotFoundException("wish not found")
+                () -> new NotFoundException("Желание не найдено!")
         );
         if (wish.getWishStatus().equals(Status.WAIT)) {
             if (!wish.getUser().equals(user)) {
@@ -76,11 +76,11 @@ public class BookedService {
                     wish.setWishStatus(Status.RESERVED);
                 }
             } else
-                return new SimpleResponse("you can't reserve your wish", "");
+                return new SimpleResponse("Вы не можете забронировать свое желание!", "");
         } else
-            return new SimpleResponse("wish is reserve", "error");
+            return new SimpleResponse("Желание забронировано!", "");
 
-        return new SimpleResponse("ok", "reserved");
+        return new SimpleResponse("Забронировано", "ок");
     }
 
     @Transactional
@@ -88,7 +88,7 @@ public class BookedService {
         User user = getPrinciple();
         Gift gift = giftRepository
                 .findById(giftId).orElseThrow(
-                        () -> new NotFoundException("gift not found!"));
+                        () -> new NotFoundException("Подарок не найден!"));
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
             if (n.getGift() != null) {
@@ -104,9 +104,9 @@ public class BookedService {
             gift.setUser(null);
             gift.getWish().setWishStatus(Status.WAIT);
         } else
-            return new SimpleResponse("wish is wait", "");
+            return new SimpleResponse("Желание в ожидании", "");
 
-        return new SimpleResponse("ok", "wait");
+        return new SimpleResponse("Оk", "В ожидании");
     }
 
     public List<BookResponse> getAllReservedWishes() {
@@ -139,6 +139,6 @@ public class BookedService {
         user.setWishes(List.of(newWish));
         user.setHolidays(List.of(holiday));
         wishRepository.save(wishUser);
-        return new SimpleResponse("ok", "ok");
+        return new SimpleResponse("Оk", "Оk");
     }
 }
