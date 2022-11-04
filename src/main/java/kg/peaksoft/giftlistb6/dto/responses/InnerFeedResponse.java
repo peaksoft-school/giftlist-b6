@@ -10,11 +10,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class WishResponse {
+public class InnerFeedResponse {
 
-    private Long id;
+    private Long wishId;
+    private SearchUserResponse searchUserResponse;
+    private HolidayResponse holidayResponse;
     private String wishName;
-    private String image;
-    private HolidayResponse holiday;
-    private Status wishStatus;
+    private Status status;
+    private String description;
 }
