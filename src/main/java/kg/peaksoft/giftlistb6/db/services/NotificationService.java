@@ -28,7 +28,7 @@ public class NotificationService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Ползователь с таким email: %s не найден", email)));
+                () -> new NotFoundException(String.format("Ползователь с таким электронным адрессом: %s не найден", email)));
     }
 
     public AllNotificationsResponse getAllNotifications() {

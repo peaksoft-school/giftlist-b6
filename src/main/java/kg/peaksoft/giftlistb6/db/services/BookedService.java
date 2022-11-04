@@ -31,7 +31,7 @@ public class BookedService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("пользователь с таким email %s не найден!", email)));
+                () -> new NotFoundException(String.format("пользователь с таким электронным адрессом %s не найден!", email)));
     }
 
     @Transactional

@@ -97,7 +97,7 @@ public class UserService {
             newUser.setRole(Role.USER);
             user = userRepo.save(newUser);
         }
-        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(() -> new NotFoundException("this user is not found"));
+        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(() -> new NotFoundException("пользователь не найден!"));
         String token = jwtUtils.generateToken(user.getPassword());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getEmail(), user.getRole(), token);
 
