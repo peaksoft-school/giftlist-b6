@@ -31,7 +31,7 @@ public class FriendService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("пользователь с таким электронным адрессом: %s не найден", email)));
+                () -> new NotFoundException(String.format("пользователь с таким электронным адресом: %s не найден", email)));
     }
 
     public List<FriendInfoResponse> getAllFriends() {

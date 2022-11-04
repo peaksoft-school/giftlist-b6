@@ -64,7 +64,7 @@ public class UserService {
             throw new BadRequestException("пароль не может быть пустым!");
         }
 
-        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
+        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(() -> new NotFoundException("пользовотель с таким электронным адресом: " + authRequest.getEmail() + " не найден!"));
 
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("неверный пароль!");
