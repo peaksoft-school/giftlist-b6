@@ -71,7 +71,7 @@ public class UserService {
             helper.setTo(authRequest.getEmail());
             helper.setText(message, true);
             mailSender.send(mimeMessage);
-            throw new BadRequestException("ваш аккаунт заблокирован , на ваш электронный адрес было отправлено письмо!");
+            throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
         }
         String jwt = jwtUtils.generateToken(user.getEmail());
 
