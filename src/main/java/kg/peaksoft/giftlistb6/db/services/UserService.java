@@ -18,6 +18,7 @@ import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -37,20 +38,24 @@ public class UserService {
     public AuthResponse register(RegisterRequest registerRequest) {
 
         User user = convertToRegisterEntity(registerRequest);
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setRole(Role.USER);
-        userRepo.save(user);
+        if (userRepo.existsByEmail(registerRequest.getEmail())) {
+            throw new BadCredentialsException("пользователь с этим электронным адресом: " + registerRequest.getEmail() + " уже существует!");
+        } else {
+            user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+            user.setRole(Role.USER);
+            userRepo.save(user);
 
-        String jwt = jwtUtils.generateToken(user.getEmail());
+            String jwt = jwtUtils.generateToken(user.getEmail());
 
-        return new AuthResponse(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getRole(),
-                jwt
-        );
+            return new AuthResponse(
+                    user.getId(),
+                    user.getFirstName(),
+                    user.getLastName(),
+                    user.getEmail(),
+                    user.getRole(),
+                    jwt
+            );
+        }
     }
 
     public AuthResponse login(AuthRequest authRequest) {
