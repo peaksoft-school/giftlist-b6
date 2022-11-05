@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SubCategoryRepository extends JpaRepository<SubCategory, Long> {
+
     @Query("select c from SubCategory c where c.name = :name")
     SubCategory findByName(String name);
 

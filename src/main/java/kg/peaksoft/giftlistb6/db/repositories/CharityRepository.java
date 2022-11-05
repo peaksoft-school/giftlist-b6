@@ -51,4 +51,5 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "c.user.photo," +
             "concat(c.user.firstName,' ',c.user.lastName)) from Charity c where c.id= ?1")
     InnerPageCharityResponse getCharityById(Long id);
+
 }

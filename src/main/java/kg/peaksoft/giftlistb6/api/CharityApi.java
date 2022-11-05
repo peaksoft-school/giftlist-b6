@@ -4,10 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.CharityService;
 import kg.peaksoft.giftlistb6.dto.requests.CharityRequest;
-import kg.peaksoft.giftlistb6.dto.responses.CharityResponses;
-import kg.peaksoft.giftlistb6.dto.responses.InnerPageCharityResponse;
-import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
-import kg.peaksoft.giftlistb6.dto.responses.YourCharityResponse;
+import kg.peaksoft.giftlistb6.dto.responses.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,39 +17,39 @@ public class CharityApi {
 
     private final CharityService charityService;
 
-    @GetMapping
     @Operation(summary = "All charities", description = "User can see all charities")
+    @GetMapping
     public CharityResponses getAllCharities() {
         return charityService.getAllCharityResponse();
     }
 
-    @PostMapping
     @Operation(summary = "Save Charity", description = "User can save charities")
+    @PostMapping
     public YourCharityResponse saveCharity(@RequestBody CharityRequest request) {
         return charityService.saveCharity(request);
     }
 
-    @PutMapping("{id}")
     @Operation(summary = "Update Charity", description = "User can update charity")
+    @PutMapping("{id}")
     public InnerPageCharityResponse updateCharity(@PathVariable Long id,
                                                   @RequestBody CharityRequest request) {
         return charityService.updateCharity(id, request);
     }
 
+    @Operation(summary = "Get Charity", description = "Get charity by id")
     @GetMapping("{id}")
-    @Operation(summary = "Get Charity", description = "Get Charity By Id")
-    public InnerPageCharityResponse getCharityById(@PathVariable Long id) {
-        return charityService.findById(id);
+    public InnerCharityResponse getCharityById(@PathVariable Long id) {
+        return charityService.getCharityById(id);
     }
 
-    @DeleteMapping("{id}")
     @Operation(summary = "Delete Charity", description = "User can delete own charity")
+    @DeleteMapping("{id}")
     public SimpleResponse deleteCharityById(@PathVariable Long id) {
         return charityService.deleteCharityById(id);
     }
 
-    @PostMapping("reservation/{id}")
     @Operation(summary = "Reserve charity ",description = "User can reserve charity")
+    @PostMapping("reservation/{id}")
     public SimpleResponse reserve(@PathVariable Long id,
                                   @RequestParam Boolean isAnonymously){
         return charityService.reserveCharity(id,isAnonymously);

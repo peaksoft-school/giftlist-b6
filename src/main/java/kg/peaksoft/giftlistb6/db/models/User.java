@@ -71,6 +71,10 @@ public class User implements UserDetails {
         friends.add(friend);
     }
 
+    public User(String name) {
+        this.firstName = name;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(role);

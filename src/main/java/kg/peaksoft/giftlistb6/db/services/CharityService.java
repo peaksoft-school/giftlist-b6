@@ -28,14 +28,36 @@ public class CharityService {
     private final CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
 
-
     public User getPrinciple() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("не найден!")
+                () -> new NotFoundException("не найден!"));
+    }
+
+    public InnerCharityResponse getCharityById(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Charity with id: " + id + " not found!")
         );
 
+        InnerCharityResponse response = new InnerCharityResponse(charity.getId(), charity.getImage(), charity.getName(), charity.getDescription(),
+                charity.getCategory().getName(), charity.getSubCategory().getName(), charity.getCondition(), charity.getCreatedDate(),
+                charity.getCharityStatus());
+
+        UserCharityResponse userCharityResponse = new UserCharityResponse(
+                charity.getUser().getId(),
+                charity.getUser().getFirstName() + " " + charity.getUser().getLastName(),
+                charity.getUser().getPhoto());
+        if (charity.getReservoir() == null) {
+            charity.setReservoir(null);
+        }
+        ReservoirResponse reservoirResponse = new ReservoirResponse(charity);
+        response.setUserCharityResponse(userCharityResponse);
+        if (charity.getReservoir() == null) {
+            response.setResponse(new ReservoirResponse());
+        }
+        response.setResponse(reservoirResponse);
+        return response;
     }
 
     public YourCharityResponse saveCharity(CharityRequest charityRequest) {
@@ -53,22 +75,24 @@ public class CharityService {
         return new YourCharityResponse(charity.getId(), charity.getImage());
     }
 
-    public InnerPageCharityResponse findById(Long id) {
-        return charityRepository.getCharityById(id);
-    }
-
     @Transactional
     public CharityResponses getAllCharityResponse() {
         User user = getPrinciple();
         CharityResponses charityResponse = new CharityResponses();
         List<YourCharityResponse> yourCharityResponses = charityRepository.getAllMyCharity(user.getEmail());
         List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllOther(user.getEmail());
-        for (OtherCharityResponse oth : otherCharityResponses) {
-            oth.setReservoir(new ReservoirResponse());
+        for (Charity c : charityRepository.findAll()) {
+            for (OtherCharityResponse o : otherCharityResponses) {
+                if (o.getReservoir() != null) {
+                    ReservoirResponse response = new ReservoirResponse(o.getReservoir().getId(), o.getReservoir().getPhoto());
+                    o.setReservoir(response);
+                }
+                o.setReservoir(new ReservoirResponse());
+            }
+            charityResponse.setYourCharityResponses(yourCharityResponses);
+            charityResponse.setOtherCharityResponses(otherCharityResponses);
         }
-        charityResponse.setYourCharityResponses(yourCharityResponses);
-        charityResponse.setOtherCharityResponses(otherCharityResponses);
-        return charityResponse;
+            return charityResponse;
     }
 
     @Transactional
