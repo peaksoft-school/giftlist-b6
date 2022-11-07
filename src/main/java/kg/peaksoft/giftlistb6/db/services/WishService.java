@@ -1,16 +1,13 @@
 package kg.peaksoft.giftlistb6.db.services;
 
-import kg.peaksoft.giftlistb6.db.models.Holiday;
-import kg.peaksoft.giftlistb6.db.models.User;
-import kg.peaksoft.giftlistb6.db.models.Wish;
-import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
-import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
-import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
+import kg.peaksoft.giftlistb6.db.models.*;
+import kg.peaksoft.giftlistb6.db.repositories.*;
 import kg.peaksoft.giftlistb6.dto.requests.WishRequest;
 import kg.peaksoft.giftlistb6.dto.responses.HolidayResponse;
 import kg.peaksoft.giftlistb6.dto.responses.InnerWishResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.dto.responses.WishResponse;
+import kg.peaksoft.giftlistb6.enums.NotificationType;
 import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
@@ -19,6 +16,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,25 +31,43 @@ public class WishService {
 
     private final UserRepository userRepository;
 
+    private final NotificationRepository notificationRepository;
+
+    private final GiftRepository giftRepository;
+
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("user with email %s not found", email)));
+                () -> new NotFoundException(String.format("Пользователь с таким  электронным адресом: %s не найден!", email)));
     }
 
     public WishResponse saveWish(WishRequest wishRequest) {
         Wish wish = mapToEntity(wishRequest);
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId()).orElseThrow(
-                () -> new NotFoundException("not found")
+                () -> new NotFoundException("Не найден")
         );
         holiday.addWish(wish);
         wish.setHoliday(holiday);
         wish.setWishStatus(Status.WAIT);
         wishRepository.save(wish);
+        User user = getAuthPrincipal();
+        for (User friend : user.getFriends()) {
+            Notification notification = new Notification();
+            notification.setNotificationType(NotificationType.ADD_WISH);
+            notification.setIsSeen(false);
+            notification.setCreatedDate(LocalDate.now());
+            notification.setUser(friend);
+            notification.setFromUser(user);
+            System.out.println(wish.getWishName());
+            notification.setWish(wish);
+            friend.setNotifications(List.of(notification));
+            notificationRepository.save(notification);
+        }
         return mapToResponse(wish);
     }
 
+    @Transactional
     public Wish mapToEntity(WishRequest wishRequest) {
         Wish wish = new Wish();
         User user = getAuthPrincipal();
@@ -58,13 +75,14 @@ public class WishService {
         wish.setWishName(wishRequest.getWishName());
         wish.setDescription(wishRequest.getDescription());
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId())
-                .orElseThrow(() -> new NotFoundException("not found"));
+                .orElseThrow(() -> new NotFoundException("Не найден"));
         if (!wishRequest.getDateOfHoliday().equals(holiday.getDateOfHoliday())) {
-            throw new BadRequestException("incorrect data of holiday");
+            throw new BadRequestException("Неверная дата");
         }
         wish.setDateOfHoliday(holiday.getDateOfHoliday());
         wish.setImage(wishRequest.getImage());
         wish.setLinkToGift(wishRequest.getLinkToGift());
+
         return wish;
     }
 
@@ -72,6 +90,7 @@ public class WishService {
         WishResponse response = new WishResponse();
         response.setId(wish.getId());
         response.setWishName(wish.getWishName());
+        response.setImage(wish.getImage());
         response.setHoliday(
                 new HolidayResponse(wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         response.setWishStatus(wish.getWishStatus());
@@ -86,14 +105,24 @@ public class WishService {
     }
 
     public SimpleResponse deleteWishById(Long id) {
-        boolean exists = wishRepository.existsById(id);
-        if (!exists) {
-            throw new NotFoundException("wish with id " + id + " not found!");
+        Wish wish = wishRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!",id)));
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n : notifications) {
+            if (n.getWish() != null && n.getWish().equals(wish)) {
+                notificationRepository.deleteById(n.getId());
+            }
+        }
+        List<Gift> gifts = giftRepository.findAll();
+        for (Gift g : gifts) {
+            if (g.getWish().equals(wish)) {
+                giftRepository.deleteById(g.getId());
+            }
         }
         wishRepository.deleteById(id);
         return new SimpleResponse(
-                "DELETED",
-                "wish with id " + id + "deleted successfully");
+                "Удалено",
+                "Желание с таким id " + id + "удачно удалено");
     }
 
     public InnerWishResponse findById(Long id) {
@@ -130,9 +159,8 @@ public class WishService {
         return wishResponses;
     }
 
-
     private Wish getById(Long id) {
         return wishRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("wish with id: " + id + " not found!"));
+                new NotFoundException("Желание id: " + id + " не найдено!"));
     }
 }

@@ -1,20 +1,18 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
 import kg.peaksoft.giftlistb6.enums.Status;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
-public class WishResponse {
+public class FeedResponse {
 
     private Long id;
+    private SearchUserResponse userSearchResponse;
     private String wishName;
     private String image;
     private HolidayResponse holiday;
-    private Status wishStatus;
+    private UserFeedResponse userFeedResponse;
+    private Status status;
 }

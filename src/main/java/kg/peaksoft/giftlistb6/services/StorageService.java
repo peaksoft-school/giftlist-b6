@@ -38,6 +38,10 @@ public class StorageService {
         PutObjectRequest por = PutObjectRequest
                 .builder()
                 .bucket(bucketName)
+                .contentType("jpeg")
+                .contentType("png")
+                .contentType("pdf")
+                .contentLength(file.getSize())
                 .key(key)
                 .build();
 
