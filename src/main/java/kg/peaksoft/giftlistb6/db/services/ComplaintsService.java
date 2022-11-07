@@ -53,7 +53,7 @@ public class ComplaintsService {
         User user = getPrinciple();
         Complaint complaint = new Complaint();
         complaint.setReasonText(request.getComplaintText());
-        complaint.setCreateComplaintDate(LocalDate.now());
+        complaint.setCreatedAt(LocalDate.now());
         complaint.setComplainer(user);
         complaint.setIsSeen(false);
         complaint.setWish(wish);
@@ -107,7 +107,7 @@ public class ComplaintsService {
         complaintResponseForAdmin.setHolidayName(complaint.getWish().getHoliday().getName());
         complaintResponseForAdmin.setWishName(complaint.getWish().getWishName());
         complaintResponseForAdmin.setWishPhoto(complaint.getWish().getImage());
-        complaintResponseForAdmin.setCreateComplaintDate(complaint.getCreateComplaintDate());
+        complaintResponseForAdmin.setCreatedAt(complaint.getCreatedAt());
         complaintResponseForAdmin.setComplainerId(complaint.getComplainer().getId());
         complaintResponseForAdmin.setComplainerPhoto(complaint.getComplainer().getPhoto());
         complaintResponseForAdmin.setReason(complaint.getReasonText());

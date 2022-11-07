@@ -20,12 +20,12 @@ public class ComplaintResponseForAdmin {
     private String holidayName;
     private String wishName;
     private String wishPhoto;
-    private LocalDate createComplaintDate;
+    private LocalDate createdAt;
     private Long complainerId;
     private String complainerPhoto;
     private String reason;
 
-    public ComplaintResponseForAdmin(Long id, Long userId, String userPhoto, String userPhoneNumber, String firstName, String lastName, String holidayName, String wishName, String wishPhoto, LocalDate createComplaintDate, Long complainerId, String complainerPhoto) {
+    public ComplaintResponseForAdmin(Long id, Long userId, String userPhoto, String userPhoneNumber, String firstName, String lastName, String holidayName, String wishName, String wishPhoto, LocalDate createdAt, Long complainerId, String complainerPhoto) {
         this.id = id;
         this.userId = userId;
         this.userPhoto = userPhoto;
@@ -35,7 +35,7 @@ public class ComplaintResponseForAdmin {
         this.holidayName = holidayName;
         this.wishName = wishName;
         this.wishPhoto = wishPhoto;
-        this.createComplaintDate = createComplaintDate;
+        this.createdAt = createdAt;
         this.complainerId = complainerId;
         this.complainerPhoto = complainerPhoto;
     }

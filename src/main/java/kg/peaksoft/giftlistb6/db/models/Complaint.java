@@ -27,7 +27,7 @@ public class Complaint {
     private User complainer;
 
     @CreatedDate
-    private LocalDate createComplaintDate;
+    private LocalDate createdAt;
 
     private Boolean isSeen;
 
