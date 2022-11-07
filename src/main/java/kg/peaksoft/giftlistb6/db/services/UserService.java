@@ -19,7 +19,6 @@ import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,8 +60,6 @@ public class UserService {
         if (authRequest.getPassword().isBlank()) {
             throw new BadRequestException("Пароль не может быть пустым!");
         }
-        User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
-                () -> new NotFoundException("user with this email: " + authRequest.getEmail() + " not found!"));
         User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
                 () -> new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!",authRequest.getEmail())));
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
