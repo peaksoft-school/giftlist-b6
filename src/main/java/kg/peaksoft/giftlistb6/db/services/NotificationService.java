@@ -28,7 +28,7 @@ public class NotificationService {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("user with email: %s not found", email)));
+                () -> new NotFoundException(String.format("Ползователь с таким электронным адресом: %s не найден!", email)));
     }
 
     public AllNotificationsResponse getAllNotifications() {
@@ -44,7 +44,7 @@ public class NotificationService {
                         n.getFromUser().getPhoto(),
                         n.getCreatedDate(),
                         NotificationType.ADD_WISH,
-                        "добавил желаемый подарок"));
+                        "Добавил желаемый подарок"));
             }
             if (n.getNotificationType().equals(NotificationType.REQUEST_TO_FRIEND)) {
                 responses.add(new NotificationResponse(
@@ -54,7 +54,7 @@ public class NotificationService {
                         n.getFromUser().getPhoto(),
                         n.getCreatedDate(),
                         NotificationType.REQUEST_TO_FRIEND,
-                        "отправил запрос в друзья"));
+                        "Отправил запрос в друзья"));
             }
             if (n.getNotificationType().equals(NotificationType.BOOKED_WISH)) {
                 responses.add(new NotificationResponse(
