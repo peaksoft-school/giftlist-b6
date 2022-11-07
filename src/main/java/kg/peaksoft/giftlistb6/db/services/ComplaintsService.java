@@ -36,18 +36,20 @@ public class ComplaintsService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Complain with id = %s not found", email))
+                () -> new NotFoundException(String.format("Жалоба с таким id  = %s не найдено", email))
         );
     }
 
     public SimpleResponse creatComplain(ComplaintRequest request) {
         Complaint complaint = convertToEntity(request);
         complaintRepository.save(complaint);
-        return new SimpleResponse("successful", "ok");
+        return new SimpleResponse("Жалоба успешно отправлен", "ok");
     }
 
     public Complaint convertToEntity(ComplaintRequest request) {
-        Wish wish = wishRepository.findById(request.getWishId()).get();
+        Wish wish = wishRepository.findById(request.getWishId()).orElseThrow(
+                ()-> new NotFoundException(String.format("Жалоба с таким id  = %s не найдено", request.getWishId()))
+        );
         User user = getPrinciple();
         Complaint complaint = new Complaint();
         complaint.setReasonText(request.getComplaintText());
@@ -73,25 +75,25 @@ public class ComplaintsService {
 
     public ComplaintResponseForAdmin getComplaintById(Long id) {
         Complaint complaint = complaintRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Complaint with id = %s not found", id))
+                () -> new NotFoundException(String.format("Жалоба с таким id  = %s не найдено", id))
         );
         return convertToResponse(complaint);
     }
 
     public SimpleResponse blockWishByIdFromComplaint(Long id) {
         Wish wish = wishRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Wish with id = %s not found", id))
+                () -> new NotFoundException(String.format("Желания с таким id = %s не найдено", id))
         );
         wish.setIsBlock(true);
-        return new SimpleResponse("blocked", "ok");
+        return new SimpleResponse("Заблокирован", "ok");
     }
 
     public SimpleResponse unBlockWishByIdFromComplaint(Long id) {
         Wish wish = wishRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Wish with id = %s not found", id))
+                () -> new NotFoundException(String.format("Желания с таким id = %s не найдено", id))
         );
         wish.setIsBlock(false);
-        return new SimpleResponse("unblocked", "ok");
+        return new SimpleResponse("Разблокирован", "ok");
     }
 
     public ComplaintResponseForAdmin convertToResponse(Complaint complaint) {

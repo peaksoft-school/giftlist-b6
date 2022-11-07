@@ -92,7 +92,23 @@ public class NotificationService {
         return null;
     }
 
-    public List<NotificationResponse> getAllNotificationsForAdmin(){
-        return notificationRepository.getAllNotificationForAdmin();
+    public AllNotificationsResponse getAllNotificationsForAdmin(){
+        AllNotificationsResponse response = new AllNotificationsResponse();
+        List<NotificationResponse> notificationResponses=new ArrayList<>();
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n:notifications) {
+            if (n.getNotificationType().equals(NotificationType.CREATE_COMPLAINTS)){
+                notificationResponses.add(new NotificationResponse(
+                        n.getFromUser().getId(),
+                        n.getFromUser().getFirstName(),
+                        n.getFromUser().getLastName(),
+                        n.getFromUser().getPhoto(),
+                        n.getCreatedDate(),
+                        NotificationType.CREATE_COMPLAINTS,
+                        n.getFromUser().getFirstName()+n.getFromUser().getFirstName()+" пожаловался на "+
+                                n.getWish().getWishName()));
+            }
+        } response.setResponseList(notificationResponses);
+        return response;
     }
 }
