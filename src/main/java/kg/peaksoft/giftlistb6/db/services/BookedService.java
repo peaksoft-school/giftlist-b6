@@ -9,6 +9,7 @@ import kg.peaksoft.giftlistb6.enums.NotificationType;
 import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class BookedService {
 
     private final GiftRepository giftRepository;
@@ -31,15 +33,20 @@ public class BookedService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом: %s не найден!", email)));
+                () -> {
+                    log.error("User with email:{} not found",email);
+                    throw new NotFoundException(String.format("Пользователь с таким электронным адресом: %s не найден!", email));
+                });
     }
 
     @Transactional
     public SimpleResponse reserveWish(Long wishId, boolean is) {
         User user = getPrinciple();
         Wish wish = wishRepository.findById(wishId).orElseThrow(
-                () -> new NotFoundException("Желание не найдено!")
-        );
+                () -> {
+                    log.error("Wish with id:{} not found",wishId);
+                    throw new NotFoundException("Желание не найдено!");
+                });
         if (wish.getWishStatus().equals(Status.WAIT)) {
             if (!wish.getUser().equals(user)) {
                 Gift gift = new Gift();
@@ -58,6 +65,7 @@ public class BookedService {
                     gift.setUser(user);
                     user.setGifts(List.of(gift));
                     wish.setWishStatus(Status.RESERVED);
+                    log.info("Wish with id:{} is reserved anonymously",wishId);
                 } else {
                     wish.setReservoir(user);
                 }
@@ -74,6 +82,7 @@ public class BookedService {
                     gift.setUser(user);
                     user.setGifts(List.of(gift));
                     wish.setWishStatus(Status.RESERVED);
+                    log.info("Wish with id:{} is reserved",wishId);
                 }
             } else
                 return new SimpleResponse("Вы не можете забронировать свое желание!", "");
@@ -88,7 +97,10 @@ public class BookedService {
         User user = getPrinciple();
         Gift gift = giftRepository
                 .findById(giftId).orElseThrow(
-                        () -> new NotFoundException("Подарок не найден!"));
+                        () ->{
+                            log.error("Gift with id:{} not found",giftId);
+                        throw  new NotFoundException("Подарок не найден!");
+                        });
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
             if (n.getGift() != null) {
@@ -103,6 +115,7 @@ public class BookedService {
             giftRepository.delete(gift);
             gift.setUser(null);
             gift.getWish().setWishStatus(Status.WAIT);
+            log.info("wish with id:{} ",gift.getWish().getId());
         } else
             return new SimpleResponse("Желание в ожидании", "");
 
