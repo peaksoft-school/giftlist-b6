@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
 @PreAuthorize("hasAuthority('USER')")
-@RequestMapping("/api/notifications")
+@RequestMapping("api/notifications")
 @Tag(name = "Notification Api", description = "All notifications")
 public class NotificationApi {
 
@@ -32,7 +32,7 @@ public class NotificationApi {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Admin notifications", description = "Admin can see all notifications")
-    @GetMapping
+    @GetMapping("admin")
     public AllNotificationsResponse getAllNotificationForAdmin(){
         return notificationService.getAllNotificationsForAdmin();
     }
