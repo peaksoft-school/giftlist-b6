@@ -9,6 +9,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
+import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.Role;
@@ -18,7 +19,6 @@ import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -33,7 +33,6 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
-
 
     public AuthResponse register(RegisterRequest registerRequest) {
         User user = convertToRegisterEntity(registerRequest);
@@ -57,8 +56,7 @@ public class UserService {
         }
     }
 
-    public AuthResponse login(AuthRequest authRequest) {
-
+    public AuthResponse login(AuthRequest authRequest) throws MessagingException {
         if (authRequest.getPassword().isBlank()) {
             throw new BadRequestException("Пароль не может быть пустым!");
         }
@@ -67,7 +65,17 @@ public class UserService {
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Неверный пароль!");
         }
-
+        if (user.getIsBlock().equals(true)) {
+            String message = "для разблокировки вашего аккаунта обратитесь к администратору по nurgazyn03@gmail.com";
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            helper.setSubject("[gift_list]");
+            helper.setFrom("giftlistb66@gmail.com");
+            helper.setTo(authRequest.getEmail());
+            helper.setText(message, true);
+            mailSender.send(mimeMessage);
+            throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
+        }
         String jwt = jwtUtils.generateToken(user.getEmail());
 
         return new AuthResponse(
@@ -101,10 +109,11 @@ public class UserService {
             user = userRepo.save(newUser);
         }
         user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
+                () -> new NotFoundException("this user is not found"));
+        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",firebaseToken.getEmail())));
         String token = jwtUtils.generateToken(user.getPassword());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getEmail(), user.getRole(), token);
-
     }
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
@@ -126,5 +135,19 @@ public class UserService {
         );
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return new SimpleResponse("Пароль обновлен", "ок");
+    }
+
+    public AdminResponse createUser(User user) {
+        if (user == null) {
+            return null;
+        }
+        AdminResponse adminUserGetAllResponse = new AdminResponse();
+        adminUserGetAllResponse.setId(user.getId());
+        adminUserGetAllResponse.setGiftCount(user.getGifts().size());
+        adminUserGetAllResponse.setFirstName(user.getFirstName());
+        adminUserGetAllResponse.setLastName(user.getLastName());
+        adminUserGetAllResponse.setPhoto(user.getPhoto());
+        adminUserGetAllResponse.setIsBlock(user.getIsBlock());
+        return adminUserGetAllResponse;
     }
 }
