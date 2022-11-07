@@ -143,9 +143,9 @@ public class UserService {
         }
         AdminResponse adminUserGetAllResponse = new AdminResponse();
         adminUserGetAllResponse.setId(user.getId());
-        adminUserGetAllResponse.setCountGift(user.getGifts().size());
-        adminUserGetAllResponse.setFirst_name(user.getFirstName());
-        adminUserGetAllResponse.setLast_name(user.getLastName());
+        adminUserGetAllResponse.setGiftCount(user.getGifts().size());
+        adminUserGetAllResponse.setFirstName(user.getFirstName());
+        adminUserGetAllResponse.setLastName(user.getLastName());
         adminUserGetAllResponse.setPhoto(user.getPhoto());
         adminUserGetAllResponse.setIsBlock(user.getIsBlock());
         return adminUserGetAllResponse;

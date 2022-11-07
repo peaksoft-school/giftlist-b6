@@ -31,17 +31,17 @@ public class AdminService {
     @Transactional
     public SimpleResponse block(Long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
-                new NotFoundException("user with id = %s not found"));
+                new NotFoundException("Пользователь с таким id= %s не найден"));
         user.setIsBlock(true);
-        return new SimpleResponse("BLOCK", "user with id blocked");
+        return new SimpleResponse("Заблокирован", "Пользователь заблокирован");
     }
 
     @Transactional
     public SimpleResponse unBlock(Long id) {
         User user = userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException(
-                        "user with id = %s not found"));
+                        "Пользователь с таким id= %s не найден"));
         user.setIsBlock(false);
-        return new SimpleResponse("UNBLOCK", "user with id unblocked");
+        return new SimpleResponse("Разблокирован", "Пользователь разблокирован");
     }
 }
