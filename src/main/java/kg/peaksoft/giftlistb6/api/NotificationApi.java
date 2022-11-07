@@ -29,4 +29,11 @@ public class NotificationApi {
     public AllNotificationsResponse isRead() {
         return notificationService.markAsRead();
     }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @Operation(summary = "Admin notifications", description = "Admin can see all notifications")
+    @GetMapping
+    public AllNotificationsResponse getAllNotificationForAdmin(){
+        return notificationService.getAllNotificationsForAdmin();
+    }
 }

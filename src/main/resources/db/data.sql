@@ -41,12 +41,12 @@ VALUES (1, '2022-05-09', null, 'Нооруз', 4),
        (3, '2022-03-08', null, '8-март', 3),
        (4, '2022-09-08', null, 'Курбан айт', 4);
 
-INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, holiday_id,
+INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, is_block, holiday_id,
                    reservoir_id, user_id)
-VALUES (1, '2020-12-03', 'роман', null, null, 'книга', 'RESERVED', 1, 4, 3),
-       (2, '2022-07-05', 'телефон', null, null, 'iphone 14pro', 'RESERVED', 2, 3, 4),
-       (3, '2022-01-09', 'шоколад', null, null, 'sneakers', 'RESERVED', 3, 3, 4),
-       (4, '2020-02-09', 'ноутбук', null, null, 'macbook air pro', 'WAIT', 4, null, 4);
+VALUES (1, '2020-12-03', 'роман', null, null, 'книга', 'RESERVED',false, 1, 4, 3),
+       (2, '2022-07-05', 'телефон', null, null, 'iphone 14pro', 'RESERVED',false, 2, 3, 4),
+       (3, '2022-01-09', 'шоколад', null, null, 'sneakers', 'RESERVED',false, 3, 3, 4),
+       (4, '2020-02-09', 'ноутбук', null, null, 'macbook air pro', 'WAIT',false, 4, null, 4);
 
 INSERT INTO gift(id, user_id, wish_id)
 VALUES (1, 4, 1),
@@ -86,5 +86,5 @@ VALUES (5, 6),
        (5, 8),
        (5, 4);
 
-INSERT INTO complaints(id, is_seen, reason_text, complainer_id, wish_id)
-VALUES (1, false, 'SPAM', 3, 1);
+INSERT INTO complaints(id, is_seen, reason_text, complainer_id,create_complaint_date, wish_id)
+VALUES (1, false, 'SPAM', 3, '2022-10-12', 1);
