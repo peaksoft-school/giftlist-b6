@@ -21,7 +21,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             "c.wish.holiday.name," +
             "c.wish.wishName," +
             "c.wish.image," +
-            "c.createComplaintDate," +
+            "c.createdAt," +
             "c.complainer.id," +
             "c.complainer.photo) from Complaint c")
     List<ComplaintResponseForAdmin> getAllComplaints();
