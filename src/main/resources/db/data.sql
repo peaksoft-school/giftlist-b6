@@ -85,5 +85,5 @@ VALUES (5, 6),
        (5, 8),
        (5, 4);
 
--- INSERT INTO complaints(id, is_seen, reason_text, complainer_id,create_complaint_date, wish_id)
--- VALUES (1, false, 'SPAM', 3, '2022-10-12', 1);
+INSERT INTO complaints(id, is_seen, reason_text, complainer_id, created_at, wish_id)
+VALUES (1, false, 'SPAM', 3, '2022-10-12', 1);
