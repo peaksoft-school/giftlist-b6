@@ -17,6 +17,7 @@ import kg.peaksoft.giftlistb6.exceptions.BadCredentialsException;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,7 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepo;
@@ -37,6 +39,7 @@ public class UserService {
     public AuthResponse register(RegisterRequest registerRequest) {
         User user = convertToRegisterEntity(registerRequest);
         if (userRepo.existsByEmail(registerRequest.getEmail())) {
+            log.error("User with email:{} if exist",registerRequest.getEmail());
             throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!",registerRequest.getEmail()));
         } else {
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -45,6 +48,7 @@ public class UserService {
 
             String jwt = jwtUtils.generateToken(user.getEmail());
 
+            log.info("User with email:{} successfully registered",registerRequest.getEmail());
             return new AuthResponse(
                     user.getId(),
                     user.getFirstName(),
@@ -58,11 +62,16 @@ public class UserService {
 
     public AuthResponse login(AuthRequest authRequest) throws MessagingException {
         if (authRequest.getPassword().isBlank()) {
+            log.error("Password cannot be empty!");
             throw new BadRequestException("Пароль не может быть пустым!");
         }
         User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!",authRequest.getEmail())));
+                () -> {
+                    log.error("User with email:{} not found",authRequest.getEmail());
+                    throw new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!",authRequest.getEmail()));
+                });
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
+            log.error("Invalid password!");
             throw new BadCredentialsException("Неверный пароль!");
         }
         if (user.getIsBlock().equals(true)) {
@@ -74,6 +83,7 @@ public class UserService {
             helper.setTo(authRequest.getEmail());
             helper.setText(message, true);
             mailSender.send(mimeMessage);
+            log.error("A message was sent to the user's email {}",authRequest.getEmail());
             throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
         }
         String jwt = jwtUtils.generateToken(user.getEmail());

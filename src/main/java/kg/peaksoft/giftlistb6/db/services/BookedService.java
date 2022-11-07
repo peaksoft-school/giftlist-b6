@@ -34,7 +34,7 @@ public class BookedService {
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
                 () -> {
-                    log.error("User with email:{} not found",email);
+                    log.error("User with email:{} not found", email);
                     throw new NotFoundException(String.format("Пользователь с таким электронным адресом: %s не найден!", email));
                 });
     }
@@ -44,7 +44,7 @@ public class BookedService {
         User user = getPrinciple();
         Wish wish = wishRepository.findById(wishId).orElseThrow(
                 () -> {
-                    log.error("Wish with id:{} not found",wishId);
+                    log.error("Wish with id:{} not found", wishId);
                     throw new NotFoundException("Желание не найдено!");
                 });
         if (wish.getWishStatus().equals(Status.WAIT)) {
@@ -65,7 +65,7 @@ public class BookedService {
                     gift.setUser(user);
                     user.setGifts(List.of(gift));
                     wish.setWishStatus(Status.RESERVED);
-                    log.info("Wish with id:{} is reserved anonymously",wishId);
+                    log.info("Wish with id:{} is reserved anonymously", wishId);
                 } else {
                     wish.setReservoir(user);
                 }
@@ -82,12 +82,15 @@ public class BookedService {
                     gift.setUser(user);
                     user.setGifts(List.of(gift));
                     wish.setWishStatus(Status.RESERVED);
-                    log.info("Wish with id:{} is reserved",wishId);
+                    log.info("Wish with id:{} successfully reserved", wishId);
                 }
             } else
                 return new SimpleResponse("Вы не можете забронировать свое желание!", "");
+            log.error("You can't reserve your gift!");
         } else
             return new SimpleResponse("Желание забронировано!", "");
+        log.error("Wish with id: {} is reserved",wishId);
+
 
         return new SimpleResponse("Забронировано", "ок");
     }
@@ -97,9 +100,9 @@ public class BookedService {
         User user = getPrinciple();
         Gift gift = giftRepository
                 .findById(giftId).orElseThrow(
-                        () ->{
-                            log.error("Gift with id:{} not found",giftId);
-                        throw  new NotFoundException("Подарок не найден!");
+                        () -> {
+                            log.error("Gift with id:{} not found", giftId);
+                            throw new NotFoundException("Подарок не найден!");
                         });
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
@@ -115,7 +118,7 @@ public class BookedService {
             giftRepository.delete(gift);
             gift.setUser(null);
             gift.getWish().setWishStatus(Status.WAIT);
-            log.info("wish with id:{} ",gift.getWish().getId());
+            log.info("Wish with id:{} the reservation was canceled", gift.getWish().getId());
         } else
             return new SimpleResponse("Желание в ожидании", "");
 
@@ -152,6 +155,7 @@ public class BookedService {
         user.setWishes(List.of(newWish));
         user.setHolidays(List.of(holiday));
         wishRepository.save(wishUser);
+        log.info("Wish with id: {} successfully added to {} gifts",wishId,user.getFirstName());
         return new SimpleResponse("Оk", "Оk");
     }
 }
