@@ -50,7 +50,9 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "c.charityStatus," +
             "c.user.id," +
             "c.user.photo," +
-            "concat(c.user.firstName,' ',c.user.lastName)) from Charity c where c.id= ?1")
+            "c.user.firstName," +
+            "c.user.lastName)" +
+            "from Charity c where c.id= ?1")
     InnerPageCharityResponse getCharityById(Long id);
 
 }
