@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SearchUserResponse {
 
-    private Long id;
+    private Long userId;
     private String image;
     private String fullName;
 }

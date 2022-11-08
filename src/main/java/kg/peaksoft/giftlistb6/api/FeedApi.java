@@ -6,17 +6,15 @@ import kg.peaksoft.giftlistb6.db.services.FeedService;
 import kg.peaksoft.giftlistb6.dto.responses.FeedResponse;
 import kg.peaksoft.giftlistb6.dto.responses.InnerFeedResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Deque;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/feed")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Feed Api", description = "User can see feed")
-@PreAuthorize("hasAuthority('USER')")
 public class FeedApi {
 
     private final FeedService feedService;
@@ -29,7 +27,7 @@ public class FeedApi {
 
     @Operation(summary = "Get wishes of all users", description = "User can see all users wish")
     @GetMapping
-    public List<FeedResponse> getAllWishes() {
+    public Deque<FeedResponse> getAllWishes() {
         return feedService.getAll();
     }
 }

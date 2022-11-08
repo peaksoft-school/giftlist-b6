@@ -9,6 +9,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserFeedResponse {
 
-    private Long id;
+    private Long userReservoirId;
     private String image;
 }
