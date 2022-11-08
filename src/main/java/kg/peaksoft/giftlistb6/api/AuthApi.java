@@ -38,7 +38,7 @@ public class AuthApi {
 
     @Operation(summary = "Sign in",description = "Only registered users can login")
     @PostMapping("login")
-    public AuthResponse login(@RequestBody @Valid AuthRequest authRequest) {
+    public AuthResponse login(@RequestBody @Valid AuthRequest authRequest) throws MessagingException {
         return userService.login(authRequest);
     }
 
