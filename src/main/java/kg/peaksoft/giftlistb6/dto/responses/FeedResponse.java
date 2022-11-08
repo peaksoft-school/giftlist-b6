@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class FeedResponse {
 
-    private Long id;
+    private Long wishId;
     private SearchUserResponse userSearchResponse;
     private String wishName;
     private String image;

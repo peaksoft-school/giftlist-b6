@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@ToString
 public class Wish {
 
     @Id
@@ -56,4 +57,7 @@ public class Wish {
     @ManyToOne(cascade = {CascadeType.REFRESH
             , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private Holiday holiday;
+
+    @Column(name = "is_block")
+    private Boolean isBlock;
 }
