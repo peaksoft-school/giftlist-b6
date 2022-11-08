@@ -30,9 +30,4 @@ public class MailingList {
 
     private LocalDateTime createDate;
 
-    public MailingList(MailingListRequest request) {
-        this.name = request.getTopic();
-        this.text = request.getText();
-        this.photo = request.getPhoto();
-    }
 }
