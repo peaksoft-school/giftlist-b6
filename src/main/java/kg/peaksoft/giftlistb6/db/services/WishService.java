@@ -12,6 +12,7 @@ import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class WishService {
 
     private final WishRepository wishRepository;
@@ -64,6 +66,7 @@ public class WishService {
             friend.setNotifications(List.of(notification));
             notificationRepository.save(notification);
         }
+        log.info("Wish with id: {} successfully saved in the database", wish.getId());
         return mapToResponse(wish);
     }
 
@@ -101,12 +104,13 @@ public class WishService {
         Wish wish = getById(id);
         convertToUpdate(wish, wishRequest);
         wishRepository.save(wish);
+        log.info("wish with id: {} successfully updated ", id);
         return mapToResponse(wish);
     }
 
     public SimpleResponse deleteWishById(Long id) {
         Wish wish = wishRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!",id)));
+                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!", id)));
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
             if (n.getWish() != null && n.getWish().equals(wish)) {
@@ -120,6 +124,7 @@ public class WishService {
             }
         }
         wishRepository.deleteById(id);
+        log.info("Wish with id: {} successfully deleted",id);
         return new SimpleResponse(
                 "Удалено",
                 "Желание с таким id " + id + "удачно удалено");

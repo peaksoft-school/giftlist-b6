@@ -49,7 +49,7 @@ public class AdminService {
                     "Пользователь с таким id= %s не найден");
         });
         user.setIsBlock(false);
-        log.info("User with id:{} is unreserved ",id);
+        log.info("User with id:{} is unblocked ",id);
         return new SimpleResponse("Разблокирован", "Пользователь разблокирован");
     }
 }

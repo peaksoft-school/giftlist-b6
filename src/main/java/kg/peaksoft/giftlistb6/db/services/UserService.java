@@ -39,8 +39,8 @@ public class UserService {
     public AuthResponse register(RegisterRequest registerRequest) {
         User user = convertToRegisterEntity(registerRequest);
         if (userRepo.existsByEmail(registerRequest.getEmail())) {
-            log.error("User with email:{} if exist",registerRequest.getEmail());
-            throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!",registerRequest.getEmail()));
+            log.error("User with email:{} if exist", registerRequest.getEmail());
+            throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!", registerRequest.getEmail()));
         } else {
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             user.setRole(Role.USER);
@@ -48,7 +48,7 @@ public class UserService {
 
             String jwt = jwtUtils.generateToken(user.getEmail());
 
-            log.info("User with email:{} successfully registered",registerRequest.getEmail());
+            log.info("User with email:{} successfully registered", registerRequest.getEmail());
             return new AuthResponse(
                     user.getId(),
                     user.getFirstName(),
@@ -67,8 +67,8 @@ public class UserService {
         }
         User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
                 () -> {
-                    log.error("User with email:{} not found",authRequest.getEmail());
-                    throw new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!",authRequest.getEmail()));
+                    log.error("User with email:{} not found", authRequest.getEmail());
+                    throw new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!", authRequest.getEmail()));
                 });
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             log.error("Invalid password!");
@@ -83,7 +83,7 @@ public class UserService {
             helper.setTo(authRequest.getEmail());
             helper.setText(message, true);
             mailSender.send(mimeMessage);
-            log.error("A message was sent to the user's email {}",authRequest.getEmail());
+            log.error("A message was sent to the user's email {}", authRequest.getEmail());
             throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
         }
         String jwt = jwtUtils.generateToken(user.getEmail());
@@ -121,14 +121,17 @@ public class UserService {
         user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
                 () -> new NotFoundException("this user is not found"));
         user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",firebaseToken.getEmail())));
+                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", firebaseToken.getEmail())));
         String token = jwtUtils.generateToken(user.getPassword());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getEmail(), user.getRole(), token);
     }
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
         User user = userRepo.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",email)));
+                () -> {
+                    log.error("User with email:{} not found!", email);
+                    throw new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", email));
+                });
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setSubject("[gift_list] reset password link");
@@ -136,14 +139,19 @@ public class UserService {
         helper.setTo(email);
         helper.setText(link + "/" + user.getId(), true);
         mailSender.send(mimeMessage);
+        log.info("A message was sent to the user's email {}", email);
         return new SimpleResponse("Отправлено", "Ок");
     }
 
     public SimpleResponse resetPassword(ResetPasswordRequest request) {
         User user = userRepo.findById(request.getId()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким id: %s не найден!",request.getId()))
+                () -> {
+                    log.error("User with id: {} not found!", request.getId());
+                    throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", request.getId()));
+                }
         );
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        log.info("The user's with id:{} password was successfully updated", request.getId());
         return new SimpleResponse("Пароль обновлен", "ок");
     }
 

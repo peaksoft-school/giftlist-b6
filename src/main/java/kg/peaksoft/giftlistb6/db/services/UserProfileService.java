@@ -7,6 +7,7 @@ import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserProfileService {
 
     private final UserProfileRepository repository;
@@ -31,6 +33,7 @@ public class UserProfileService {
 
     public ProfileResponse saveProfile(ProfileRequest request) {
         UserInfo userInfo = convertToEntity(request);
+        log.info("User ");
         return convertToResponse(userInfo);
     }
 
