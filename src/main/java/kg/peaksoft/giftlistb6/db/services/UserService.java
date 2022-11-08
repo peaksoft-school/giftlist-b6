@@ -41,6 +41,7 @@ public class UserService {
         } else {
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             user.setRole(Role.USER);
+            user.setIsBlock(false);
             userRepo.save(user);
 
             String jwt = jwtUtils.generateToken(user.getEmail());
