@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 public class MailingListRequest {
 
-    private String photo;
+    private String image;
     private String name;
     private String text;
 }

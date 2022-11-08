@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class AllMailingListResponse {
 
     private Long id;
-    private String photo;
+    private String image;
     private String name;
     private LocalDateTime localDateTime;
 }

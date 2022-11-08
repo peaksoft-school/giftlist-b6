@@ -30,7 +30,7 @@ public class MailingListService {
     public MailingList convertToEntity(MailingListRequest request) {
         MailingList mailingList = new MailingList();
         mailingList.setName(request.getName());
-        mailingList.setPhoto(request.getPhoto());
+        mailingList.setPhoto(request.getImage());
         mailingList.setText(request.getText());
         mailingList.setCreateDate(LocalDateTime.now());
         return mailingList;
@@ -41,7 +41,7 @@ public class MailingListService {
         AllMailingListResponse response = new AllMailingListResponse();
         response.setId(mailingList.getId());
         response.setName(mailingList.getName());
-        response.setPhoto(mailingList.getPhoto());
+        response.setImage(mailingList.getPhoto());
         response.setLocalDateTime(LocalDateTime.now());
         return response;
     }

@@ -15,7 +15,7 @@ public class MailingListResponse {
 
     private Long id;
     private String name;
-    private String photo;
+    private String image;
     private String text;
     private LocalDateTime localDateTime;
 }
