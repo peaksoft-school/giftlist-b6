@@ -10,6 +10,7 @@ import lombok.Setter;
 public class UserCharityResponse {
 
     private Long id;
-    private String fullName;
+    private String fistName;
+    private String lastName;
     private String image;
 }

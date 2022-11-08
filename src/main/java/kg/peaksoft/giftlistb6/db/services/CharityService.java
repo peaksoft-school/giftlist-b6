@@ -46,7 +46,7 @@ public class CharityService {
 
         UserCharityResponse userCharityResponse = new UserCharityResponse(
                 charity.getUser().getId(),
-                charity.getUser().getFirstName() + " " + charity.getUser().getLastName(),
+                charity.getUser().getFirstName(),charity.getUser().getLastName(),
                 charity.getUser().getPhoto());
         if (charity.getReservoir() == null) {
             charity.setReservoir(null);
