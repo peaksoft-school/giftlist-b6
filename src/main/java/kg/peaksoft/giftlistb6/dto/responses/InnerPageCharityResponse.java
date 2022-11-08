@@ -23,9 +23,10 @@ public class  InnerPageCharityResponse {
     private Status status;
     private Long userId;
     private String userImage;
-    private String fullName;
+    private String firstName;
+    private String lastName;
 
-    public InnerPageCharityResponse(Long id, String image, String name, String description, String category, String subCategory, String condition, LocalDate addedTime, Status status, Long userId, String userImage, String fullName) {
+    public InnerPageCharityResponse(Long id, String image, String name, String description, String category, String subCategory, String condition, LocalDate addedTime, Status status, Long userId, String userImage, String firstName, String lastName) {
         this.id = id;
         this.image = image;
         this.name = name;
@@ -37,6 +38,7 @@ public class  InnerPageCharityResponse {
         this.status = status;
         this.userId = userId;
         this.userImage = userImage;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }

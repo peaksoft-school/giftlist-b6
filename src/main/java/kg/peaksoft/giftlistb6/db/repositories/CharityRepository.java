@@ -32,7 +32,8 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "ch.createdDate," +
             "ch.charityStatus," +
             "ch.user.id," +
-            "concat(ch.user.firstName,' ',ch.user.lastName)," +
+            "ch.user.firstName," +
+            "ch.user.lastName," +
             "ch.user.photo )"+
             "from User u join u.charities ch where u.email <> ?1")
     List<OtherCharityResponse> getAllOther(String email);

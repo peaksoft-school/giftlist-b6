@@ -32,12 +32,12 @@ public class CharityService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
         return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException("не найден!"));
+                () -> new NotFoundException("Не найден!"));
     }
 
     public InnerCharityResponse getCharityById(Long id) {
         Charity charity = charityRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Charity with id: " + id + " not found!")
+                () -> new NotFoundException("Благотворительность с id: " + id + " не найдена!")
         );
 
         InnerCharityResponse response = new InnerCharityResponse(charity.getId(), charity.getImage(), charity.getName(), charity.getDescription(),
@@ -84,7 +84,7 @@ public class CharityService {
         for (Charity c : charityRepository.findAll()) {
             for (OtherCharityResponse o : otherCharityResponses) {
                 if (o.getReservoir() != null) {
-                    ReservoirResponse response = new ReservoirResponse(o.getReservoir().getId(), o.getReservoir().getPhoto());
+                    ReservoirResponse response = new ReservoirResponse(o.getReservoir().getId(), o.getReservoir().getImage());
                     o.setReservoir(response);
                 }
                 o.setReservoir(new ReservoirResponse());
@@ -101,7 +101,7 @@ public class CharityService {
         if (charityRequest == null) {
             return null;
         }
-        Charity charity1 = charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found"));
+        Charity charity1 = charityRepository.findById(id).orElseThrow(() -> new NotFoundException("Не найден!"));
         if (charity1.getUser().equals(user)) {
             charity1.setImage(charityRequest.getImage());
             charity1.setUser(user);
@@ -115,13 +115,13 @@ public class CharityService {
         return new InnerPageCharityResponse(charity1.getId(), charity1.getImage(), charity1.getName(),
                 charity1.getDescription(), charity1.getCategory().getName(), charity1.getSubCategory().getName(),
                 charity1.getCondition(), charity1.getCreatedDate(), charity1.getCharityStatus(), charity1.getUser().getId(),
-                charity1.getUser().getPhoto(), charity1.getUser().getFirstName() + " " + charity1.getUser().getLastName());
+                charity1.getUser().getPhoto(), charity1.getUser().getFirstName() , charity1.getUser().getLastName());
     }
 
     public SimpleResponse deleteCharityById(Long id) {
         User user = getPrinciple();
-        if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found")))) {
-            throw new NotFoundException("You can't delete other charities");
+        if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(() -> new NotFoundException("Не найден!")))) {
+            throw new NotFoundException("Вы не можете удалять другие благотворительности");
         }
         charityRepository.deleteCharityById(id, user.getId());
         return new SimpleResponse("Благотворительность успешно удалено!", "");
@@ -131,7 +131,7 @@ public class CharityService {
     public SimpleResponse reserveCharity(Long charityId, boolean is) {
         User user = getPrinciple();
         Charity charity = charityRepository.findById(charityId).orElseThrow(
-                () -> new NotFoundException("not found"));
+                () -> new NotFoundException("Не найден!"));
         if (charity.getCharityStatus().equals(Status.WAIT)) {
             if (!charity.getUser().equals(user)) {
                 charity.setReservoir(user);
@@ -144,10 +144,10 @@ public class CharityService {
                 user.setCharities(List.of(charity));
                 charity.setCharityStatus(Status.RESERVED);
             } else
-                return new SimpleResponse("you can't reserve your charity", "");
+                return new SimpleResponse("Вы не можете зарезервировать свою благотворительность!", "ERROR");
         } else
-            return new SimpleResponse("charity is reserve", "error");
+            return new SimpleResponse("Благотворительность в резерве", "RESERVED");
 
-        return new SimpleResponse("ok", "reserved");
+        return new SimpleResponse("Оk", "Бронирован!");
     }
 }

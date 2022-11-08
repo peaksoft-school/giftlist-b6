@@ -19,11 +19,12 @@ public class OtherCharityResponse {
     private LocalDate addedDate;
     private Status status;
     private Long userId;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private String photo;
     private ReservoirResponse reservoir;
 
-    public OtherCharityResponse(Long id, String image, String name, String condition, LocalDate addedDate, Status status, Long userId, String fullName, String photo) {
+    public OtherCharityResponse(Long id, String image, String name, String condition, LocalDate addedDate, Status status, Long userId, String firstName, String lastName, String photo) {
         this.id = id;
         this.image = image;
         this.name = name;
@@ -31,7 +32,8 @@ public class OtherCharityResponse {
         this.addedDate = addedDate;
         this.status = status;
         this.userId = userId;
-        this.fullName = fullName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.photo = photo;
     }
 }

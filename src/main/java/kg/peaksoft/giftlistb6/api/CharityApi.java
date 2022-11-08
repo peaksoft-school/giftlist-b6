@@ -23,26 +23,26 @@ public class CharityApi {
         return charityService.getAllCharityResponse();
     }
 
-    @Operation(summary = "Save Charity", description = "User can save charities")
+    @Operation(summary = "Save charity", description = "User can save charities")
     @PostMapping
     public YourCharityResponse saveCharity(@RequestBody CharityRequest request) {
         return charityService.saveCharity(request);
     }
 
-    @Operation(summary = "Update Charity", description = "User can update charity")
+    @Operation(summary = "Update charity", description = "User can update charity")
     @PutMapping("{id}")
     public InnerPageCharityResponse updateCharity(@PathVariable Long id,
                                                   @RequestBody CharityRequest request) {
         return charityService.updateCharity(id, request);
     }
 
-    @Operation(summary = "Get Charity", description = "Get charity by id")
+    @Operation(summary = "Get charity", description = "Get charity by id")
     @GetMapping("{id}")
     public InnerCharityResponse getCharityById(@PathVariable Long id) {
         return charityService.getCharityById(id);
     }
 
-    @Operation(summary = "Delete Charity", description = "User can delete own charity")
+    @Operation(summary = "Delete charity", description = "User can delete own charity")
     @DeleteMapping("{id}")
     public SimpleResponse deleteCharityById(@PathVariable Long id) {
         return charityService.deleteCharityById(id);
