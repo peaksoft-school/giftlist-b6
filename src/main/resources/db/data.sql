@@ -29,11 +29,32 @@ VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQe
        (9, 'Nurgazy', 'Nurmamatov', false, 'nurgazy@gmail.com',
         '$2a$12$HdYBNIIcIMx1gJ90DKwmt.wnAEEAmXgSlB2q6SP1xkgtoye1e6UjK', 'image', 'USER', 9);
 
+INSERT INTO categories(id, name)
+VALUES (1, 'электроника'),
+       (2, 'одежда'),
+       (3, 'школа'),
+       (4, 'дом и сад'),
+       (5, 'обувь'),
+       (6, 'транспорт');
+
+INSERT INTO sub_category(id, name, category_id)
+VALUES (1, 'телефон', 1),
+       (3, 'аудиотехника', 1),
+       (4, 'фото и видеокамеры', 1),
+       (5, 'свитер', 2),
+       (6, 'сумка', 2),
+       (7, 'школьная сумка', 3),
+       (8, 'тетрадь', 3),
+       (9, 'диван', 4),
+       (10, 'плитка', 4),
+       (11, 'кроссовки', 5),
+       (12, 'велосипед', 6);
+
 INSERT INTO charity(id, charity_status, condition, created_date,
-                    description, image, name, reservoir_id, user_id)
-VALUES (1, 'RESERVED', 'Б/У', '2021-12-12', 'white', null, 'сумка', 3, 4),
-       (2, 'WAIT', 'Б/У', '2022-09-08', null, null, 'ноутбук', null, 4),
-       (3, 'WAIT', 'Новый', '2020-12-01', null, null, 'платье', null, 4);
+                    description, image, name, reservoir_id, user_id,category_id,sub_category_id)
+VALUES (1, 'RESERVED', 'Б/У', '2021-12-12', 'white', null, 'сумка', 3, 4,2,6),
+       (2, 'WAIT', 'Б/У', '2022-09-08', null, null, 'ноутбук', null, 4,1,3),
+       (3, 'WAIT', 'Новый', '2020-12-01', null, null, 'платье', null, 4,2,5);
 
 INSERT INTO holidays(id, date_of_holiday, image, name, user_id)
 VALUES (1, '2022-05-09', null, 'Нооруз', 4),
@@ -52,27 +73,6 @@ INSERT INTO gift(id, user_id, wish_id)
 VALUES (1, 4, 1),
        (2, 3, 2),
        (3, 3, 3);
-
-INSERT INTO categories(id, name, charity_id)
-VALUES (1, 'электроника', 1),
-       (2, 'одежда', 2),
-       (3, 'школа', 3),
-       (4, 'дом и сад', 1),
-       (5, 'обувь', 1),
-       (6, 'транспорт', 1);
-
-INSERT INTO sub_category(id, name, category_id)
-VALUES (1, 'телефон', 1),
-       (3, 'аудиотехника', 1),
-       (4, 'фото и видеокамеры', 1),
-       (5, 'свитер', 2),
-       (6, 'сумка', 2),
-       (7, 'школьная сумка', 3),
-       (8, 'тетрадь', 3),
-       (9, 'диван', 4),
-       (10, 'плитка', 4),
-       (11, 'кроссовки', 5),
-       (12, 'велосипед', 6);
 
 INSERT INTO users_requests(user_id, requests_id)
 VALUES (3, 4),
