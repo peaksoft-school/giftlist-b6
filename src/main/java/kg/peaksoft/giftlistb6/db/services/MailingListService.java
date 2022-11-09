@@ -8,7 +8,6 @@ import kg.peaksoft.giftlistb6.dto.responses.MailingListResponse;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class MailingListService {
         response.setId(mailingList.getId());
         response.setName(mailingList.getName());
         response.setImage(mailingList.getPhoto());
-        response.setLocalDateTime(LocalDateTime.now());
+        response.setCreatAt(LocalDateTime.now());
         return response;
     }
 
@@ -56,7 +55,7 @@ public class MailingListService {
 
     public MailingListResponse getId(Long id) {
          return mailingListRepository.findMailingById(id).orElseThrow(
-                ()-> new NotFoundException(String.format("Рассылка с таким id = %s не найдена!", id))
+                ()-> new NotFoundException(String.format("Рассылка с id = %s не найдена!", id))
         );
     }
 

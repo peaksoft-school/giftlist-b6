@@ -24,7 +24,7 @@ public class MailingListApi {
 
     @Operation(summary = "Save mailing list", description = "Can save mailing list  ")
     @PostMapping
-    public AllMailingListResponse saveUserInfo(@RequestBody MailingListRequest request) {
+    public AllMailingListResponse saveMailingList(@RequestBody MailingListRequest request) {
         return mailingListService.saveMailingList(request);
     }
 
