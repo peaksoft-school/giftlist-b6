@@ -1,10 +1,12 @@
 package kg.peaksoft.giftlistb6.db.models;
 
+import kg.peaksoft.giftlistb6.dto.requests.MailingListRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "mailing_list")
@@ -20,6 +22,12 @@ public class MailingList {
 
     private String name;
 
+    private String image;
+
     @Column(length = 10000)
     private String text;
+
+
+    private LocalDateTime createdAt;
+
 }
