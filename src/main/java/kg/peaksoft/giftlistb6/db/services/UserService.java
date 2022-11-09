@@ -1,5 +1,8 @@
 package kg.peaksoft.giftlistb6.db.services;
 
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseToken;
@@ -17,13 +20,16 @@ import kg.peaksoft.giftlistb6.exceptions.BadCredentialsException;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +39,18 @@ public class UserService {
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final JavaMailSender mailSender;
+
+    @PostConstruct
+    void init() throws IOException {
+        GoogleCredentials googleCredentials =
+                GoogleCredentials.fromStream(new ClassPathResource("giftlist.json").getInputStream());
+
+        FirebaseOptions firebaseOptions = FirebaseOptions.builder()
+                .setCredentials(googleCredentials)
+                .build();
+
+        FirebaseApp firebaseApp = FirebaseApp.initializeApp(firebaseOptions);
+    }
 
     public AuthResponse register(RegisterRequest registerRequest) {
         User user = convertToRegisterEntity(registerRequest);
@@ -103,18 +121,18 @@ public class UserService {
         User user;
         if (!userRepo.existsByEmail(firebaseToken.getEmail())) {
             User newUser = new User();
-            newUser.setFirstName(firebaseToken.getName());
+            String[] name = firebaseToken.getName().split(" ");
+            newUser.setFirstName(name[0]);
+            newUser.setLastName(name[1]);
             newUser.setEmail(firebaseToken.getEmail());
             newUser.setPassword(firebaseToken.getEmail());
             newUser.setRole(Role.USER);
             user = userRepo.save(newUser);
         }
         user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
-                () -> new NotFoundException("this user is not found"));
-        user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",firebaseToken.getEmail())));
         String token = jwtUtils.generateToken(user.getPassword());
-        return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getEmail(), user.getRole(), token);
+        return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), token);
     }
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
