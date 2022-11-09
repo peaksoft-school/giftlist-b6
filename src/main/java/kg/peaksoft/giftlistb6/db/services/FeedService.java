@@ -1,13 +1,19 @@
 package kg.peaksoft.giftlistb6.db.services;
 
+import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
+import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 @Service
@@ -16,9 +22,11 @@ public class FeedService {
 
     private final WishRepository wishRepository;
 
+    private final UserRepository userRepository;
+
     public FeedResponse mapToAllResponse(Wish wish) {
         FeedResponse feedResponse = new FeedResponse();
-        feedResponse.setId(wish.getId());
+        feedResponse.setWishId(wish.getId());
         feedResponse.setUserSearchResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getPhoto(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
         feedResponse.setWishName(wish.getWishName());
         feedResponse.setImage(wish.getImage());
@@ -33,16 +41,26 @@ public class FeedService {
     }
 
 
-    public List<FeedResponse> convertAllToResponse(List<Wish> wishes) {
-        List<FeedResponse> responses = new ArrayList<>();
+    public Deque<FeedResponse> convertAllToResponse(List<Wish> wishes) {
+        List<Wish> block = new ArrayList<>();
+        Deque<FeedResponse> responses = new ArrayDeque<>();
         for (Wish wish : wishes) {
-            responses.add(mapToAllResponse(wish));
+            if (wish.getIsBlock().equals(true)) {
+                block.add(wish);
+            } else {
+                responses.addFirst(mapToAllResponse(wish));
+            }
         }
+        User user = getAuthPrincipal();
+        for (User friend : user.getFriends()) {
+            if (user.getFriends().equals(friend))
+                responses.addLast((FeedResponse) wishRepository.getFriendsWishes(friend));
+            }
         return responses;
     }
 
-    public List<FeedResponse> getAll() {
-        return convertAllToResponse(wishRepository.findAll());
+    public Deque<FeedResponse> getAll() {
+        return convertAllToResponse(wishRepository.getAllWishes());
     }
 
 
@@ -57,10 +75,16 @@ public class FeedService {
         return innerFeedResponse;
     }
 
-
     public InnerFeedResponse getById(Long id) {
-        Wish wish = wishRepository.findById(id).orElseThrow(() ->
+        Wish wish = wishRepository.findWishById(id).orElseThrow(() ->
                 new NotFoundException("Желание с таким id: " + id + " не найдено!"));
         return mapToIdResponse(wish);
+    }
+
+    public User getAuthPrincipal() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException(String.format("Пользователь с таким  электронным адресом: %s не найден!", email)));
     }
 }
