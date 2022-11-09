@@ -16,5 +16,5 @@ public class AllMailingListResponse {
     private Long id;
     private String image;
     private String name;
-    private LocalDateTime creatAt;
+    private LocalDateTime createdAt;
 }

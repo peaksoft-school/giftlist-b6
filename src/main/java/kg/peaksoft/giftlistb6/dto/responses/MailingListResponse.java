@@ -17,5 +17,5 @@ public class MailingListResponse {
     private String name;
     private String image;
     private String text;
-    private LocalDateTime creatAt;
+    private LocalDateTime createdAt;
 }

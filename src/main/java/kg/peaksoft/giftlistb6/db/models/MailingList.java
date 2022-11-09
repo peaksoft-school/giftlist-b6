@@ -22,12 +22,12 @@ public class MailingList {
 
     private String name;
 
-    private String photo;
+    private String image;
 
     @Column(length = 10000)
     private String text;
 
 
-    private LocalDateTime createDate;
+    private LocalDateTime createdAt;
 
 }

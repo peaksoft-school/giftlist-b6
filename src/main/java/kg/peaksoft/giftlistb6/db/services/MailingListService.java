@@ -29,9 +29,9 @@ public class MailingListService {
     public MailingList convertToEntity(MailingListRequest request) {
         MailingList mailingList = new MailingList();
         mailingList.setName(request.getName());
-        mailingList.setPhoto(request.getImage());
+        mailingList.setImage(request.getImage());
         mailingList.setText(request.getText());
-        mailingList.setCreateDate(LocalDateTime.now());
+        mailingList.setCreatedAt(LocalDateTime.now());
         return mailingList;
     }
 
@@ -40,8 +40,8 @@ public class MailingListService {
         AllMailingListResponse response = new AllMailingListResponse();
         response.setId(mailingList.getId());
         response.setName(mailingList.getName());
-        response.setImage(mailingList.getPhoto());
-        response.setCreatAt(LocalDateTime.now());
+        response.setImage(mailingList.getImage());
+        response.setCreatedAt(LocalDateTime.now());
         return response;
     }
 
@@ -55,7 +55,7 @@ public class MailingListService {
 
     public MailingListResponse getId(Long id) {
          return mailingListRepository.findMailingById(id).orElseThrow(
-                ()-> new NotFoundException(String.format("Рассылка с id = %s не найдена!", id))
+                ()-> new NotFoundException(String.format("Рассылка с id: %s не найдена!", id))
         );
     }
 

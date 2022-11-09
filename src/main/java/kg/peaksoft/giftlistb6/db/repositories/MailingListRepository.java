@@ -11,9 +11,9 @@ public interface MailingListRepository extends JpaRepository<MailingList, Long> 
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.MailingListResponse(" +
             "m.id," +
-            "m.photo," +
+            "m.image," +
             "m.name," +
             "m.text," +
-            "m.createDate)from MailingList m where m.id = :id")
+            "m.createdAt)from MailingList m where m.id = :id")
     Optional<MailingListResponse> findMailingById(Long id);
 }
