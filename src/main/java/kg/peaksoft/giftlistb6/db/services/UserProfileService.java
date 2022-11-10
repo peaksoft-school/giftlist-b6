@@ -123,18 +123,6 @@ public class UserProfileService {
         friendProfileResponse.setImportant(user.getUserInfo().getImportant());
         friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
         friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
-        List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : user.getWishes()) {
-            HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
-                    wish.getId(),
-                    wish.getWishName(),
-                    wish.getLinkToGift(),
-                    wish.getDateOfHoliday(),
-                    wish.getDescription(),
-                    wish.getImage(),
-                    wish.getWishStatus());
-            wishResponses.add(wishResponse);
-        }
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
         for (Holiday holiday : user.getHolidays()) {
@@ -158,10 +146,25 @@ public class UserProfileService {
                     charity.getCreatedDate());
             charityResponses.add(charityResponse);
         }
-
-        friendProfileResponse.setWishResponses(wishResponses);
         friendProfileResponse.setHolidayResponses(holidayResponses);
         friendProfileResponse.setCharityResponses(charityResponses);
+
+        List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
+        for (Wish wish : user.getWishes()) {
+            if (wish.getIsBlock().equals(false)) {
+                HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
+                        wish.getId(),
+                        wish.getWishName(),
+                        wish.getLinkToGift(),
+                        wish.getDateOfHoliday(),
+                        wish.getDescription(),
+                        wish.getImage(),
+                        wish.getWishStatus());
+                wishResponses.add(wishResponse);
+            }
+        }
+        friendProfileResponse.setWishResponses(wishResponses);
+
         return friendProfileResponse;
     }
 }

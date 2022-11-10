@@ -7,9 +7,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SearchUserResponse {
+public class UserCharityResponse {
 
-    private Long userId;
+    private Long id;
+    private String fistName;
+    private String lastName;
     private String image;
-    private String fullName;
 }

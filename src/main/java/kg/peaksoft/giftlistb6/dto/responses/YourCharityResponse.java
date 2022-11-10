@@ -2,14 +2,15 @@ package kg.peaksoft.giftlistb6.dto.responses;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
-public class SearchUserResponse {
+public class YourCharityResponse {
 
-    private Long userId;
+    private Long id;
     private String image;
-    private String fullName;
 }

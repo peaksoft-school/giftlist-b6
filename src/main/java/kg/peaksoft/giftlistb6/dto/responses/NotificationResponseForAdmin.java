@@ -7,9 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SearchUserResponse {
+public class NotificationResponseForAdmin {
 
     private Long userId;
-    private String image;
-    private String fullName;
+    private String firstName;
+    private String lastName;
+    private String userPhoto;
+    private String wishName;
 }

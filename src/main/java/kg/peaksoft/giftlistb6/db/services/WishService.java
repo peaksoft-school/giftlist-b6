@@ -52,6 +52,7 @@ public class WishService {
         holiday.addWish(wish);
         wish.setHoliday(holiday);
         wish.setWishStatus(Status.WAIT);
+        wish.setIsBlock(false);
         wishRepository.save(wish);
         User user = getAuthPrincipal();
         for (User friend : user.getFriends()) {

@@ -29,37 +29,13 @@ VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQe
        (9, 'Nurgazy', 'Nurmamatov', false, 'nurgazy@gmail.com',
         '$2a$12$HdYBNIIcIMx1gJ90DKwmt.wnAEEAmXgSlB2q6SP1xkgtoye1e6UjK', 'image', 'USER', 9);
 
-INSERT INTO charity(id, charity_status, condition, created_date,
-                    description, image, name, reservoir_id, user_id)
-VALUES (1, 'RESERVED', 'Б/У', '2021-12-12', 'white', null, 'сумка', 3, 4),
-       (2, 'WAIT', 'Б/У', '2022-09-08', null, null, 'ноутбук', null, 4),
-       (3, 'WAIT', 'Новый', '2020-12-01', null, null, 'платье', null, 4);
-
-INSERT INTO holidays(id, date_of_holiday, image, name, user_id)
-VALUES (1, '2022-05-09', null, 'Нооруз', 4),
-       (2, '2021-09-02', null, 'День рождения', 4),
-       (3, '2022-03-08', null, '8-март', 3),
-       (4, '2022-09-08', null, 'Курбан айт', 4);
-
-INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, holiday_id,
-                   reservoir_id, user_id)
-VALUES (1, '2020-12-03', 'роман', null, null, 'книга', 'RESERVED', 1, 4, 3),
-       (2, '2022-07-05', 'телефон', null, null, 'iphone 14pro', 'RESERVED', 2, 3, 4),
-       (3, '2022-01-09', 'шоколад', null, null, 'sneakers', 'RESERVED', 3, 3, 4),
-       (4, '2020-02-09', 'ноутбук', null, null, 'macbook air pro', 'WAIT', 4, null, 4);
-
-INSERT INTO gift(id, user_id, wish_id)
-VALUES (1, 4, 1),
-       (2, 3, 2),
-       (3, 3, 3);
-
-INSERT INTO categories(id, name, charity_id)
-VALUES (1, 'электроника', 1),
-       (2, 'одежда', 2),
-       (3, 'школа', 3),
-       (4, 'дом и сад', 1),
-       (5, 'обувь', 1),
-       (6, 'транспорт', 1);
+INSERT INTO categories(id, name)
+VALUES (1, 'электроника'),
+       (2, 'одежда'),
+       (3, 'школа'),
+       (4, 'дом и сад'),
+       (5, 'обувь'),
+       (6, 'транспорт');
 
 INSERT INTO sub_category(id, name, category_id)
 VALUES (1, 'телефон', 1),
@@ -74,17 +50,40 @@ VALUES (1, 'телефон', 1),
        (11, 'кроссовки', 5),
        (12, 'велосипед', 6);
 
+INSERT INTO charity(id, charity_status, condition, created_date,
+                    description, image, name, reservoir_id, user_id,category_id,sub_category_id)
+VALUES (1, 'RESERVED', 'Б/У', '2021-12-12', 'white', null, 'сумка', 3, 4,2,6),
+       (2, 'WAIT', 'Б/У', '2022-09-08', null, null, 'ноутбук', null, 4,1,3),
+       (3, 'WAIT', 'Новый', '2020-12-01', null, null, 'платье', null, 4,2,5);
+
+INSERT INTO holidays(id, date_of_holiday, image, name, user_id)
+VALUES (1, '2022-05-09', null, 'Нооруз', 4),
+       (2, '2021-09-02', null, 'День рождения', 4),
+       (3, '2022-03-08', null, '8-март', 3),
+       (4, '2022-09-08', null, 'Курбан айт', 4);
+
+INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, is_block, holiday_id,
+                   reservoir_id, user_id)
+VALUES (1, '2020-12-03', 'роман', null, null, 'книга', 'RESERVED', false, 1, 4, 3),
+       (2, '2022-07-05', 'телефон', null, null, 'iphone 14pro', 'RESERVED', false, 2, 3, 4),
+       (3, '2022-01-09', 'шоколад', null, null, 'sneakers', 'RESERVED', false, 3, 3, 4),
+       (4, '2020-02-09', 'ноутбук', null, null, 'macbook air pro', 'WAIT', false, 4, null, 4);
+
+INSERT INTO gift(id, user_id, wish_id)
+VALUES (1, 4, 1),
+       (2, 3, 2),
+       (3, 3, 3);
+
 INSERT INTO users_requests(user_id, requests_id)
 VALUES (3, 4),
        (3, 5),
        (3, 9);
 
-     INSERT
-INTO users_friends(user_id, friends_id)
+INSERT INTO users_friends(user_id, friends_id)
 VALUES (5, 6),
        (5, 7),
        (5, 8),
        (5, 4);
 
-INSERT INTO complaints(id, is_seen, reason_text, complainer_id, wish_id)
-VALUES (1, false, 'SPAM', 3, 1);
+INSERT INTO complaints(id, is_seen, reason_text, complainer_id, created_at, wish_id)
+VALUES (1, false, 'SPAM', 3, '2022-10-12', 1);

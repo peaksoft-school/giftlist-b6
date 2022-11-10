@@ -14,6 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
+@ToString
 public class Wish {
 
     @Id
@@ -40,6 +41,9 @@ public class Wish {
     @Enumerated(EnumType.STRING)
     private Status wishStatus;
 
+    @Column(name = "is_block")
+    private Boolean isBlock;
+
     @OneToOne(cascade = CascadeType.ALL)
     private Gift gift;
 
@@ -49,11 +53,10 @@ public class Wish {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wish")
     private List<Complaint> complaints;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH
-            , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH
-            , CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
     private Holiday holiday;
+
 }

@@ -3,8 +3,10 @@ package kg.peaksoft.giftlistb6.db.models;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "complaints")
@@ -23,6 +25,9 @@ public class Complaint {
 
     @ManyToOne(cascade = CascadeType.ALL)
     private User complainer;
+
+    @CreatedDate
+    private LocalDate createdAt;
 
     private Boolean isSeen;
 
