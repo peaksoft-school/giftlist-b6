@@ -69,7 +69,7 @@ public class HolidayService {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Праздник с таким  id: %s не найден!", id)));
         Holiday holiday1 = updateHoliday(holiday, request);
-        log.info("Holiday with id: {} successfuly updated",id);
+        log.info("Holiday with id: {} successfully updated",id);
         return convertToResponse(holiday1);
     }
 

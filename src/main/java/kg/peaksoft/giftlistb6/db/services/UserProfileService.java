@@ -33,7 +33,7 @@ public class UserProfileService {
 
     public ProfileResponse saveProfile(ProfileRequest request) {
         UserInfo userInfo = convertToEntity(request);
-        log.info("User ");
+        log.info("User info saved in database");
         return convertToResponse(userInfo);
     }
 

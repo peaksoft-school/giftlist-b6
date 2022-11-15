@@ -113,6 +113,7 @@ public class NotificationService {
                                 n.getWish().getWishName()));
             }
         } response.setResponseList(notificationResponses);
+        log.info("Admin has seen all notifications");
         return response;
     }
 }

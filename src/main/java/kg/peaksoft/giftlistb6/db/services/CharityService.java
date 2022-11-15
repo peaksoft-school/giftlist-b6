@@ -12,6 +12,7 @@ import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CharityService {
 
     private final CharityRepository charityRepository;
@@ -37,7 +39,10 @@ public class CharityService {
 
     public InnerCharityResponse getCharityById(Long id) {
         Charity charity = charityRepository.findById(id).orElseThrow(
-                () -> new NotFoundException("Благотворительность с id: " + id + " не найдена!")
+                () -> {
+                    log.error("Charity with id: {} not found", id);
+                    throw new NotFoundException("Благотворительность с id: " + id + " не найдена!");
+                }
         );
 
         InnerCharityResponse response = new InnerCharityResponse(charity.getId(), charity.getImage(), charity.getName(), charity.getDescription(),
@@ -46,7 +51,7 @@ public class CharityService {
 
         UserCharityResponse userCharityResponse = new UserCharityResponse(
                 charity.getUser().getId(),
-                charity.getUser().getFirstName(),charity.getUser().getLastName(),
+                charity.getUser().getFirstName(), charity.getUser().getLastName(),
                 charity.getUser().getPhoto());
         if (charity.getReservoir() == null) {
             charity.setReservoir(null);
@@ -72,6 +77,7 @@ public class CharityService {
         user.setCharities(List.of(charity));
         charity.setUser(user);
         charityRepository.save(charity);
+        log.info("Charity successfully saved in database");
         return new YourCharityResponse(charity.getId(), charity.getImage());
     }
 
@@ -92,7 +98,7 @@ public class CharityService {
             charityResponse.setYourCharityResponses(yourCharityResponses);
             charityResponse.setOtherCharityResponses(otherCharityResponses);
         }
-            return charityResponse;
+        return charityResponse;
     }
 
     @Transactional
@@ -112,18 +118,21 @@ public class CharityService {
             charity1.setDescription(charityRequest.getDescription());
             charityRepository.save(charity1);
         }
+        log.info("Charity with id: {} successfully updated", id);
         return new InnerPageCharityResponse(charity1.getId(), charity1.getImage(), charity1.getName(),
                 charity1.getDescription(), charity1.getCategory().getName(), charity1.getSubCategory().getName(),
                 charity1.getCondition(), charity1.getCreatedDate(), charity1.getCharityStatus(), charity1.getUser().getId(),
-                charity1.getUser().getPhoto(), charity1.getUser().getFirstName() , charity1.getUser().getLastName());
+                charity1.getUser().getPhoto(), charity1.getUser().getFirstName(), charity1.getUser().getLastName());
     }
 
     public SimpleResponse deleteCharityById(Long id) {
         User user = getPrinciple();
         if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(() -> new NotFoundException("Не найден!")))) {
+            log.error("You can't delete other charities! ");
             throw new NotFoundException("Вы не можете удалять другие благотворительности");
         }
         charityRepository.deleteCharityById(id, user.getId());
+        log.info("Charity with id: {} successfully deleted ", id);
         return new SimpleResponse("Благотворительность успешно удалено!", "");
     }
 
@@ -137,16 +146,21 @@ public class CharityService {
                 charity.setReservoir(user);
                 if (is) {
                     charity.setReservoir(null);
+                    log.info("Charity with id: {} reserved anonymously ", charityId);
+
                 } else {
                     charity.setReservoir(user);
                 }
                 charity.setUser(charity.getUser());
                 user.setCharities(List.of(charity));
                 charity.setCharityStatus(Status.RESERVED);
+                log.info("Charity with id: {} successfully reserved ", charityId);
             } else
                 return new SimpleResponse("Вы не можете зарезервировать свою благотворительность!", "ERROR");
+            log.warn("You can't reserved your charity!");
         } else
             return new SimpleResponse("Благотворительность в резерве", "RESERVED");
+        log.warn("Charity with id: {} is reserved", charityId);
 
         return new SimpleResponse("Оk", "Бронирован!");
     }

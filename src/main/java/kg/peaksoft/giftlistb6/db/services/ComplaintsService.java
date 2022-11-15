@@ -14,6 +14,7 @@ import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.NotificationType;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class ComplaintsService {
 
     private final ComplaintRepository complaintRepository;
@@ -43,6 +45,7 @@ public class ComplaintsService {
     public SimpleResponse creatComplain(ComplaintRequest request) {
         Complaint complaint = convertToEntity(request);
         complaintRepository.save(complaint);
+        log.info("Complaint send successfully ");
         return new SimpleResponse("Жалоба успешно отправлен", "ok");
     }
 
@@ -85,6 +88,7 @@ public class ComplaintsService {
                 () -> new NotFoundException(String.format("Желания с таким id = %s не найдено", id))
         );
         wish.setIsBlock(true);
+        log.info("Wish with id: {} successfully blocked ",id);
         return new SimpleResponse("Заблокирован", "ok");
     }
 
@@ -93,6 +97,7 @@ public class ComplaintsService {
                 () -> new NotFoundException(String.format("Желания с таким id = %s не найдено", id))
         );
         wish.setIsBlock(false);
+        log.info("Wish with id: {} successfully unblocked ",id);
         return new SimpleResponse("Разблокирован", "ok");
     }
 
