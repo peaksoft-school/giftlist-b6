@@ -52,6 +52,7 @@ public class UserProfileService {
     public ProfileResponse saveUpdateUser(ProfileRequest request) {
         User user = getAuthPrincipal();
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
+        log.info("User with id: {} successfully updated",user.getId());
         return convertToResponse(repository.save(userInfo1));
     }
 
