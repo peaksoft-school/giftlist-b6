@@ -1,10 +1,13 @@
 package kg.peaksoft.giftlistb6.db.repositories;
 
 import kg.peaksoft.giftlistb6.db.models.Charity;
-import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.dto.responses.InnerPageCharityResponse;
+import kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse;
+import kg.peaksoft.giftlistb6.dto.responses.YourCharityResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -52,7 +55,20 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "c.user.photo," +
             "c.user.firstName," +
             "c.user.lastName)" +
-            "from Charity c where c.id= ?1")
+            "from Charity c where c.id = ?1")
     InnerPageCharityResponse getCharityById(Long id);
 
+    @Query("""
+           select c from Charity c
+           where (lower(c.name) like lower(concat(:text,'%')) or :text is null)
+           and (lower(c.condition) like lower(concat(:condition,'%')) or :condition is null)
+           and (lower(c.category.name) like lower(concat(:category,'%')) or :category is null)
+           and (lower(c.subCategory.name) like lower(concat(:subCategory,'%')) or :subCategory is null)
+           and c.user.email not like concat(:email,'%')
+           """)
+    List<Charity> searchCharity(@Param("text") String text,
+                                @Param("condition") String condition,
+                                @Param("category") String category,
+                                @Param("subCategory") String subCategory,
+                                String email);
 }
