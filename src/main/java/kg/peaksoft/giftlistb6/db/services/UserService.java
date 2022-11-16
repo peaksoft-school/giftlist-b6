@@ -20,6 +20,7 @@ import kg.peaksoft.giftlistb6.exceptions.BadCredentialsException;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -63,7 +64,6 @@ public class UserService {
             userRepo.save(user);
 
             String jwt = jwtUtils.generateToken(user.getEmail());
-
             return new AuthResponse(
                     user.getId(),
                     user.getFirstName(),
