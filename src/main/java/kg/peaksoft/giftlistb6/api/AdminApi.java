@@ -2,8 +2,11 @@ package kg.peaksoft.giftlistb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import kg.peaksoft.giftlistb6.db.services.AdminCharityService;
 import kg.peaksoft.giftlistb6.db.services.AdminService;
 import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
+import kg.peaksoft.giftlistb6.dto.responses.CharityResponses;
+import kg.peaksoft.giftlistb6.dto.responses.InnerCharityResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,6 +23,7 @@ import java.util.List;
 public class AdminApi {
 
     private final AdminService adminService;
+    private final AdminCharityService charityService;
 
     @Operation(summary = "Get all users", description = "Admin can see all users.")
     @GetMapping("/users")
@@ -37,5 +41,17 @@ public class AdminApi {
     @PutMapping("/unblock/{id}")
     public SimpleResponse unBlock(@PathVariable("id") Long id) {
         return adminService.unBlock(id);
+    }
+
+    @Operation(summary = "Get charity", description = "Get charity by id")
+    @GetMapping("{id}")
+    public InnerCharityResponse getCharityWithId(@PathVariable Long id) {
+        return charityService.getCharityById(id);
+    }
+
+    @Operation(summary = "All charities", description = "Admin can see all charities")
+    @GetMapping
+    public CharityResponses getAllCharities() {
+        return charityService.getAllCharityResponse();
     }
 }

@@ -91,9 +91,9 @@ public class UserProfileService {
         myProfileResponse.setId(user.getId());
         myProfileResponse.setFirstName(user.getFirstName());
         myProfileResponse.setLastName(user.getLastName());
-        myProfileResponse.setPhoto(user.getPhoto());
+        myProfileResponse.setPhoto(user.getImage());
         myProfileResponse.setEmail(user.getEmail());
-        profileResponse.setPhoto(user.getPhoto());
+        profileResponse.setPhoto(user.getImage());
         profileResponse.setId(user.getUserInfo().getId());
         profileResponse.setCountry(user.getUserInfo().getCountry());
         profileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
@@ -112,7 +112,7 @@ public class UserProfileService {
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
         friendProfileResponse.setId(user.getId());
-        friendProfileResponse.setPhoto(user.getPhoto());
+        friendProfileResponse.setPhoto(user.getImage());
         friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
         friendProfileResponse.setCountry(user.getUserInfo().getCountry());
         friendProfileResponse.setClothingSize(user.getUserInfo().getClothingSize());
@@ -140,7 +140,7 @@ public class UserProfileService {
                     charity.getDescription(),
                     charity.getCondition(),
                     charity.getImage(),
-                    charity.getCreatedDate());
+                    charity.getCreatedAt());
             charityResponses.add(charityResponse);
         }
         friendProfileResponse.setHolidayResponses(holidayResponses);

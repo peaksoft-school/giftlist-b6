@@ -9,7 +9,7 @@ VALUES (1, 'XS', 'Kyrgyzstan', '2000-12-12', 'tennis', null, '0999234554', 36),
        (8, 'M', 'Kyrgyzstan', '1999-09-01', null, null, '0999234595', 35),
        (9, 'M', 'Kyrgyzstan', '2003-12-09', null, null, '0999234595', 35);
 
-INSERT INTO users(id, first_name, last_name, is_block, email, password, photo, role, user_info_id)
+INSERT INTO users(id, first_name, last_name, is_block, email, password, image, role, user_info_id)
 VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQeybae.dumhUkp1ABxxESQN7c5zgmK9GFwHeIW',
         'image', 'ADMIN', 1),
        (2, 'User', 'User', false, 'user@gmail.com', '$2a$12$MXgVFpgW8uWMwTMjG/0I4ekXUiiPojhMXjBf6vefv3Ea.ZOx48fei',

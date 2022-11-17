@@ -23,12 +23,12 @@ public class AdminCharityService {
 
         InnerCharityResponse response = new InnerCharityResponse(charity.getId(),charity.getImage(),charity.getName(),
                 charity.getDescription(),charity.getCategory().getName(),charity.getSubCategory().getName(),
-                charity.getCondition(),charity.getCreatedDate(),charity.getCharityStatus());
+                charity.getCondition(),charity.getCreatedAt(),charity.getCharityStatus());
 
         ReservoirResponse reservoirResponse = new ReservoirResponse(charity);
 
         UserCharityResponse userCharityResponse = new UserCharityResponse(charity.getUser().getId(),charity.getUser().getFirstName(),
-                charity.getUser().getLastName(), charity.getUser().getPhoto());
+                charity.getUser().getLastName(), charity.getUser().getImage());
 
         response.setUserCharityResponse(userCharityResponse);
         if (charity.getReservoir()==null){

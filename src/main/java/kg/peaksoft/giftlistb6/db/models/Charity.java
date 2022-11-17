@@ -48,7 +48,7 @@ public class Charity {
     private String image;
 
     @Column(name = "created_date")
-    private LocalDate createdDate;
+    private LocalDate createdAt;
 
     public Charity(CharityRequest charityRequest) {
         this.name = charityRequest.getName();
@@ -56,6 +56,6 @@ public class Charity {
         this.description = charityRequest.getDescription();
         this.condition = charityRequest.getCondition();
         this.image = charityRequest.getImage();
-        this.createdDate = LocalDate.now();
+        this.createdAt = LocalDate.now();
     }
 }

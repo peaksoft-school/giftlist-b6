@@ -38,7 +38,7 @@ public class User implements UserDetails {
     @Column(name = "is_block")
     private Boolean isBlock;
 
-    private String photo;
+    private String image;
 
     @Enumerated(EnumType.STRING)
     private Role role;
