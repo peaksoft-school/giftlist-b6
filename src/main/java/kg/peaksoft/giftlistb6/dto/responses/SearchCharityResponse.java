@@ -16,6 +16,6 @@ public class SearchCharityResponse {
     private String charityImage;
     private String charityName;
     private String charityCondition;
-    private LocalDate createdDate;
+    private LocalDate createdAt;
     private UserFeedResponse reservoirUser;
 }
