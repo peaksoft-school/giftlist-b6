@@ -112,19 +112,19 @@ public class UserProfileService {
         }else {
             friendProfileResponse.setIsFriend(false);
         }
-        friendProfileResponse.setFirstName(user.getFirstName());
-        friendProfileResponse.setLastName(user.getLastName());
-        friendProfileResponse.setPhoto(user.getPhoto());
-        friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
-        friendProfileResponse.setCountry(user.getUserInfo().getCountry());
-        friendProfileResponse.setClothingSize(user.getUserInfo().getClothingSize());
-        friendProfileResponse.setHobby(user.getUserInfo().getHobby());
-        friendProfileResponse.setImportant(user.getUserInfo().getImportant());
-        friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
-        friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        friendProfileResponse.setFirstName(friend.getFirstName());
+        friendProfileResponse.setLastName(friend.getLastName());
+        friendProfileResponse.setPhoto(friend.getPhoto());
+        friendProfileResponse.setPhoneNumber(friend.getUserInfo().getPhoneNumber());
+        friendProfileResponse.setCountry(friend.getUserInfo().getCountry());
+        friendProfileResponse.setClothingSize(friend.getUserInfo().getClothingSize());
+        friendProfileResponse.setHobby(friend.getUserInfo().getHobby());
+        friendProfileResponse.setImportant(friend.getUserInfo().getImportant());
+        friendProfileResponse.setShoeSize(friend.getUserInfo().getShoeSize());
+        friendProfileResponse.setDateOfBirth(friend.getUserInfo().getDateOfBirth());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
-        for (Holiday holiday : user.getHolidays()) {
+        for (Holiday holiday : friend.getHolidays()) {
             HolidayResponses holidayResponse = new HolidayResponses(
                     holiday.getId(),
                     holiday.getName(),
@@ -134,7 +134,7 @@ public class UserProfileService {
         }
 
         List<CharityResponse> charityResponses = new ArrayList<>();
-        for (Charity charity : user.getCharities()) {
+        for (Charity charity : friend.getCharities()) {
             CharityResponse charityResponse = new CharityResponse(
                     charity.getId(),
                     charity.getName(),
@@ -149,7 +149,7 @@ public class UserProfileService {
         friendProfileResponse.setCharityResponses(charityResponses);
 
         List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : user.getWishes()) {
+        for (Wish wish : friend.getWishes()) {
             if (wish.getIsBlock().equals(false)) {
                 HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
                         wish.getId(),
