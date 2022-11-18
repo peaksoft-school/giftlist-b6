@@ -173,11 +173,11 @@ public class UserService {
         return adminUserGetAllResponse;
     }
 
-//    public List<SearchUserResponse> searchUser(String text) {
-//        List<SearchUserResponse> userResponses = userRepo.search(convertCyrillic(text.toUpperCase()));
-//        userResponses.removeIf(response -> response.getUserId() == 1);
-//        return userResponses;
-//    }
+    public List<SearchUserResponse> searchUser(String text) {
+        List<SearchUserResponse> userResponses = userRepo.search(convertCyrillic(text.toUpperCase()));
+        userResponses.removeIf(response -> response.getUserId() == 1);
+        return userResponses;
+    }
 
     public static String convertCyrillic(String message) {
         char[] abcCyr = {' ', 'а', 'б', 'в', 'г', 'д', 'ѓ', 'е', 'ж', 'з', 'ѕ', 'и', 'ј', 'к', 'л', 'љ', 'м', 'н', 'њ', 'о', 'п', 'р', 'с', 'т', 'ќ', 'у', 'ф', 'х', 'ц', 'ч', 'џ', 'ш', 'А', 'Б', 'В', 'Г', 'Д', 'Ѓ', 'Е', 'Ж', 'З', 'Ѕ', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ќ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/', '-'};
