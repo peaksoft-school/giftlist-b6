@@ -5,6 +5,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -101,16 +102,18 @@ public class UserProfileService {
 
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        User user=getAuthPrincipal();
+        User user = getAuthPrincipal();
         User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
-        friendProfileResponse.setId(user.getId());
-        friendProfileResponse.setEmail(user.getEmail());
-        if (friend.getFriends().contains(user) || friend.getRequests().contains(user)){
-            friendProfileResponse.setIsFriend(true);
-        }else {
-            friendProfileResponse.setIsFriend(false);
+        friendProfileResponse.setId(friend.getId());
+        friendProfileResponse.setEmail(friend.getEmail());
+        if (user.getFriends().contains(friend) || friend.getFriends().contains(user)) {
+            friendProfileResponse.setStatus(Status.FRIEND);
+        } else if (user.getRequests().contains(friend) || friend.getRequests().contains(user)) {
+            friendProfileResponse.setStatus(Status.REQUEST_TO_FRIEND);
+        } else {
+            friendProfileResponse.setStatus(Status.NOT_FRIEND);
         }
         friendProfileResponse.setFirstName(friend.getFirstName());
         friendProfileResponse.setLastName(friend.getLastName());

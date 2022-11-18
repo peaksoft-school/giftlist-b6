@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ public class FriendProfileResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private Boolean isFriend;
+    private Status status;
     private String photo;
     private String country;
     private String phoneNumber;
