@@ -18,16 +18,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByEmail(@Param(value = "email") String email);
 
     @Query("select u from User u where u.role = 'USER' ")
-
     List<User> getAll();
 
-//    @Query("""
-//            select new kg.peaksoft.giftlistb6.dto.responses.SearchUserResponse(
-//            u.id,
-//            u.photo,
-//            concat(u.firstName,' ',u.lastName)) from User u where
-//            upper(u.firstName) like concat(:text,'%') or
-//            upper(u.lastName) like concat(:text,'%')
-//    """)
-//    List<SearchUserResponse> search(@Param("text") String text);
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.SearchUserResponse(" +
+            "u.id," +
+            "u.photo," +
+            "concat(u.firstName,' ',u.lastName)) from User u where" +
+            " upper(u.firstName) like concat(:text,'%') or " +
+            "upper(u.lastName) like concat(:text,'%')")
+    List<SearchUserResponse> search(@Param("text") String text);
 }

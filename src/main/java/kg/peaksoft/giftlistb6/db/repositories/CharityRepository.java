@@ -58,17 +58,15 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "from Charity c where c.id = ?1")
     InnerPageCharityResponse getCharityById(Long id);
 
-//    @Query("""
-//           select c from Charity c
-//           where (lower(c.name) like lower(concat(:text,'%')) or :text is null)
-//           and (lower(c.condition) like lower(concat(:condition,'%')) or :condition is null)
-//           and (lower(c.category.name) like lower(concat(:category,'%')) or :category is null)
-//           and (lower(c.subCategory.name) like lower(concat(:subCategory,'%')) or :subCategory is null)
-//           and c.user.email not like concat(:email,'%')
-//           """)
-//    List<Charity> searchCharity(@Param("text") String text,
-//                                @Param("condition") String condition,
-//                                @Param("category") String category,
-//                                @Param("subCategory") String subCategory,
-//                                String email);
+    @Query("select c from Charity c " +
+            "where (lower(c.name) like lower(concat(:text,'%')) or :text is null)" +
+            "and (lower(c.condition) like lower(concat(:condition,'%')) or :condition is null)" +
+            "and (lower(c.category.name) like lower(concat(:category,'%')) or :category is null)" +
+            "and (lower(c.subCategory.name) like lower(concat(:subCategory,'%')) or :subCategory is null) " +
+            "and c.user.email not like concat(:email,'%')")
+    List<Charity> searchCharity(@Param("text") String text,
+                                @Param("condition") String condition,
+                                @Param("category") String category,
+                                @Param("subCategory") String subCategory,
+                                String email);
 }

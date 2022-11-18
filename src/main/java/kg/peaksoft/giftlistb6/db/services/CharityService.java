@@ -154,20 +154,20 @@ public class CharityService {
         return new SimpleResponse("Оk", "Бронирован!");
     }
 
-//    public SearchAllResponse searchCharity(String text, String condition, String category, String subCategory) {
-//        if (Objects.equals(condition, "Все")) {
-//            condition = null;
-//        } else if (Objects.equals(condition, "все")) {
-//            condition = null;
-//        }
-//        User userPr = getPrinciple();
-//        SearchAllResponse searchResponse = new SearchAllResponse();
-//        List<YourCharityResponse> myCharities = charityRepository.getAllMyCharity(userPr.getEmail());
-//        List<Charity> charities = charityRepository.searchCharity(text, condition, category, subCategory,userPr.getEmail());
-//        searchResponse.setMyCharities(myCharities);
-//        searchResponse.setSearchOthers(viewAll(charities));
-//        return searchResponse;
-//    }
+    public SearchAllResponse searchCharity(String text, String condition, String category, String subCategory) {
+        if (Objects.equals(condition, "Все")) {
+            condition = null;
+        } else if (Objects.equals(condition, "все")) {
+            condition = null;
+        }
+        User userPr = getPrinciple();
+        SearchAllResponse searchResponse = new SearchAllResponse();
+        List<YourCharityResponse> myCharities = charityRepository.getAllMyCharity(userPr.getEmail());
+        List<Charity> charities = charityRepository.searchCharity(text, condition, category, subCategory,userPr.getEmail());
+        searchResponse.setMyCharities(myCharities);
+        searchResponse.setSearchOthers(viewAll(charities));
+        return searchResponse;
+    }
 
     public SearchCharityResponse viewMapper(Charity charity) {
         SearchCharityResponse searchCharityResponse = new SearchCharityResponse();
