@@ -66,7 +66,6 @@ public class UserService {
             userRepo.save(user);
 
             String jwt = jwtUtils.generateToken(user.getEmail());
-
             return new AuthResponse(
                     user.getId(),
                     user.getFirstName(),
