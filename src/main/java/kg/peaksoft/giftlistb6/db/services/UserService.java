@@ -39,7 +39,6 @@ import java.util.List;
 @Slf4j
 public class UserService {
 
-
     private final UserRepository userRepo;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
@@ -61,7 +60,6 @@ public class UserService {
         User user = convertToRegisterEntity(registerRequest);
         if (userRepo.existsByEmail(registerRequest.getEmail())) {
             log.error("User with email:{} if exist", registerRequest.getEmail());
-            throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!", registerRequest.getEmail()));
             throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!", registerRequest.getEmail()));
         } else {
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -88,7 +86,6 @@ public class UserService {
             throw new BadRequestException("Пароль не может быть пустым!");
         }
         User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!", authRequest.getEmail())));
                 () -> {
                     log.error("User with email:{} not found", authRequest.getEmail());
                     throw new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!", authRequest.getEmail()));
@@ -148,7 +145,6 @@ public class UserService {
                     log.error("User with email: {} not found", firebaseToken.getEmail());
                     throw new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", firebaseToken.getEmail()));
                 });
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", firebaseToken.getEmail())));
         String token = jwtUtils.generateToken(user.getPassword());
         log.info("User with email: {} successfully authenticate with google ",firebaseToken.getEmail());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), token);
@@ -156,7 +152,6 @@ public class UserService {
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
         User user = userRepo.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", email)));
                 () -> {
                     log.error("User with email:{} not found!", email);
                     throw new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", email));
@@ -174,7 +169,6 @@ public class UserService {
 
     public SimpleResponse resetPassword(ResetPasswordRequest request) {
         User user = userRepo.findById(request.getId()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким id: %s не найден!", request.getId()))
                 () -> {
                     log.error("User with id: {} not found!", request.getId());
                     throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", request.getId()));
