@@ -145,6 +145,7 @@ public class WishService {
         innerWishResponse.setId(wish.getId());
         innerWishResponse.setWishName(wish.getWishName());
         innerWishResponse.setLinkToGift(wish.getLinkToGift());
+        innerWishResponse.setImage(wish.getImage());
         innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerWishResponse.setDescription(wish.getDescription());
         return innerWishResponse;

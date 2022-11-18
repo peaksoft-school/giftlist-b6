@@ -18,7 +18,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -141,6 +143,7 @@ public class CharityService {
         User user = getPrinciple();
         Charity charity = charityRepository.findById(charityId).orElseThrow(
                 () -> new NotFoundException("Не найден!"));
+
         if (charity.getCharityStatus().equals(Status.WAIT)) {
             if (!charity.getUser().equals(user)) {
                 charity.setReservoir(user);
@@ -163,5 +166,44 @@ public class CharityService {
         log.warn("Charity with id: {} is reserved", charityId);
 
         return new SimpleResponse("Оk", "Бронирован!");
+    }
+
+    public SearchAllResponse searchCharity(String text, String condition, String category, String subCategory) {
+        if (Objects.equals(condition, "Все")) {
+            condition = null;
+        } else if (Objects.equals(condition, "все")) {
+            condition = null;
+        }
+        User userPr = getPrinciple();
+        SearchAllResponse searchResponse = new SearchAllResponse();
+        List<YourCharityResponse> myCharities = charityRepository.getAllMyCharity(userPr.getEmail());
+        List<Charity> charities = charityRepository.searchCharity(text, condition, category, subCategory,userPr.getEmail());
+        searchResponse.setMyCharities(myCharities);
+        searchResponse.setSearchOthers(viewAll(charities));
+        return searchResponse;
+    }
+
+    public SearchCharityResponse viewMapper(Charity charity) {
+        SearchCharityResponse searchCharityResponse = new SearchCharityResponse();
+        searchCharityResponse.setCharityId(charity.getId());
+        searchCharityResponse.setSaveUserResponse(new SearchUserResponse(charity.getUser().getId(), charity.getUser().getPhoto(),
+                charity.getUser().getFirstName() + " " + charity.getUser().getLastName()));
+        searchCharityResponse.setCharityImage(charity.getImage());
+        searchCharityResponse.setCharityName(charity.getName());
+        searchCharityResponse.setCharityCondition(charity.getCondition());
+        if (charity.getReservoir() == null) {
+            searchCharityResponse.setReservoirUser(new UserFeedResponse(null, null));
+        } else {
+            searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getPhoto()));
+    }
+        return searchCharityResponse;
+    }
+
+    public List<SearchCharityResponse> viewAll(List<Charity>charities) {
+        List<SearchCharityResponse> responseList = new ArrayList<>();
+        for (Charity charity : charities) {
+            responseList.add(viewMapper(charity));
+        }
+        return responseList;
     }
 }

@@ -76,7 +76,11 @@ public class UserProfileService {
     @Transactional
     public ProfileResponse convertToResponse(UserInfo userInfo) {
         ProfileResponse response = new ProfileResponse();
+        User user = getAuthPrincipal();
         response.setId(userInfo.getId());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
         response.setCountry(userInfo.getCountry());
         response.setClothingSize(userInfo.getClothingSize());
         response.setHobby(userInfo.getHobby());
@@ -91,31 +95,29 @@ public class UserProfileService {
     public MyProfileResponse myProfile() {
         User user = getAuthPrincipal();
         MyProfileResponse myProfileResponse = new MyProfileResponse();
-        ProfileResponse profileResponse = new ProfileResponse();
         myProfileResponse.setId(user.getId());
         myProfileResponse.setFirstName(user.getFirstName());
         myProfileResponse.setLastName(user.getLastName());
         myProfileResponse.setPhoto(user.getPhoto());
         myProfileResponse.setEmail(user.getEmail());
-        profileResponse.setPhoto(user.getPhoto());
-        profileResponse.setId(user.getUserInfo().getId());
-        profileResponse.setCountry(user.getUserInfo().getCountry());
-        profileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
-        profileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
-        profileResponse.setShoeSize(user.getUserInfo().getShoeSize());
-        profileResponse.setHobby(user.getUserInfo().getHobby());
-        profileResponse.setImportant(user.getUserInfo().getImportant());
-        profileResponse.setClothingSize(user.getUserInfo().getClothingSize());
-        myProfileResponse.setProfileResponse(profileResponse);
         return myProfileResponse;
     }
 
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        User user = userRepository.findById(id).orElseThrow(
+        User user=getAuthPrincipal();
+        User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
         friendProfileResponse.setId(user.getId());
+        friendProfileResponse.setEmail(user.getEmail());
+        if (friend.getFriends().contains(user) || friend.getRequests().contains(user)){
+            friendProfileResponse.setIsFriend(true);
+        }else {
+            friendProfileResponse.setIsFriend(false);
+        }
+        friendProfileResponse.setFirstName(user.getFirstName());
+        friendProfileResponse.setLastName(user.getLastName());
         friendProfileResponse.setPhoto(user.getPhoto());
         friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
         friendProfileResponse.setCountry(user.getUserInfo().getCountry());

@@ -11,6 +11,9 @@ public class ProfileResponse {
 
     private Long id;
     private String photo;
+    private String firstName;
+    private String lastName;
+    private String email;
     private String country;
     private String phoneNumber;
     private LocalDate dateOfBirth;
