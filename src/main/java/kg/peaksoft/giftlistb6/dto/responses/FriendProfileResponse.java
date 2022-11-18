@@ -11,6 +11,10 @@ import java.util.List;
 public class FriendProfileResponse {
 
     private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Boolean isFriend;
     private String photo;
     private String country;
     private String phoneNumber;

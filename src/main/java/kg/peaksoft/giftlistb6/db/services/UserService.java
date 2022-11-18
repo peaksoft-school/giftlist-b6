@@ -14,6 +14,7 @@ import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
+import kg.peaksoft.giftlistb6.dto.responses.SearchUserResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.Role;
 import kg.peaksoft.giftlistb6.exceptions.BadCredentialsException;
@@ -30,10 +31,12 @@ import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.IOException;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
+
 
     private final UserRepository userRepo;
     private final JwtUtils jwtUtils;
@@ -55,7 +58,7 @@ public class UserService {
     public AuthResponse register(RegisterRequest registerRequest) {
         User user = convertToRegisterEntity(registerRequest);
         if (userRepo.existsByEmail(registerRequest.getEmail())) {
-            throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!",registerRequest.getEmail()));
+            throw new BadCredentialsException(String.format("Пользователь с этим электронным адресом: %s уже существует!", registerRequest.getEmail()));
         } else {
             user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
             user.setRole(Role.USER);
@@ -63,7 +66,6 @@ public class UserService {
             userRepo.save(user);
 
             String jwt = jwtUtils.generateToken(user.getEmail());
-
             return new AuthResponse(
                     user.getId(),
                     user.getFirstName(),
@@ -80,7 +82,7 @@ public class UserService {
             throw new BadRequestException("Пароль не может быть пустым!");
         }
         User user = userRepo.findByEmail(authRequest.getEmail()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!",authRequest.getEmail())));
+                () -> new NotFoundException(String.format("Пользовотель с таким электронным адресом:  %s не найден!", authRequest.getEmail())));
         if (!passwordEncoder.matches(authRequest.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("Неверный пароль!");
         }
@@ -130,14 +132,14 @@ public class UserService {
             user = userRepo.save(newUser);
         }
         user = userRepo.findByEmail(firebaseToken.getEmail()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",firebaseToken.getEmail())));
+                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", firebaseToken.getEmail())));
         String token = jwtUtils.generateToken(user.getPassword());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), token);
     }
 
     public SimpleResponse forgotPassword(String email, String link) throws MessagingException {
         User user = userRepo.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!",email)));
+                () -> new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", email)));
         MimeMessage mimeMessage = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
         helper.setSubject("[gift_list] reset password link");
@@ -150,7 +152,7 @@ public class UserService {
 
     public SimpleResponse resetPassword(ResetPasswordRequest request) {
         User user = userRepo.findById(request.getId()).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким id: %s не найден!",request.getId()))
+                () -> new NotFoundException(String.format("Пользователь с таким id: %s не найден!", request.getId()))
         );
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
         return new SimpleResponse("Пароль обновлен", "ок");
@@ -168,5 +170,25 @@ public class UserService {
         adminUserGetAllResponse.setPhoto(user.getImage());
         adminUserGetAllResponse.setIsBlock(user.getIsBlock());
         return adminUserGetAllResponse;
+    }
+
+    public List<SearchUserResponse> searchUser(String text) {
+        List<SearchUserResponse> userResponses = userRepo.search(convertCyrillic(text.toUpperCase()));
+        userResponses.removeIf(response -> response.getUserId() == 1);
+        return userResponses;
+    }
+
+    public static String convertCyrillic(String message) {
+        char[] abcCyr = {' ', 'а', 'б', 'в', 'г', 'д', 'ѓ', 'е', 'ж', 'з', 'ѕ', 'и', 'ј', 'к', 'л', 'љ', 'м', 'н', 'њ', 'о', 'п', 'р', 'с', 'т', 'ќ', 'у', 'ф', 'х', 'ц', 'ч', 'џ', 'ш', 'А', 'Б', 'В', 'Г', 'Д', 'Ѓ', 'Е', 'Ж', 'З', 'Ѕ', 'И', 'Ј', 'К', 'Л', 'Љ', 'М', 'Н', 'Њ', 'О', 'П', 'Р', 'С', 'Т', 'Ќ', 'У', 'Ф', 'Х', 'Ц', 'Ч', 'Џ', 'Ш', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '/', '-'};
+        String[] abcLat = {" ", "a", "b", "v", "g", "d", "]", "e", "zh", "z", "y", "i", "j", "k", "l", "q", "m", "n", "w", "o", "p", "r", "s", "t", "'", "u", "f", "h", "c", ";", "x", "{", "A", "B", "V", "G", "D", "}", "E", "Zh", "Z", "Y", "I", "J", "K", "L", "Q", "M", "N", "W", "O", "P", "R", "S", "T", "KJ", "U", "F", "H", "C", ":", "X", "{", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "1", "2", "3", "4", "5", "6", "7", "8", "9", "/", "-"};
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < message.length(); i++) {
+            for (int x = 0; x < abcCyr.length; x++) {
+                if (message.charAt(i) == abcCyr[x]) {
+                    builder.append(abcLat[x]);
+                }
+            }
+        }
+        return builder.toString();
     }
 }

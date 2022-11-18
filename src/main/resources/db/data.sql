@@ -1,9 +1,9 @@
 INSERT INTO user_info(id, clothing_size, country, date_of_birth, hobby, important, phone_number, shoe_size)
 VALUES (1, 'XS', 'Kyrgyzstan', '2000-12-12', 'tennis', null, '0999234554', 36),
        (2, 'S', 'Kyrgyzstan', '1999-11-11', 'volleyball', null, '0709899876', 37),
-       (3, 'XL', 'Kyrgyzstan', '1998-10-09', 'football', null, '0709465733', 38),
+       (3, 'S', 'Kyrgyzstan', '1998-10-09', 'football', null, '0709465733', 38),
        (4, 'XS', 'Kyrgyzstan', '2000-10-05', null, null, '0559234595', 35),
-       (5, 'XL', 'Kyrgyzstan', '1997-12-03', null, null, '0559234595', 36),
+       (5, 'S', 'Kyrgyzstan', '1997-12-03', null, null, '0559234595', 36),
        (6, 'XS', 'Kyrgyzstan', '1998-12-12', null, null, '0559290595', 37),
        (7, 'S', 'Kyrgyzstan', '2002-10-12', null, null, '0959234845', 38),
        (8, 'M', 'Kyrgyzstan', '1999-09-01', null, null, '0999234595', 35),

@@ -12,5 +12,4 @@ public class MyProfileResponse {
     private String firstName;
     private String lastName;
     private String email;
-    private ProfileResponse profileResponse;
 }

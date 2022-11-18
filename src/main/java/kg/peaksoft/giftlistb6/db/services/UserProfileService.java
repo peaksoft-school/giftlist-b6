@@ -72,7 +72,11 @@ public class UserProfileService {
     @Transactional
     public ProfileResponse convertToResponse(UserInfo userInfo) {
         ProfileResponse response = new ProfileResponse();
+        User user = getAuthPrincipal();
         response.setId(userInfo.getId());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
         response.setCountry(userInfo.getCountry());
         response.setClothingSize(userInfo.getClothingSize());
         response.setHobby(userInfo.getHobby());
@@ -91,9 +95,9 @@ public class UserProfileService {
         myProfileResponse.setId(user.getId());
         myProfileResponse.setFirstName(user.getFirstName());
         myProfileResponse.setLastName(user.getLastName());
-        myProfileResponse.setPhoto(user.getImage());
+        myProfileResponse.setPhoto(user.getPhoto());
         myProfileResponse.setEmail(user.getEmail());
-        profileResponse.setPhoto(user.getImage());
+        profileResponse.setPhoto(user.getPhoto());
         profileResponse.setId(user.getUserInfo().getId());
         profileResponse.setCountry(user.getUserInfo().getCountry());
         profileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
@@ -108,11 +112,12 @@ public class UserProfileService {
 
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        User user = userRepository.findById(id).orElseThrow(
+        User user=getAuthPrincipal();
+        User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
         friendProfileResponse.setId(user.getId());
-        friendProfileResponse.setPhoto(user.getImage());
+        friendProfileResponse.setPhoto(user.getPhoto());
         friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
         friendProfileResponse.setCountry(user.getUserInfo().getCountry());
         friendProfileResponse.setClothingSize(user.getUserInfo().getClothingSize());
@@ -140,7 +145,7 @@ public class UserProfileService {
                     charity.getDescription(),
                     charity.getCondition(),
                     charity.getImage(),
-                    charity.getCreatedAt());
+                    charity.getCreatedDate());
             charityResponses.add(charityResponse);
         }
         friendProfileResponse.setHolidayResponses(holidayResponses);
