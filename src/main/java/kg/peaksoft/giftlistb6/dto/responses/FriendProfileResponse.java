@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +12,10 @@ import java.util.List;
 public class FriendProfileResponse {
 
     private Long id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private Status status;
     private String photo;
     private String country;
     private String phoneNumber;

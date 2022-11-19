@@ -5,6 +5,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -72,7 +73,11 @@ public class UserProfileService {
     @Transactional
     public ProfileResponse convertToResponse(UserInfo userInfo) {
         ProfileResponse response = new ProfileResponse();
+        User user = getAuthPrincipal();
         response.setId(userInfo.getId());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
         response.setCountry(userInfo.getCountry());
         response.setClothingSize(userInfo.getClothingSize());
         response.setHobby(userInfo.getHobby());
@@ -87,42 +92,42 @@ public class UserProfileService {
     public MyProfileResponse myProfile() {
         User user = getAuthPrincipal();
         MyProfileResponse myProfileResponse = new MyProfileResponse();
-        ProfileResponse profileResponse = new ProfileResponse();
         myProfileResponse.setId(user.getId());
         myProfileResponse.setFirstName(user.getFirstName());
         myProfileResponse.setLastName(user.getLastName());
         myProfileResponse.setPhoto(user.getPhoto());
         myProfileResponse.setEmail(user.getEmail());
-        profileResponse.setPhoto(user.getPhoto());
-        profileResponse.setId(user.getUserInfo().getId());
-        profileResponse.setCountry(user.getUserInfo().getCountry());
-        profileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
-        profileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
-        profileResponse.setShoeSize(user.getUserInfo().getShoeSize());
-        profileResponse.setHobby(user.getUserInfo().getHobby());
-        profileResponse.setImportant(user.getUserInfo().getImportant());
-        profileResponse.setClothingSize(user.getUserInfo().getClothingSize());
-        myProfileResponse.setProfileResponse(profileResponse);
         return myProfileResponse;
     }
 
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        User user = userRepository.findById(id).orElseThrow(
+        User user = getAuthPrincipal();
+        User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
-        friendProfileResponse.setId(user.getId());
-        friendProfileResponse.setPhoto(user.getPhoto());
-        friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
-        friendProfileResponse.setCountry(user.getUserInfo().getCountry());
-        friendProfileResponse.setClothingSize(user.getUserInfo().getClothingSize());
-        friendProfileResponse.setHobby(user.getUserInfo().getHobby());
-        friendProfileResponse.setImportant(user.getUserInfo().getImportant());
-        friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
-        friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        friendProfileResponse.setId(friend.getId());
+        friendProfileResponse.setEmail(friend.getEmail());
+        if (user.getFriends().contains(friend) || friend.getFriends().contains(user)) {
+            friendProfileResponse.setStatus(Status.FRIEND);
+        } else if (user.getRequests().contains(friend) || friend.getRequests().contains(user)) {
+            friendProfileResponse.setStatus(Status.REQUEST_TO_FRIEND);
+        } else {
+            friendProfileResponse.setStatus(Status.NOT_FRIEND);
+        }
+        friendProfileResponse.setFirstName(friend.getFirstName());
+        friendProfileResponse.setLastName(friend.getLastName());
+        friendProfileResponse.setPhoto(friend.getPhoto());
+        friendProfileResponse.setPhoneNumber(friend.getUserInfo().getPhoneNumber());
+        friendProfileResponse.setCountry(friend.getUserInfo().getCountry());
+        friendProfileResponse.setClothingSize(friend.getUserInfo().getClothingSize());
+        friendProfileResponse.setHobby(friend.getUserInfo().getHobby());
+        friendProfileResponse.setImportant(friend.getUserInfo().getImportant());
+        friendProfileResponse.setShoeSize(friend.getUserInfo().getShoeSize());
+        friendProfileResponse.setDateOfBirth(friend.getUserInfo().getDateOfBirth());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
-        for (Holiday holiday : user.getHolidays()) {
+        for (Holiday holiday : friend.getHolidays()) {
             HolidayResponses holidayResponse = new HolidayResponses(
                     holiday.getId(),
                     holiday.getName(),
@@ -132,7 +137,7 @@ public class UserProfileService {
         }
 
         List<CharityResponse> charityResponses = new ArrayList<>();
-        for (Charity charity : user.getCharities()) {
+        for (Charity charity : friend.getCharities()) {
             CharityResponse charityResponse = new CharityResponse(
                     charity.getId(),
                     charity.getName(),
@@ -147,7 +152,7 @@ public class UserProfileService {
         friendProfileResponse.setCharityResponses(charityResponses);
 
         List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : user.getWishes()) {
+        for (Wish wish : friend.getWishes()) {
             if (wish.getIsBlock().equals(false)) {
                 HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
                         wish.getId(),
