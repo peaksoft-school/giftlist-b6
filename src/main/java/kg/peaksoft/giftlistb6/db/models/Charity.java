@@ -17,8 +17,8 @@ import java.time.LocalDate;
 public class Charity {
 
     @Id
-    @SequenceGenerator(name = "charity_seq", sequenceName = "charity_seq", allocationSize = 1, initialValue = 14)
-    @GeneratedValue(generator = "charity_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "charity_gen", sequenceName = "charity_seq", allocationSize = 1, initialValue = 14)
+    @GeneratedValue(generator = "charity_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;

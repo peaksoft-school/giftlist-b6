@@ -14,8 +14,8 @@ import javax.persistence.*;
 public class SubCategory {
 
     @Id
-    @SequenceGenerator(name = "subCategory_seq", sequenceName = "subCategory_seq", allocationSize = 1, initialValue = 15)
-    @GeneratedValue(generator = "subCategory_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "subCategory_gen", sequenceName = "subCategory_seq", allocationSize = 1, initialValue = 15)
+    @GeneratedValue(generator = "subCategory_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;
