@@ -7,6 +7,7 @@ import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FeedService {
 
     private final WishRepository wishRepository;
@@ -76,8 +78,10 @@ public class FeedService {
     }
 
     public InnerFeedResponse getById(Long id) {
-        Wish wish = wishRepository.findWishById(id).orElseThrow(() ->
-                new NotFoundException("Желание с таким id: " + id + " не найдено!"));
+        Wish wish = wishRepository.findWishById(id).orElseThrow(() ->{
+            log.error("Wish with id: {} not found!",id);
+            throw new NotFoundException("Желание с таким id: " + id + " не найдено!");
+        });
         return mapToIdResponse(wish);
     }
 

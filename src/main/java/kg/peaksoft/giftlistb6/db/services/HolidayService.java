@@ -39,7 +39,7 @@ public class HolidayService {
 
     public HolidayResponses saveHoliday(HolidayRequest request) {
         Holiday holiday = convertToEntity(request);
-        log.info("Holiday with id: {} successfully saved in the database",holiday.getId());
+        log.info("Holiday with id: {} successfully saved in the database", holiday.getId());
         return convertToResponse(holidayRepository.save(holiday));
     }
 
@@ -58,7 +58,7 @@ public class HolidayService {
         holidayRepository.deleteByWishId(holiday.getId());
         holiday.setUser(null);
         holidayRepository.delete(holiday);
-        log.info("Holiday with id: {} successfully deleted",id);
+        log.info("Holiday with id: {} successfully deleted", id);
         return new SimpleResponse(
                 "Удалено",
                 "Праздник с id: " + holiday.getId() + " успешно удалено "
@@ -69,7 +69,7 @@ public class HolidayService {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Праздник с таким  id: %s не найден!", id)));
         Holiday holiday1 = updateHoliday(holiday, request);
-        log.info("Holiday with id: {} successfully updated",id);
+        log.info("Holiday with id: {} successfully updated", id);
         return convertToResponse(holiday1);
     }
 

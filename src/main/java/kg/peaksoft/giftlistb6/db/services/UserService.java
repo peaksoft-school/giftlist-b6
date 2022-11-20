@@ -107,6 +107,7 @@ public class UserService {
             throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
         }
         String jwt = jwtUtils.generateToken(user.getEmail());
+        log.info("User with email: {} successfully logged ",authRequest.getEmail());
 
         return new AuthResponse(
                 user.getId(),

@@ -73,6 +73,7 @@ public class ComplaintsService {
     }
 
     public List<ComplaintResponseForAdmin> getAllComplaints() {
+        log.info("Admin seen complaints");
         return complaintRepository.getAllComplaints();
     }
 

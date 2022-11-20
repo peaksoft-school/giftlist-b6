@@ -41,11 +41,13 @@ public class FriendService {
 
     public List<FriendInfoResponse> getAllFriends() {
         User user = getAuthPrincipal();
+        log.info("User with email: {} seen all friends",user.getEmail());
         return friendRepository.getAllFriends(user.getEmail());
     }
 
     public List<FriendInfoResponse> getAllRequests() {
         User user = getAuthPrincipal();
+        log.info("User with email : {} seen all requests ",user.getEmail());
         return friendRepository.getAllRequests(user.getEmail());
     }
 
