@@ -5,6 +5,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,30 +106,32 @@ public class UserProfileService {
 
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
-        User user=getAuthPrincipal();
+        User user = getAuthPrincipal();
         User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
-        friendProfileResponse.setId(user.getId());
-        friendProfileResponse.setEmail(user.getEmail());
-        if (friend.getFriends().contains(user) || friend.getRequests().contains(user)){
-            friendProfileResponse.setIsFriend(true);
-        }else {
-            friendProfileResponse.setIsFriend(false);
+        friendProfileResponse.setId(friend.getId());
+        friendProfileResponse.setEmail(friend.getEmail());
+        if (user.getFriends().contains(friend) || friend.getFriends().contains(user)) {
+            friendProfileResponse.setStatus(Status.FRIEND);
+        } else if (user.getRequests().contains(friend) || friend.getRequests().contains(user)) {
+            friendProfileResponse.setStatus(Status.REQUEST_TO_FRIEND);
+        } else {
+            friendProfileResponse.setStatus(Status.NOT_FRIEND);
         }
-        friendProfileResponse.setFirstName(user.getFirstName());
-        friendProfileResponse.setLastName(user.getLastName());
-        friendProfileResponse.setPhoto(user.getPhoto());
-        friendProfileResponse.setPhoneNumber(user.getUserInfo().getPhoneNumber());
-        friendProfileResponse.setCountry(user.getUserInfo().getCountry());
-        friendProfileResponse.setClothingSize(user.getUserInfo().getClothingSize());
-        friendProfileResponse.setHobby(user.getUserInfo().getHobby());
-        friendProfileResponse.setImportant(user.getUserInfo().getImportant());
-        friendProfileResponse.setShoeSize(user.getUserInfo().getShoeSize());
-        friendProfileResponse.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        friendProfileResponse.setFirstName(friend.getFirstName());
+        friendProfileResponse.setLastName(friend.getLastName());
+        friendProfileResponse.setPhoto(friend.getPhoto());
+        friendProfileResponse.setPhoneNumber(friend.getUserInfo().getPhoneNumber());
+        friendProfileResponse.setCountry(friend.getUserInfo().getCountry());
+        friendProfileResponse.setClothingSize(friend.getUserInfo().getClothingSize());
+        friendProfileResponse.setHobby(friend.getUserInfo().getHobby());
+        friendProfileResponse.setImportant(friend.getUserInfo().getImportant());
+        friendProfileResponse.setShoeSize(friend.getUserInfo().getShoeSize());
+        friendProfileResponse.setDateOfBirth(friend.getUserInfo().getDateOfBirth());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
-        for (Holiday holiday : user.getHolidays()) {
+        for (Holiday holiday : friend.getHolidays()) {
             HolidayResponses holidayResponse = new HolidayResponses(
                     holiday.getId(),
                     holiday.getName(),
@@ -138,7 +141,7 @@ public class UserProfileService {
         }
 
         List<CharityResponse> charityResponses = new ArrayList<>();
-        for (Charity charity : user.getCharities()) {
+        for (Charity charity : friend.getCharities()) {
             CharityResponse charityResponse = new CharityResponse(
                     charity.getId(),
                     charity.getName(),
@@ -153,7 +156,7 @@ public class UserProfileService {
         friendProfileResponse.setCharityResponses(charityResponses);
 
         List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : user.getWishes()) {
+        for (Wish wish : friend.getWishes()) {
             if (wish.getIsBlock().equals(false)) {
                 HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
                         wish.getId(),
