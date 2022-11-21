@@ -21,6 +21,6 @@ public class Gift {
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private User user;
 
-    @OneToOne(cascade = {CascadeType.REFRESH,CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,},mappedBy = "gift")
+    @OneToOne(cascade = {CascadeType.REFRESH,CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private Wish wish;
 }

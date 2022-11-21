@@ -150,9 +150,7 @@ public class WishService {
             wish.setUser(null);
             wish.setHoliday(null);
             wishRepository.deleteById(id);
-            return new SimpleResponse(
-                    "Удалено",
-                    "Желание с таким id " + id + " удачно удалено");
+            return new SimpleResponse("Удалено", "Желание с таким id " + id + " удачно удалено");
         }
         return new SimpleResponse("Желание не ваше!", "BadCredentialsException");
     }
@@ -163,7 +161,7 @@ public class WishService {
     }
 
     public List<WishResponse> findAll() {
-        return convertAllToResponse(wishRepository.findAll());
+        return convertAllToResponse(wishRepository.getAllWishes());
     }
 
     public InnerWishResponse mapToInnerResponse(Wish wish) {
@@ -177,11 +175,10 @@ public class WishService {
         return innerWishResponse;
     }
 
-    public Wish convertToUpdate(Wish wish, WishRequest wishRequest) {
+    public void convertToUpdate(Wish wish, WishRequest wishRequest) {
         wish.setWishName(wishRequest.getWishName());
         wish.setImage(wishRequest.getImage());
         wish.setLinkToGift(wishRequest.getLinkToGift());
-        return wish;
     }
 
     public List<WishResponse> convertAllToResponse(List<Wish> wishes) {
