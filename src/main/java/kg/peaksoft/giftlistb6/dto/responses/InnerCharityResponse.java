@@ -21,7 +21,7 @@ public class InnerCharityResponse {
     private LocalDate addedTime;
     private Status status;
     private UserCharityResponse userCharityResponse;
-    private ReservoirResponse response;
+    private ReservoirResponse reservoirResponse;
 
     public InnerCharityResponse(Long id, String image, String name, String description, String category, String subCategory, String condition, LocalDate addedTime, Status status) {
         this.id = id;
