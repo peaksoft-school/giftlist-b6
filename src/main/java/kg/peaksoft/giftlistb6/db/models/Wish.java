@@ -17,7 +17,6 @@ import static javax.persistence.CascadeType.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@ToString
 public class Wish {
 
     @Id
@@ -46,9 +45,6 @@ public class Wish {
 
     @Column(name = "is_block")
     private Boolean isBlock;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    private Gift gift;
 
     @OneToOne
     private User reservoir;
