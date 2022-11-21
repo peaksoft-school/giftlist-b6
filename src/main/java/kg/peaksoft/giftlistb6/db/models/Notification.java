@@ -17,8 +17,8 @@ import java.util.List;
 public class Notification {
 
     @Id
-    @SequenceGenerator(name = "notification_seq", sequenceName = "notification_seq", allocationSize = 1)
-    @GeneratedValue(generator = "notification_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "notification_gen", sequenceName = "notification_seq", allocationSize = 1)
+    @GeneratedValue(generator = "notification_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "created_date")

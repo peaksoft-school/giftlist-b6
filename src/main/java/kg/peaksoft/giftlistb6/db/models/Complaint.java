@@ -18,8 +18,8 @@ import static javax.persistence.CascadeType.*;
 public class Complaint {
 
     @Id
-    @SequenceGenerator(name = "complaint_seq", sequenceName = "complaint_seq", allocationSize = 1, initialValue = 12)
-    @GeneratedValue(generator = "complaint_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "complaint_gen", sequenceName = "complaint_seq", allocationSize = 1, initialValue = 12)
+    @GeneratedValue(generator = "complaint_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne(cascade = {REFRESH, PERSIST, MERGE, DETACH})

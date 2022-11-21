@@ -20,8 +20,8 @@ import static javax.persistence.CascadeType.*;
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
-    @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "wish_gen", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
+    @GeneratedValue(generator = "wish_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "wish_name")
