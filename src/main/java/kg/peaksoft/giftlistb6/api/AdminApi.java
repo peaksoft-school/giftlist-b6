@@ -3,6 +3,7 @@ package kg.peaksoft.giftlistb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.AdminService;
+import kg.peaksoft.giftlistb6.db.services.CharityService;
 import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
 import kg.peaksoft.giftlistb6.dto.responses.CharityResponses;
 import kg.peaksoft.giftlistb6.dto.responses.InnerCharityResponse;
@@ -22,6 +23,7 @@ import java.util.List;
 public class AdminApi {
 
     private final AdminService adminService;
+    private final CharityService charityService;
 
     @Operation(summary = "Get all users", description = "Admin can see all users.")
     @GetMapping("/users")
@@ -44,12 +46,12 @@ public class AdminApi {
     @Operation(summary = "Get charity", description = "Get charity by id")
     @GetMapping("{id}")
     public InnerCharityResponse getCharityWithId(@PathVariable Long id) {
-        return adminService.getCharityById(id);
+        return charityService.getCharityByIdWithAdmin(id);
     }
 
     @Operation(summary = "All charities", description = "Admin can see all charities")
-    @GetMapping
+    @GetMapping("/charities")
     public CharityResponses getAllCharities() {
-        return adminService.getAllCharityResponse();
+        return charityService.getAllCharityResponseByAdmin();
     }
 }

@@ -22,7 +22,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.SearchUserResponse(" +
             "u.id," +
-            "u.photo," +
+            "u.image," +
             "concat(u.firstName,' ',u.lastName)) from User u where" +
             " upper(u.firstName) like concat(:text,'%') or " +
             "upper(u.lastName) like concat(:text,'%')")

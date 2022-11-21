@@ -172,7 +172,7 @@ public class CharityService {
     public SearchCharityResponse viewMapper(Charity charity) {
         SearchCharityResponse searchCharityResponse = new SearchCharityResponse();
         searchCharityResponse.setCharityId(charity.getId());
-        searchCharityResponse.setSaveUserResponse(new SearchUserResponse(charity.getUser().getId(), charity.getUser().getPhoto(),
+        searchCharityResponse.setSaveUserResponse(new SearchUserResponse(charity.getUser().getId(), charity.getUser().getImage(),
                 charity.getUser().getFirstName() + " " + charity.getUser().getLastName()));
         searchCharityResponse.setCharityImage(charity.getImage());
         searchCharityResponse.setCharityName(charity.getName());
@@ -180,7 +180,7 @@ public class CharityService {
         if (charity.getReservoir() == null) {
             searchCharityResponse.setReservoirUser(new UserFeedResponse(null, null));
         } else {
-            searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getPhoto()));
+            searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getImage()));
     }
         return searchCharityResponse;
     }
@@ -191,5 +191,45 @@ public class CharityService {
             responseList.add(viewMapper(charity));
         }
         return responseList;
+    }
+
+    @Transactional
+    public InnerCharityResponse getCharityByIdWithAdmin(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(
+                ()->new NotFoundException("Не найден!")
+        );
+
+        InnerCharityResponse response = new InnerCharityResponse(charity.getId(),charity.getImage(),charity.getName(),
+                charity.getDescription(),charity.getCategory().getName(),charity.getSubCategory().getName(),
+                charity.getCondition(),charity.getCreatedAt(),charity.getCharityStatus());
+
+        ReservoirResponse reservoirResponse = new ReservoirResponse(charity);
+
+        UserCharityResponse userCharityResponse = new UserCharityResponse(charity.getUser().getId(),charity.getUser().getFirstName(),
+                charity.getUser().getLastName(), charity.getUser().getImage());
+
+        response.setUserCharityResponse(userCharityResponse);
+        if (charity.getReservoir()==null){
+            response.setReservoirResponse(new ReservoirResponse());
+        }
+        response.setReservoirResponse(reservoirResponse);
+        return response;
+    }
+
+    @Transactional
+    public CharityResponses getAllCharityResponseByAdmin() {
+        CharityResponses charityResponse = new CharityResponses();
+        List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllCharities();
+        for (Charity c : charityRepository.findAll()) {
+            for (OtherCharityResponse o : otherCharityResponses) {
+                if (o.getReservoir() == null) {
+                    o.setReservoir(new ReservoirResponse());
+                }
+                ReservoirResponse reservoirResponse1 = new ReservoirResponse(o.getReservoir().getId(), o.getReservoir().getImage());
+                o.setReservoir(reservoirResponse1);
+            }
+            charityResponse.setOtherCharityResponses(otherCharityResponses);
+        }
+        return charityResponse;
     }
 }
