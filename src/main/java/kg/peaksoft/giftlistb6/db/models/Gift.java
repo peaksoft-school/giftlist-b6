@@ -14,13 +14,13 @@ import javax.persistence.*;
 public class Gift {
 
     @Id
-    @SequenceGenerator(name = "gift_seq", sequenceName = "gift_seq", allocationSize = 1, initialValue = 15)
-    @GeneratedValue(generator = "gift_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "gift_gen", sequenceName = "gift_seq", allocationSize = 1, initialValue = 15)
+    @GeneratedValue(generator = "gift_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     private User user;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.REFRESH,CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,},mappedBy = "gift")
     private Wish wish;
 }

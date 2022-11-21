@@ -15,8 +15,8 @@ import java.time.LocalDate;
 public class UserInfo {
 
     @Id
-    @SequenceGenerator(name = "userInfo_seq", sequenceName = "userInfo_seq", allocationSize = 1, initialValue = 10)
-    @GeneratedValue(generator = "userInfo_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "userInfo_gen", sequenceName = "userInfo_seq", allocationSize = 1, initialValue = 10)
+    @GeneratedValue(generator = "userInfo_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String photo;

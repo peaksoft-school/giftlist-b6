@@ -7,6 +7,8 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "wishes")
 @Getter
@@ -18,8 +20,8 @@ import java.util.List;
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
-    @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "wish_gen", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
+    @GeneratedValue(generator = "wish_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "wish_name")
@@ -50,13 +52,12 @@ public class Wish {
     @OneToOne
     private User reservoir;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wish")
+    @OneToMany(cascade = ALL, mappedBy = "wish")
     private List<Complaint> complaints;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
     private User user;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
     private Holiday holiday;
-
 }

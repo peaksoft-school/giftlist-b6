@@ -15,8 +15,8 @@ import java.util.List;
 public class Category {
 
     @Id
-    @SequenceGenerator(name = "category_seq", sequenceName = "category_seq", allocationSize = 1, initialValue = 17)
-    @GeneratedValue(generator = "category_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "category_gen", sequenceName = "category_seq", allocationSize = 1, initialValue = 17)
+    @GeneratedValue(generator = "category_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     private String name;
