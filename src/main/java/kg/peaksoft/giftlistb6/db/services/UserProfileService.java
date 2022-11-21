@@ -99,7 +99,7 @@ public class UserProfileService {
         myProfileResponse.setId(user.getId());
         myProfileResponse.setFirstName(user.getFirstName());
         myProfileResponse.setLastName(user.getLastName());
-        myProfileResponse.setPhoto(user.getPhoto());
+        myProfileResponse.setPhoto(user.getImage());
         myProfileResponse.setEmail(user.getEmail());
         return myProfileResponse;
     }
@@ -121,7 +121,7 @@ public class UserProfileService {
         }
         friendProfileResponse.setFirstName(friend.getFirstName());
         friendProfileResponse.setLastName(friend.getLastName());
-        friendProfileResponse.setPhoto(friend.getPhoto());
+        friendProfileResponse.setPhoto(friend.getImage());
         friendProfileResponse.setPhoneNumber(friend.getUserInfo().getPhoneNumber());
         friendProfileResponse.setCountry(friend.getUserInfo().getCountry());
         friendProfileResponse.setClothingSize(friend.getUserInfo().getClothingSize());
@@ -149,7 +149,7 @@ public class UserProfileService {
                     charity.getDescription(),
                     charity.getCondition(),
                     charity.getImage(),
-                    charity.getCreatedDate());
+                    charity.getCreatedAt());
             charityResponses.add(charityResponse);
         }
         friendProfileResponse.setHolidayResponses(holidayResponses);

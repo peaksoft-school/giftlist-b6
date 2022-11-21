@@ -106,7 +106,7 @@ public class ComplaintsService {
         ComplaintResponseForAdmin complaintResponseForAdmin = new ComplaintResponseForAdmin();
         complaintResponseForAdmin.setId(complaint.getId());
         complaintResponseForAdmin.setUserId(complaint.getWish().getUser().getId());
-        complaintResponseForAdmin.setUserPhoto(complaint.getWish().getUser().getPhoto());
+        complaintResponseForAdmin.setUserPhoto(complaint.getWish().getUser().getImage());
         complaintResponseForAdmin.setUserPhoneNumber(complaint.getWish().getUser().getUserInfo().getPhoneNumber());
         complaintResponseForAdmin.setFirstName(complaint.getWish().getUser().getFirstName());
         complaintResponseForAdmin.setLastName(complaint.getWish().getUser().getLastName());
@@ -115,7 +115,7 @@ public class ComplaintsService {
         complaintResponseForAdmin.setWishPhoto(complaint.getWish().getImage());
         complaintResponseForAdmin.setCreatedAt(complaint.getCreatedAt());
         complaintResponseForAdmin.setComplainerId(complaint.getComplainer().getId());
-        complaintResponseForAdmin.setComplainerPhoto(complaint.getComplainer().getPhoto());
+        complaintResponseForAdmin.setComplainerPhoto(complaint.getComplainer().getImage());
         complaintResponseForAdmin.setReason(complaint.getReasonText());
         return complaintResponseForAdmin;
     }

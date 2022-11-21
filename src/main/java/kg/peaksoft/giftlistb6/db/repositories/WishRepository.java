@@ -4,6 +4,7 @@ import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.dto.responses.BookResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -24,4 +25,8 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
 
     @Query("select w from Wish w where w.user.isBlock = false and w.id = :id")
     Optional<Wish> findWishById(Long id);
+
+    @Modifying
+    @Query("delete from Wish w where w.id = :id")
+    void deleteById(Long id);
 }

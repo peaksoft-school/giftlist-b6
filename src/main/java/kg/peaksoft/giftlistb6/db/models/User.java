@@ -10,6 +10,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -38,18 +40,18 @@ public class User implements UserDetails {
     @Column(name = "is_block")
     private Boolean isBlock;
 
-    private String photo;
+    private String image;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Wish> wishes;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Gift> gifts;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Charity> charities;
 
     @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
@@ -58,10 +60,10 @@ public class User implements UserDetails {
     @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
     private List<User> requests;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Holiday> holidays;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Notification> notifications;
 
     @OneToOne

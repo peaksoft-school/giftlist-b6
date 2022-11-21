@@ -29,7 +29,7 @@ public class FeedService {
     public FeedResponse mapToAllResponse(Wish wish) {
         FeedResponse feedResponse = new FeedResponse();
         feedResponse.setWishId(wish.getId());
-        feedResponse.setUserSearchResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getPhoto(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
+        feedResponse.setUserSearchResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getImage(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
         feedResponse.setWishName(wish.getWishName());
         feedResponse.setImage(wish.getImage());
         feedResponse.setStatus(wish.getWishStatus());
@@ -37,7 +37,7 @@ public class FeedService {
         if (wish.getReservoir() == null) {
             feedResponse.setUserFeedResponse(new UserFeedResponse(null, null));
         } else {
-            feedResponse.setUserFeedResponse(new UserFeedResponse(wish.getReservoir().getId(), wish.getReservoir().getPhoto()));
+            feedResponse.setUserFeedResponse(new UserFeedResponse(wish.getReservoir().getId(), wish.getReservoir().getImage()));
         }
         return feedResponse;
     }
@@ -69,7 +69,7 @@ public class FeedService {
     public InnerFeedResponse mapToIdResponse(Wish wish) {
         InnerFeedResponse innerFeedResponse = new InnerFeedResponse();
         innerFeedResponse.setWishId(wish.getId());
-        innerFeedResponse.setSearchUserResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getPhoto(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
+        innerFeedResponse.setSearchUserResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getImage(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
         innerFeedResponse.setHolidayResponse(new HolidayResponse(wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerFeedResponse.setWishName(wish.getWishName());
         innerFeedResponse.setStatus(wish.getWishStatus());

@@ -1,6 +1,7 @@
 package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.User;
+import kg.peaksoft.giftlistb6.db.repositories.CharityRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
@@ -20,6 +21,7 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final CharityRepository charityRepository;
 
     public List<AdminResponse> getAllUsers() {
         List<User> users = userRepository.getAll();

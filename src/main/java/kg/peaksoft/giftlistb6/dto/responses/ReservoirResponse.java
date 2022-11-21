@@ -19,7 +19,7 @@ public class ReservoirResponse {
     public ReservoirResponse(Charity charity) {
         if (charity.getReservoir() != null) {
             this.id = charity.getReservoir().getId();
-            this.image = charity.getReservoir().getPhoto();
+            this.image = charity.getReservoir().getImage();
         }
         charity.setReservoir(new User("name"));
     }
