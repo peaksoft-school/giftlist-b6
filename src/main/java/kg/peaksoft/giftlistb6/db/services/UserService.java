@@ -167,7 +167,7 @@ public class UserService {
         adminUserGetAllResponse.setGiftCount(user.getGifts().size());
         adminUserGetAllResponse.setFirstName(user.getFirstName());
         adminUserGetAllResponse.setLastName(user.getLastName());
-        adminUserGetAllResponse.setPhoto(user.getPhoto());
+        adminUserGetAllResponse.setPhoto(user.getImage());
         adminUserGetAllResponse.setIsBlock(user.getIsBlock());
         return adminUserGetAllResponse;
     }

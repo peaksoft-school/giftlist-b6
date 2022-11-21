@@ -32,14 +32,28 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "ch.image," +
             "ch.name," +
             "ch.condition," +
-            "ch.createdDate," +
+            "ch.createdAt," +
             "ch.charityStatus," +
             "ch.user.id," +
             "ch.user.firstName," +
             "ch.user.lastName," +
-            "ch.user.photo )"+
+            "ch.user.image )"+
             "from User u join u.charities ch where u.email <> ?1")
     List<OtherCharityResponse> getAllOther(String email);
+
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse("+
+            "ch.id," +
+            "ch.image," +
+            "ch.name," +
+            "ch.condition," +
+            "ch.createdAt," +
+            "ch.charityStatus," +
+            "ch.user.id," +
+            "ch.user.firstName," +
+            "ch.user.lastName," +
+            "ch.user.image )"+
+            "from User u join u.charities ch")
+    List<OtherCharityResponse> getAllCharities();
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.InnerPageCharityResponse(" +
             "c.id," +
@@ -49,10 +63,10 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "c.category.name," +
             "c.subCategory.name," +
             "c.condition," +
-            "c.createdDate," +
+            "c.createdAt," +
             "c.charityStatus," +
             "c.user.id," +
-            "c.user.photo," +
+            "c.user.image," +
             "c.user.firstName," +
             "c.user.lastName)" +
             "from Charity c where c.id = ?1")
