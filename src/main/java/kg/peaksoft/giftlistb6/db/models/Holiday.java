@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,7 @@ public class Holiday {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "holiday")
+    @JsonIgnore
     private List<Wish> wishes;
 
     public void addWish(Wish wish){

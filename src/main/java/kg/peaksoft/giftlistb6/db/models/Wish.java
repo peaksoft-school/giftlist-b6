@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.*;
 
@@ -59,5 +60,6 @@ public class Wish {
     private User user;
 
     @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST}, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Holiday holiday;
 }
