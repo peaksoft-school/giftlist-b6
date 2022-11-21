@@ -13,7 +13,7 @@ public interface FriendRepository extends JpaRepository<User,Long> {
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse( " +
             "f.id," +
-            "f.photo," +
+            "f.image," +
             "concat(f.firstName,' ',f.lastName)," +
             "f.holidays.size" +
             ",f.wishes.size) from User u join u.friends f where u.email =?1")
@@ -21,7 +21,7 @@ public interface FriendRepository extends JpaRepository<User,Long> {
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse( " +
             "f.id," +
-            "f.photo," +
+            "f.image," +
             "concat(f.firstName,' ',f.lastName)," +
             "f.holidays.size" +
             ",f.wishes.size) from User u join u.requests f where u.email =?1")
