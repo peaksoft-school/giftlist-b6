@@ -161,7 +161,8 @@ public class WishService {
     }
 
     public List<WishResponse> findAll() {
-        return convertAllToResponse(wishRepository.getAllWishes());
+        User user = getAuthPrincipal();
+        return wishRepository.getAllWish(user.getEmail());
     }
 
     public InnerWishResponse mapToInnerResponse(Wish wish) {
