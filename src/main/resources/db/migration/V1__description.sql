@@ -1,14 +1,14 @@
-CREATE SEQUENCE if not exists userInfo_seq;
-CREATE SEQUENCE if not exists user_seq;
-CREATE SEQUENCE if not exists category_seq;
-CREATE SEQUENCE if not exists charity_seq;
-CREATE SEQUENCE if not exists complaint_seq;
-CREATE SEQUENCE if not exists gift_seq;
-CREATE SEQUENCE if not exists holiday_seq;
-CREATE SEQUENCE if not exists mailingList_seq;
-CREATE SEQUENCE if not exists notification_seq;
-CREATE SEQUENCE if not exists subCategory_seq;
-CREATE SEQUENCE if not exists wish_seq;
+CREATE SEQUENCE if not exists userInfo_seq minvalue 10;
+CREATE SEQUENCE if not exists user_seq  minvalue 10;
+CREATE SEQUENCE if not exists category_seq minvalue 10;
+CREATE SEQUENCE if not exists charity_seq minvalue 10;
+CREATE SEQUENCE if not exists complaint_seq minvalue 10;
+CREATE SEQUENCE if not exists gift_seq minvalue 10;
+CREATE SEQUENCE if not exists holiday_seq minvalue 10;
+CREATE SEQUENCE if not exists mailingList_seq minvalue 10;
+CREATE SEQUENCE if not exists notification_seq minvalue 10;
+CREATE SEQUENCE if not exists subCategory_seq minvalue 10;
+CREATE SEQUENCE if not exists wish_seq minvalue 10;
 
 
 create table user_info
