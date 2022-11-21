@@ -59,7 +59,7 @@ public class Wish {
     @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
     private User user;
 
-    @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST}, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Holiday.class, cascade = {DETACH, MERGE, PERSIST}, fetch = FetchType.EAGER)
     @JsonIgnore
     private Holiday holiday;
 }
