@@ -103,6 +103,7 @@ public class WishService {
         return response;
     }
 
+    @Transactional
     public WishResponse update(Long id, WishRequest wishRequest) {
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId()).orElseThrow(() -> new NotFoundException("Не найден!"));
         if (holiday.getDateOfHoliday().equals(wishRequest.getDateOfHoliday())) {
