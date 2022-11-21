@@ -41,7 +41,7 @@ public class NotificationService {
                         n.getFromUser().getId(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(),
+                        n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.ADD_WISH,
                         "Добавил желаемый подарок"));
@@ -51,7 +51,7 @@ public class NotificationService {
                         n.getFromUser().getId(),
                         n.getFromUser().getFirstName() ,
                         n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(),
+                        n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.REQUEST_TO_FRIEND,
                         "Отправил запрос в друзья"));
@@ -61,7 +61,7 @@ public class NotificationService {
                         n.getFromUser().getId(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(),
+                        n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.BOOKED_WISH,
                         n.getWish().getWishName() + " было забронировано " + n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName()));
@@ -102,7 +102,7 @@ public class NotificationService {
                         n.getFromUser().getId(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
-                        n.getFromUser().getPhoto(),
+                        n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.CREATE_COMPLAINTS,
                         n.getFromUser().getFirstName()+n.getFromUser().getFirstName()+" пожаловался на "+

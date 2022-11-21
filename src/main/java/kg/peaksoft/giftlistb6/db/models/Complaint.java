@@ -8,6 +8,8 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.LocalDate;
 
+import static javax.persistence.CascadeType.*;
+
 @Entity
 @Table(name = "complaints")
 @Getter
@@ -20,7 +22,7 @@ public class Complaint {
     @GeneratedValue(generator = "complaint_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
+    @ManyToOne(cascade = {REFRESH, PERSIST, MERGE, DETACH})
     private Wish wish;
 
     @ManyToOne(cascade = CascadeType.ALL)

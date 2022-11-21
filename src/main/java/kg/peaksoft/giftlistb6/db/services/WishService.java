@@ -20,6 +20,7 @@ import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +32,11 @@ public class WishService {
 
     private final UserRepository userRepository;
 
+    private final ComplaintRepository complaintRepository;
+
     private final NotificationRepository notificationRepository;
+
+    private final CharityRepository charityRepository;
 
     private final GiftRepository giftRepository;
 
@@ -78,7 +83,7 @@ public class WishService {
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId())
                 .orElseThrow(() -> new NotFoundException("Не найден"));
         if (!wishRequest.getDateOfHoliday().equals(holiday.getDateOfHoliday())) {
-            throw new BadRequestException("Неверная дата");
+            throw new BadRequestException("Неверная дата праздника");
         }
         wish.setDateOfHoliday(holiday.getDateOfHoliday());
         wish.setImage(wishRequest.getImage());
@@ -98,32 +103,58 @@ public class WishService {
         return response;
     }
 
+    @Transactional
     public WishResponse update(Long id, WishRequest wishRequest) {
-        Wish wish = getById(id);
-        convertToUpdate(wish, wishRequest);
-        wishRepository.save(wish);
-        return mapToResponse(wish);
+        Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId()).orElseThrow(() -> new NotFoundException("Не найден!"));
+        if (holiday.getDateOfHoliday().equals(wishRequest.getDateOfHoliday())) {
+            Wish wish = getById(id);
+            convertToUpdate(wish, wishRequest);
+            wishRepository.save(wish);
+            return mapToResponse(wish);
+        } else {
+            throw new BadRequestException("Не правильная дата праздника");
+        }
     }
 
+    @Transactional
     public SimpleResponse deleteWishById(Long id) {
+        User user = getAuthPrincipal();
         Wish wish = wishRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!",id)));
-        List<Notification> notifications = notificationRepository.findAll();
-        for (Notification n : notifications) {
-            if (n.getWish() != null && n.getWish().equals(wish)) {
-                notificationRepository.deleteById(n.getId());
+                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!", id)));
+        if (Objects.equals(wish.getUser(), user)) {
+            List<Notification> notifications = notificationRepository.findAll();
+            for (Notification n : notifications) {
+                if (n.getWish() != null && n.getWish().equals(wish)) {
+                    notificationRepository.deleteById(n.getId());
+                }
             }
-        }
-        List<Gift> gifts = giftRepository.findAll();
-        for (Gift g : gifts) {
-            if (g.getWish().equals(wish)) {
-                giftRepository.deleteById(g.getId());
+            List<Gift> gifts = giftRepository.findAll();
+            for (Gift g : gifts) {
+                if (g.getWish().equals(wish)) {
+                    giftRepository.deleteById(g.getId());
+                }
             }
+            for (Charity ch : charityRepository.findAll()) {
+                if (ch.getUser().getWishes().contains(wish)) {
+                    ch.setReservoir(null);
+                    user.getWishes().remove(wish);
+                }
+            }
+            for (Complaint c : complaintRepository.findAll()) {
+                if (wish.getComplaints().contains(c)) {
+                    wish.setComplaints(null);
+                    complaintRepository.delete(c);
+                }
+            }
+            wish.setReservoir(null);
+            wish.setUser(null);
+            wish.setHoliday(null);
+            wishRepository.deleteById(id);
+            return new SimpleResponse(
+                    "Удалено",
+                    "Желание с таким id " + id + " удачно удалено");
         }
-        wishRepository.deleteById(id);
-        return new SimpleResponse(
-                "Удалено",
-                "Желание с таким id " + id + "удачно удалено");
+        return new SimpleResponse("Желание не ваше!", "BadCredentialsException");
     }
 
     public InnerWishResponse findById(Long id) {
