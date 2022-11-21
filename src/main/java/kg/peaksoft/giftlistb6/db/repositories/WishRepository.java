@@ -33,13 +33,4 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
     @Modifying
     @Query("delete from Wish w where w.id = :id")
     void deleteById(Long id);
-
-//    @Query("select new kg.peaksoft.giftlistb6.dto.responses.WishResponse (" +
-//            "w.id," +
-//            "w.wishName," +
-//            "w.image," +
-//            "w.wishStatus) from Wish w where w.user.email = ?1")
-//    List<Wish> getAll(String email);
-
-
 }
