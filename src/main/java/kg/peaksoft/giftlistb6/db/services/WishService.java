@@ -161,7 +161,7 @@ public class WishService {
     }
 
     public List<WishResponse> findAll() {
-        return convertAllToResponse(wishRepository.getAllWishes());
+        return convertAllToResponse(wishRepository.findAll());
     }
 
     public InnerWishResponse mapToInnerResponse(Wish wish) {
