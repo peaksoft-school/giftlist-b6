@@ -58,6 +58,6 @@ public class Wish {
     @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
     private User user;
 
-    @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
+    @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST}, fetch = FetchType.EAGER)
     private Holiday holiday;
 }
