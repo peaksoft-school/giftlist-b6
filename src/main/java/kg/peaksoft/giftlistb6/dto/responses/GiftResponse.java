@@ -22,12 +22,12 @@ public class GiftResponse {
     private String image;
     private ReservedUserResponse reservedUserResponse;
 
-    public GiftResponse(Gift gift){
-        this.id=  gift.getId();
-        this.name=gift.getWish().getWishName();
+    public GiftResponse(Gift gift) {
+        this.id = gift.getId();
+        this.name = gift.getWish().getWishName();
         this.status = gift.getWish().getWishStatus();
         this.image = gift.getWish().getImage();
-        this.reservedUserResponse = new ReservedUserResponse(gift.getUser().getId(),gift.getUser().getFirstName()+" "+gift.getUser().getLastName(),gift.getUser().getImage());
+        this.reservedUserResponse = new ReservedUserResponse(gift.getUser().getId(),
+                gift.getUser().getFirstName() + " " + gift.getUser().getLastName(), gift.getUser().getImage());
     }
-
 }
