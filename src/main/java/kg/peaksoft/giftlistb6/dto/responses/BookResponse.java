@@ -17,9 +17,8 @@ public class BookResponse {
 
     private Long id;
     private String wishName;
-    private String linkToGift;
+    private String holidayName;
     private LocalDate dateOfHoliday;
-    private String description;
     private String image;
     private Status wishStatus;
     private ReservedUserResponse reservedUserResponse;
@@ -28,14 +27,13 @@ public class BookResponse {
     public BookResponse(Wish wish) {
         this.id = wish.getId();
         this.wishName = wish.getWishName();
-        this.linkToGift = wish.getLinkToGift();
+        this.holidayName = wish.getHoliday().getName();
         this.dateOfHoliday = wish.getDateOfHoliday();
-        this.description = wish.getDescription();
         this.image = wish.getImage();
         this.wishStatus = Status.RESERVED;
         if (wish.getReservoir() != null) {
             this.reservedUserResponse = new ReservedUserResponse(wish.getReservoir().getId(),
-                    wish.getReservoir().getFirstName() + "" + wish.getReservoir().getLastName(),
+                    wish.getReservoir().getFirstName() + " " + wish.getReservoir().getLastName(),
                     wish.getImage());
         } else {
             this.reservedUserResponse = null;
