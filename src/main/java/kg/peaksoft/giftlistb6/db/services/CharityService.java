@@ -54,7 +54,7 @@ public class CharityService {
         UserCharityResponse userCharityResponse = new UserCharityResponse(
                 charity.getUser().getId(),
                 charity.getUser().getFirstName(), charity.getUser().getLastName(),
-                charity.getUser().getPhoto());
+                charity.getUser().getImage());
         if (charity.getReservoir() == null) {
             charity.setReservoir(null);
         }
@@ -123,8 +123,8 @@ public class CharityService {
         log.info("Charity with id: {} successfully updated", id);
         return new InnerPageCharityResponse(charity1.getId(), charity1.getImage(), charity1.getName(),
                 charity1.getDescription(), charity1.getCategory().getName(), charity1.getSubCategory().getName(),
-                charity1.getCondition(), charity1.getCreatedDate(), charity1.getCharityStatus(), charity1.getUser().getId(),
-                charity1.getUser().getPhoto(), charity1.getUser().getFirstName(), charity1.getUser().getLastName());
+                charity1.getCondition(), charity1.getCreatedAt(), charity1.getCharityStatus(), charity1.getUser().getId(),
+                charity1.getUser().getImage(), charity1.getUser().getFirstName(), charity1.getUser().getLastName());
     }
 
     public SimpleResponse deleteCharityById(Long id) {
