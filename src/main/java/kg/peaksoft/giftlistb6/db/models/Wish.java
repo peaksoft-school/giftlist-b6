@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.db.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.*;
 
@@ -16,12 +17,11 @@ import static javax.persistence.CascadeType.*;
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
-@ToString
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_seq", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
-    @GeneratedValue(generator = "wish_seq", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "wish_gen", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
+    @GeneratedValue(generator = "wish_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @Column(name = "wish_name")
@@ -46,9 +46,6 @@ public class Wish {
     @Column(name = "is_block")
     private Boolean isBlock;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Gift gift;
-
     @OneToOne
     private User reservoir;
 
@@ -58,6 +55,7 @@ public class Wish {
     @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
     private User user;
 
-    @ManyToOne(cascade = {REFRESH, DETACH, MERGE, PERSIST})
+    @ManyToOne(targetEntity = Holiday.class, cascade = {DETACH, MERGE, PERSIST}, fetch = FetchType.EAGER)
+    @JsonIgnore
     private Holiday holiday;
 }

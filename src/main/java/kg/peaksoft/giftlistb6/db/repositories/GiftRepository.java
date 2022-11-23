@@ -13,12 +13,6 @@ public interface GiftRepository extends JpaRepository<Gift, Long> {
 
     void deleteByWishId(Long id);
 
-    @Query("select new kg.peaksoft.giftlistb6.dto.responses.GiftResponse(" +
-            "g.id," +
-            "concat( g.wish.reservoir.firstName,' ',g.wish.reservoir.lastName)," +
-            "g.wish.wishStatus," +
-            "g.wish.dateOfHoliday," +
-            "g.wish.image," +
-            "g.wish.wishName) from Gift g join g.wish w join g.user u where u.email =?1 ")
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.GiftResponse(g) from Gift g join g.wish w join g.user u where u.email =?1 ")
     List<GiftResponse> getAllGifts(String email);
 }

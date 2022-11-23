@@ -3,6 +3,7 @@ package kg.peaksoft.giftlistb6.db.repositories;
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.dto.responses.BookResponse;
+import kg.peaksoft.giftlistb6.dto.responses.WishResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +17,9 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.BookResponse(w) from Wish w where w.user.email = ?1")
     List<BookResponse> getALlReservoirWishes(String email);
+
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.WishResponse (w) from Wish w where w.user.email=?1")
+    List<WishResponse> getAllWish(String email);
 
     @Query("select w from Wish w where w.user.isBlock = false")
     List<Wish> getAllWishes();
