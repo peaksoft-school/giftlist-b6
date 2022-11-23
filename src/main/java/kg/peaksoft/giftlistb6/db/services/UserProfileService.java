@@ -8,6 +8,7 @@ import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserProfileService {
 
     private final UserProfileRepository repository;
@@ -32,6 +34,7 @@ public class UserProfileService {
 
     public ProfileResponse saveProfile(ProfileRequest request) {
         UserInfo userInfo = convertToEntity(request);
+        log.info("User info saved in database");
         return convertToResponse(userInfo);
     }
 
@@ -50,6 +53,7 @@ public class UserProfileService {
     public ProfileResponse saveUpdateUser(ProfileRequest request) {
         User user = getAuthPrincipal();
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
+        log.info("User with id: {} successfully updated",user.getId());
         return convertToResponse(repository.save(userInfo1));
     }
 

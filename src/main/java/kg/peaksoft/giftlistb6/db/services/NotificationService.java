@@ -9,6 +9,7 @@ import kg.peaksoft.giftlistb6.dto.responses.NotificationResponse;
 import kg.peaksoft.giftlistb6.enums.NotificationType;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NotificationService {
 
     private final UserRepository userRepository;
@@ -78,6 +80,7 @@ public class NotificationService {
             }
         }
         allNotifications.setResponseList(responses);
+        log.info("User viewed all notifications");
         return allNotifications;
     }
 
@@ -89,6 +92,7 @@ public class NotificationService {
             notificationRepository.deleteById(n.getId());
             }
         }
+        log.info("Mark as read all notifications");
         return null;
     }
 
@@ -109,6 +113,7 @@ public class NotificationService {
                                 n.getWish().getWishName()));
             }
         } response.setResponseList(notificationResponses);
+        log.info("Admin has seen all notifications");
         return response;
     }
 }

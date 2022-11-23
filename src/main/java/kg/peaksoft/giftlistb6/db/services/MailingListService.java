@@ -7,6 +7,7 @@ import kg.peaksoft.giftlistb6.dto.responses.AllMailingListResponse;
 import kg.peaksoft.giftlistb6.dto.responses.MailingListResponse;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MailingListService {
 
     private final MailingListRepository mailingListRepository;
@@ -22,6 +24,7 @@ public class MailingListService {
     public AllMailingListResponse saveMailingList(MailingListRequest request) {
         MailingList mailingList = convertToEntity(request);
         mailingListRepository.save(mailingList);
+        log.info("Mailing list saved in database ");
         return convertToResponse(mailingList);
     }
 
@@ -55,7 +58,10 @@ public class MailingListService {
 
     public MailingListResponse getId(Long id) {
          return mailingListRepository.findMailingById(id).orElseThrow(
-                ()-> new NotFoundException(String.format("Рассылка с id: %s не найдена!", id))
+                ()-> {
+                    log.error("Mailing list with id:{} not found!",id);
+                    throw new NotFoundException(String.format("Рассылка с id: %s не найдена!", id));
+                }
         );
     }
 

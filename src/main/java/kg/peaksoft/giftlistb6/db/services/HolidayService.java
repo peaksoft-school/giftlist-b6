@@ -10,6 +10,7 @@ import kg.peaksoft.giftlistb6.dto.requests.HolidayRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class HolidayService {
 
     private final HolidayRepository holidayRepository;
@@ -37,6 +39,7 @@ public class HolidayService {
 
     public HolidayResponses saveHoliday(HolidayRequest request) {
         Holiday holiday = convertToEntity(request);
+        log.info("Holiday with id: {} successfully saved in the database", holiday.getId());
         return convertToResponse(holidayRepository.save(holiday));
     }
 
@@ -55,7 +58,7 @@ public class HolidayService {
         holidayRepository.deleteByWishId(holiday.getId());
         holiday.setUser(null);
         holidayRepository.delete(holiday);
-
+        log.info("Holiday with id: {} successfully deleted", id);
         return new SimpleResponse(
                 "Удалено",
                 "Праздник с id: " + holiday.getId() + " успешно удалено "
@@ -66,6 +69,7 @@ public class HolidayService {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Праздник с таким  id: %s не найден!", id)));
         Holiday holiday1 = updateHoliday(holiday, request);
+        log.info("Holiday with id: {} successfully updated", id);
         return convertToResponse(holiday1);
     }
 
