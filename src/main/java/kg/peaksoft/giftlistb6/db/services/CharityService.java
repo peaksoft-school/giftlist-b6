@@ -48,7 +48,7 @@ public class CharityService {
         );
 
         InnerCharityResponse response = new InnerCharityResponse(charity.getId(), charity.getImage(), charity.getName(), charity.getDescription(),
-                charity.getCategory().getName(), charity.getSubCategory().getName(), charity.getCondition(), charity.getCreatedDate(),
+                charity.getCategory().getName(), charity.getSubCategory().getName(), charity.getCondition(), charity.getCreatedAt(),
                 charity.getCharityStatus());
 
         UserCharityResponse userCharityResponse = new UserCharityResponse(
@@ -186,7 +186,7 @@ public class CharityService {
     public SearchCharityResponse viewMapper(Charity charity) {
         SearchCharityResponse searchCharityResponse = new SearchCharityResponse();
         searchCharityResponse.setCharityId(charity.getId());
-        searchCharityResponse.setSaveUserResponse(new SearchUserResponse(charity.getUser().getId(), charity.getUser().getPhoto(),
+        searchCharityResponse.setSaveUserResponse(new SearchUserResponse(charity.getUser().getId(), charity.getUser().getImage(),
                 charity.getUser().getFirstName() + " " + charity.getUser().getLastName()));
         searchCharityResponse.setCharityImage(charity.getImage());
         searchCharityResponse.setCharityName(charity.getName());
@@ -194,7 +194,7 @@ public class CharityService {
         if (charity.getReservoir() == null) {
             searchCharityResponse.setReservoirUser(new UserFeedResponse(null, null));
         } else {
-            searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getPhoto()));
+            searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getImage()));
     }
         return searchCharityResponse;
     }
