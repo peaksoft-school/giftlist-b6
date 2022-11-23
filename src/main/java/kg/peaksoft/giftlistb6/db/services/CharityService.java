@@ -61,9 +61,9 @@ public class CharityService {
         ReservoirResponse reservoirResponse = new ReservoirResponse(charity);
         response.setUserCharityResponse(userCharityResponse);
         if (charity.getReservoir() == null) {
-            response.setResponse(new ReservoirResponse());
+            response.setReservoirResponse(new ReservoirResponse());
         }
-        response.setResponse(reservoirResponse);
+        response.setReservoirResponse(reservoirResponse);
         return response;
     }
 
