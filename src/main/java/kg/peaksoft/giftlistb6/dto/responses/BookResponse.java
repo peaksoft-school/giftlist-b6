@@ -30,13 +30,13 @@ public class BookResponse {
         this.holidayName = wish.getHoliday().getName();
         this.dateOfHoliday = wish.getDateOfHoliday();
         this.image = wish.getImage();
-        this.wishStatus = Status.RESERVED;
+        this.wishStatus = wish.getWishStatus();
         if (wish.getReservoir() != null) {
             this.reservedUserResponse = new ReservedUserResponse(wish.getReservoir().getId(),
                     wish.getReservoir().getFirstName() + " " + wish.getReservoir().getLastName(),
                     wish.getImage());
         } else {
-            this.reservedUserResponse = null;
+            this.reservedUserResponse = new ReservedUserResponse();
         }
     }
 }
