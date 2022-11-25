@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.jdbc.Sql;
@@ -24,10 +25,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
-
-//@DataJpaTest
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 class WishServiceTest {
@@ -106,10 +104,25 @@ class WishServiceTest {
 
     @Test
     void deleteWishById() {
-        when(wishRepository.existsById(1L)).thenReturn(true);
-        assertThrows(NotFoundException.class, () -> {
-            wishService.deleteWishById(1L);
-        }, "Не найден");
+        Wish wish = Wish.builder().build();
+        Mockito.doReturn(true).when(wishRepository).delete(wish);
+//        SimpleResponse deleteResult= wishService.deleteWishById(anyLong());
+//        System.out.println(wishService.deleteWishById(1L));
+//        System.out.println(wishService.deleteWishById(2L));
+//        Mockito.verify(wishRepository, Mockito.times(3)).delete(wish);
+//        assertThat(wish.getWishName()).isEqualTo(wish.getId());
+//        assertThat(deleteResult).isNull();
+//        when(wishRepository.existsById(1L)).thenReturn(true);
+//        assertThrows(NotFoundException.class, () -> {
+//            wishService.deleteWishById(1L);
+//        }, "Не найден");
 //        assertNotNull(wishService);
+    }
+
+    @Test
+    void throwExceptionIfDatabase() {
+        Wish wish = Wish.builder().build();
+        Mockito.doThrow(RuntimeException.class).when(wishRepository).delete(wish);
+        assertThrows(RuntimeException.class, () -> wishService.deleteWishById(1L));
     }
 }
