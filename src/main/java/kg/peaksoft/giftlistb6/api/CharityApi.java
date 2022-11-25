@@ -54,4 +54,10 @@ public class CharityApi {
                                   @RequestParam Boolean isAnonymously){
         return charityService.reserveCharity(id,isAnonymously);
     }
+
+    @Operation(summary = "Unreserved charity ",description = "User can unreserved charity")
+    @PostMapping("un-reservation/{id}")
+    public SimpleResponse unReserve(@PathVariable Long id){
+        return charityService.unReserve(id);
+    }
 }
