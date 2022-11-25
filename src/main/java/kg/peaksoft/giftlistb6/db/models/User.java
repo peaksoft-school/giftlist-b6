@@ -48,6 +48,10 @@ public class User implements UserDetails {
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Wish> wishes;
 
+    public void addWish(Wish wish){
+        wishes.add(wish);
+    }
+
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Gift> gifts;
 
@@ -62,6 +66,10 @@ public class User implements UserDetails {
 
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Holiday> holidays;
+
+    public void addHoliday(Holiday holiday){
+        holidays.add(holiday);
+    }
 
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Notification> notifications;

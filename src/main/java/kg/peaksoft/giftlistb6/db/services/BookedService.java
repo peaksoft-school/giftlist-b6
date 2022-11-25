@@ -138,22 +138,29 @@ public class BookedService {
     @Transactional
     public SimpleResponse saveWish(Long wishId) {
         User user = getPrinciple();
-        Wish wishUser = wishRepository.findById(wishId).get();
+        Wish wishUser = wishRepository.findById(wishId).orElseThrow(
+                ()->new NotFoundException("not found")
+        );
         Wish newWish = new Wish();
         newWish.setWishName(wishUser.getWishName());
+        newWish.setWishStatus(Status.WAIT);
+        newWish.setIsBlock(false);
         newWish.setLinkToGift(wishUser.getLinkToGift());
         newWish.setDateOfHoliday(wishUser.getDateOfHoliday());
         newWish.setImage(wishUser.getImage());
         newWish.setDescription(wishUser.getDescription());
-        Holiday holiday = new Holiday();
-        holiday.setName(wishUser.getHoliday().getName());
-        holiday.setDateOfHoliday(wishUser.getHoliday().getDateOfHoliday());
-        holiday.setImage(wishUser.getHoliday().getImage());
-        holiday.setUser(user);
-        holidayRepository.save(holiday);
+        newWish.setWishStatus(newWish.getWishStatus());
+        Holiday holiday1 = new Holiday();
+        holiday1.setId(holiday1.getId());
+        holiday1.setName(wishUser.getHoliday().getName());
+        holiday1.setDateOfHoliday(wishUser.getHoliday().getDateOfHoliday());
+        holiday1.setImage(wishUser.getHoliday().getImage());
+        holiday1.setUser(user);
+        holidayRepository.save(holiday1);
+        newWish.setHoliday(holiday1);
         newWish.setUser(user);
-        user.setWishes(List.of(newWish));
-        user.setHolidays(List.of(holiday));
+        user.addWish(newWish);
+        user.addHoliday(holiday1);
         wishRepository.save(wishUser);
         log.info("Wish with id: {} successfully added to {} gifts",wishId,user.getFirstName());
         return new SimpleResponse("Оk", "Оk");
