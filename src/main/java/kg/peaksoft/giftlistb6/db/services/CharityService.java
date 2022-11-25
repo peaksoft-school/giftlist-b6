@@ -211,6 +211,7 @@ public class CharityService {
         searchCharityResponse.setCharityImage(charity.getImage());
         searchCharityResponse.setCharityName(charity.getName());
         searchCharityResponse.setCharityCondition(charity.getCondition());
+        searchCharityResponse.setCreatedAt(charity.getCreatedAt());
         if (charity.getReservoir() == null) {
             searchCharityResponse.setReservoirUser(new UserFeedResponse(null, null));
         } else {
