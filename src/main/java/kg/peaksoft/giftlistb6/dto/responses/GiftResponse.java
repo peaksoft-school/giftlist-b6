@@ -27,6 +27,6 @@ public class GiftResponse {
         this.status = gift.getWish().getWishStatus();
         this.image = gift.getWish().getImage();
         this.reservedUserResponse = new ReservedUserResponse(gift.getWish().getUser().getId(),
-                gift.getWish().getUser().getFirstName() + " " + gift.getUser().getLastName(), gift.getWish().getUser().getImage());
+                gift.getWish().getUser().getFirstName() + " " + gift.getWish().getUser().getLastName(), gift.getWish().getUser().getImage());
     }
 }
