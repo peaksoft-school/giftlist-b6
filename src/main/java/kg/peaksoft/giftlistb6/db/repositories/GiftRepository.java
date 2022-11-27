@@ -15,4 +15,7 @@ public interface GiftRepository extends JpaRepository<Gift, Long> {
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.GiftResponse(g) from Gift g join g.wish w join g.user u where u.email =?1 ")
     List<GiftResponse> getAllGifts(String email);
+
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.GiftResponse(ch) from  Charity ch where ch.reservoir.email=?1")
+    List<GiftResponse> getAllReservedCharity(String email);
 }

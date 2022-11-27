@@ -3,7 +3,7 @@ package kg.peaksoft.giftlistb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.BookedService;
-import kg.peaksoft.giftlistb6.dto.responses.GiftResponse;
+import kg.peaksoft.giftlistb6.dto.responses.BookingResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.dto.responses.BookResponse;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +38,7 @@ public class BookedApi {
 
     @Operation(summary = "Get all booked gifts",description = "User can get own booked gifts.")
     @GetMapping("gifts")
-    public List<GiftResponse> getAllGifts() {
+    public BookingResponse getAllGifts() {
         return bookedService.getAllGifts();
     }
 
