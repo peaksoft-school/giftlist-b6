@@ -83,7 +83,7 @@ public class CharityService {
         return new YourCharityResponse(charity.getId(), charity.getImage());
     }
 
-    public CharityResponses getAll(){
+    public CharityResponses getAll() {
         User user = getPrinciple();
         CharityResponses charityResponses = new CharityResponses();
         charityResponses.setOtherCharityResponses(charityRepository.getAll(user.getEmail()));
