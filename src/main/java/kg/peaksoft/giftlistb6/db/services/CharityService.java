@@ -136,7 +136,7 @@ public class CharityService {
             if (!charity.getUser().equals(user)) {
                 charity.setReservoir(user);
                 if (is) {
-                    charity.setReservoir(null);
+                    charity.setReservoir(user);
                     log.info("Charity with id: {} reserved anonymously ", charityId);
                 } else {
                     charity.setReservoir(user);
