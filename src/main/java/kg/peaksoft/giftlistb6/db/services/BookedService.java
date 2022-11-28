@@ -2,6 +2,7 @@ package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.*;
 import kg.peaksoft.giftlistb6.db.repositories.*;
+import kg.peaksoft.giftlistb6.dto.responses.BookingResponse;
 import kg.peaksoft.giftlistb6.dto.responses.GiftResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.dto.responses.BookResponse;
@@ -130,9 +131,15 @@ public class BookedService {
         return wishRepository.getALlReservoirWishes(user.getEmail());
     }
 
-    public List<GiftResponse> getAllGifts() {
+    @Transactional
+    public BookingResponse getAllGifts() {
         User user = getPrinciple();
-        return giftRepository.getAllGifts(user.getEmail());
+        BookingResponse bookingResponse = new BookingResponse();
+        List <GiftResponse> getAllGifts = giftRepository.getAllGifts(user.getEmail());
+        List<GiftResponse> getAllReservedCharity = giftRepository.getAllReservedCharity(user.getEmail());
+        bookingResponse.setGetAllGifts(getAllGifts);
+        bookingResponse.setGetReservedCharity(getAllReservedCharity);
+        return bookingResponse;
     }
 
     @Transactional
