@@ -41,8 +41,8 @@ public class GiftResponse {
         this.status = charity.getCharityStatus();
         this.giftStatus=Status.CHARITY;
         if (charity.getReservoir()!=null){
-        this.reservedUserResponse= new ReservedUserResponse(charity.getReservoir().getId(),
-                charity.getReservoir().getFirstName()+" "+charity.getReservoir().getLastName(),charity.getReservoir().getImage());
+        this.reservedUserResponse= new ReservedUserResponse(charity.getUser().getId(),
+                charity.getUser().getFirstName()+" "+charity.getUser().getLastName(),charity.getUser().getImage());
         }else {
             this.reservedUserResponse = new ReservedUserResponse();
         }
