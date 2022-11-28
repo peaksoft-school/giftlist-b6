@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.db.models.Charity;
 import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +36,23 @@ public class OtherCharityResponse {
         this.firstName = firstName;
         this.lastName = lastName;
         this.photo = photo;
+    }
+
+    public OtherCharityResponse(Charity charity) {
+        this.id = charity.getId();
+        this.image = charity.getImage();
+        this.name = charity.getName();
+        this.condition = charity.getCondition();
+        this.addedDate = charity.getCreatedAt();
+        this.status = charity.getCharityStatus();
+        this.userId = charity.getUser().getId();
+        this.firstName = charity.getUser().getFirstName();
+        this.lastName = charity.getUser().getLastName();
+        this.photo = charity.getUser().getImage();
+        if (charity.getReservoir() != null) {
+            this.reservoir = new ReservoirResponse(charity.getReservoir().getId(), charity.getReservoir().getImage());
+        } else {
+            this.reservoir = new ReservoirResponse();
+        }
     }
 }

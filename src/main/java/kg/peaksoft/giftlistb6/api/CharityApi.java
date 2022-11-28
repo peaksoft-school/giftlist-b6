@@ -20,7 +20,7 @@ public class CharityApi {
     @Operation(summary = "All charities", description = "User can see all charities")
     @GetMapping
     public CharityResponses getAllCharities() {
-        return charityService.getAllCharityResponse();
+        return charityService.getAll();
     }
 
     @Operation(summary = "Save charity", description = "User can save charities")
