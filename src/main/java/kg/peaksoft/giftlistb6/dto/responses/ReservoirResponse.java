@@ -2,7 +2,6 @@ package kg.peaksoft.giftlistb6.dto.responses;
 
 import kg.peaksoft.giftlistb6.db.models.Charity;
 import kg.peaksoft.giftlistb6.db.models.User;
-import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,7 @@ public class ReservoirResponse {
     private String image;
 
     public ReservoirResponse(Charity charity) {
-        if (charity.getCharityStatus().equals(Status.RESERVED)) {
+        if (charity.getReservoir() != null) {
             this.id = charity.getReservoir().getId();
             this.image = charity.getReservoir().getImage();
         }
