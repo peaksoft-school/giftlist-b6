@@ -67,30 +67,32 @@ public class BookedService {
                     user.setGifts(List.of(gift));
                     wish.setWishStatus(Status.RESERVED);
                     log.info("Wish with id:{} is reserved anonymously", wishId);
+                    return new SimpleResponse("Забронирован анонимно", "ок");
                 } else {
                     wish.setReservoir(user);
                 }
-                if (wish.getWishStatus().equals(Status.WAIT)) {
-                    Notification notification = new Notification();
-                    notification.setNotificationType(NotificationType.BOOKED_WISH);
-                    notification.setWish(gift.getWish());
-                    notification.setGift(gift);
-                    notification.setCreatedDate(LocalDate.now());
-                    notification.setFromUser(user);
-                    notification.setUser(gift.getWish().getUser());
-                    notification.setIsSeen(false);
-                    notificationRepository.save(notification);
-                    gift.setUser(user);
-                    user.setGifts(List.of(gift));
-                    wish.setWishStatus(Status.RESERVED);
-                    log.info("Wish with id:{} successfully reserved", wishId);
-                }
-            } else
+                Notification notification = new Notification();
+                notification.setNotificationType(NotificationType.BOOKED_WISH);
+                notification.setWish(gift.getWish());
+                notification.setGift(gift);
+                notification.setCreatedDate(LocalDate.now());
+                notification.setFromUser(user);
+                notification.setUser(gift.getWish().getUser());
+                notification.setIsSeen(false);
+                notificationRepository.save(notification);
+                gift.setUser(user);
+                user.setGifts(List.of(gift));
+                wish.setWishStatus(Status.RESERVED);
+                log.info("Wish with id:{} successfully reserved", wishId);
+
+            } else {
+                log.error("You can't reserve your gift!");
                 return new SimpleResponse("Вы не можете забронировать свое желание!", "");
-            log.error("You can't reserve your gift!");
-        } else
+            }
+        } else {
+            log.error("Wish with id: {} is reserved", wishId);
             return new SimpleResponse("Желание забронировано!", "");
-        log.error("Wish with id: {} is reserved",wishId);
+        }
 
 
         return new SimpleResponse("Забронировано", "ок");
@@ -135,7 +137,7 @@ public class BookedService {
     public BookingResponse getAllGifts() {
         User user = getPrinciple();
         BookingResponse bookingResponse = new BookingResponse();
-        List <GiftResponse> getAllGifts = giftRepository.getAllGifts(user.getEmail());
+        List<GiftResponse> getAllGifts = giftRepository.getAllGifts(user.getEmail());
         List<GiftResponse> getAllReservedCharity = giftRepository.getAllReservedCharity(user.getEmail());
         bookingResponse.setGetAllGifts(getAllGifts);
         bookingResponse.setGetReservedCharity(getAllReservedCharity);
@@ -146,7 +148,7 @@ public class BookedService {
     public SimpleResponse saveWish(Long wishId) {
         User user = getPrinciple();
         Wish wishUser = wishRepository.findById(wishId).orElseThrow(
-                ()->new NotFoundException("not found")
+                () -> new NotFoundException("not found")
         );
         Wish newWish = new Wish();
         newWish.setWishName(wishUser.getWishName());
@@ -169,7 +171,7 @@ public class BookedService {
         user.addWish(newWish);
         user.addHoliday(holiday1);
         wishRepository.save(wishUser);
-        log.info("Wish with id: {} successfully added to {} gifts",wishId,user.getFirstName());
+        log.info("Wish with id: {} successfully added to {} gifts", wishId, user.getFirstName());
         return new SimpleResponse("Оk", "Оk");
     }
 }

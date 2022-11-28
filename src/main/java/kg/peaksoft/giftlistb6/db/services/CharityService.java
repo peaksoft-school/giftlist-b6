@@ -137,7 +137,11 @@ public class CharityService {
                 charity.setReservoir(user);
                 if (is) {
                     charity.setReservoir(user);
+                    charity.setUser(charity.getUser());
+                    user.setCharities(List.of(charity));
+                    charity.setCharityStatus(Status.RESERVED);
                     log.info("Charity with id: {} reserved anonymously ", charityId);
+                    return new SimpleResponse("Забронирован анонимно", "ок");
                 } else {
                     charity.setReservoir(user);
                 }
