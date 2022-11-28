@@ -168,11 +168,11 @@ public class CharityService {
                 () -> new NotFoundException("Не найден!")
         );
         if (charity.getCharityStatus().equals(Status.RESERVED)) {
-            if (charity.getReservoir() == null || charity.getReservoir().equals(user)) {
+            if (charity.getReservoir().equals(user)) {
                 charity.setReservoir(null);
                 charity.setCharityStatus(Status.WAIT);
             } else {
-                new SimpleResponse("Не ваш благотворительность", "");
+                return new SimpleResponse("Не ваш благотворительность", "");
             }
         } else {
             return new SimpleResponse("Благотворительность в ожидании", "WAIT");
