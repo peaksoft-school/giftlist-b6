@@ -13,8 +13,4 @@ public class  CharityResponses {
 
     List<YourCharityResponse> yourCharityResponses;
     List<OtherCharityResponse> otherCharityResponses;
-
-    public CharityResponses(List<OtherCharityResponse> otherCharityResponses) {
-        this.otherCharityResponses = otherCharityResponses;
-    }
 }

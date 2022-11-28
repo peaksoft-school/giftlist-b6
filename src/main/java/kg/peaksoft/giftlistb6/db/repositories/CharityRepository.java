@@ -27,19 +27,8 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
     @Query("delete from Charity ch where ch.user.id = ?2 and ch.id = ?1")
     void deleteCharityById(Long chId, Long userId);
 
-    @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse("+
-            "ch.id," +
-            "ch.image," +
-            "ch.name," +
-            "ch.condition," +
-            "ch.createdAt," +
-            "ch.charityStatus," +
-            "ch.user.id," +
-            "ch.user.firstName," +
-            "ch.user.lastName," +
-            "ch.user.image )"+
-            "from User u join u.charities ch where u.email <> ?1")
-    List<OtherCharityResponse> getAllOther(String email);
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse(ch) from Charity ch where ch.user.email <> ?1")
+    List<OtherCharityResponse> getAll(String email);
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse("+
             "ch.id," +

@@ -83,24 +83,12 @@ public class CharityService {
         return new YourCharityResponse(charity.getId(), charity.getImage());
     }
 
-    @Transactional
-    public CharityResponses getAllCharityResponse() {
+    public CharityResponses getAll(){
         User user = getPrinciple();
-        CharityResponses charityResponse = new CharityResponses();
-        List<YourCharityResponse> yourCharityResponses = charityRepository.getAllMyCharity(user.getEmail());
-        List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllOther(user.getEmail());
-        for (Charity c : charityRepository.findAll()) {
-            for (OtherCharityResponse o : otherCharityResponses) {
-                if (o.getReservoir() != null) {
-                    ReservoirResponse response = new ReservoirResponse(o.getReservoir().getId(), o.getReservoir().getImage());
-                    o.setReservoir(response);
-                }
-                o.setReservoir(new ReservoirResponse());
-            }
-            charityResponse.setYourCharityResponses(yourCharityResponses);
-            charityResponse.setOtherCharityResponses(otherCharityResponses);
-        }
-        return charityResponse;
+        CharityResponses charityResponses = new CharityResponses();
+        charityResponses.setOtherCharityResponses(charityRepository.getAll(user.getEmail()));
+        charityResponses.setYourCharityResponses(charityRepository.getAllMyCharity(user.getEmail()));
+        return charityResponses;
     }
 
     @Transactional
