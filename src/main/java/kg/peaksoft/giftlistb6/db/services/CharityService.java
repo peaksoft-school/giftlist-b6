@@ -172,7 +172,7 @@ public class CharityService {
                 charity.setReservoir(null);
                 charity.setCharityStatus(Status.WAIT);
             } else {
-               return new SimpleResponse("Не ваш благотворительность", "");
+                return new SimpleResponse("Не ваш благотворительность", "");
             }
         } else {
             return new SimpleResponse("Благотворительность в ожидании", "WAIT");
