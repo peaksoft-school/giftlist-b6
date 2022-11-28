@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/holidays")
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Tag(name = "Holiday Api", description = "Holiday CRUD operations")
 @PreAuthorize("hasAuthority('USER')")
 public class HolidayApi {
