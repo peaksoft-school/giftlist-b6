@@ -20,7 +20,7 @@ import static javax.persistence.CascadeType.*;
 public class Wish {
 
     @Id
-    @SequenceGenerator(name = "wish_gen", sequenceName = "wish_seq", allocationSize = 1, initialValue = 6)
+    @SequenceGenerator(name = "wish_gen", sequenceName = "wish_seq", allocationSize = 1, initialValue = 8)
     @GeneratedValue(generator = "wish_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 

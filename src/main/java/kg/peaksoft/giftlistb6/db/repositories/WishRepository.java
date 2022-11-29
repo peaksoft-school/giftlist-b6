@@ -21,8 +21,8 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.WishResponse (w) from Wish w where w.user.email=?1")
     List<WishResponse> getAllWish(String email);
 
-    @Query("select w from Wish w where w.user.isBlock = false")
-    List<Wish> getAllWishes();
+    @Query("select w from Wish w where w.user.isBlock = false and w.user.email <> ?1")
+    List<Wish> getAllWishes(String email);
 
     @Query("select w from Wish w where w.user.friends = :user")
     List<Wish> getFriendsWishes(User user);
