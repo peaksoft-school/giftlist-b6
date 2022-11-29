@@ -5,6 +5,7 @@ import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,15 @@ public class FeedService {
     private final UserRepository userRepository;
 
     public FeedResponse mapToAllResponse(Wish wish) {
+        User user = getAuthPrincipal();
         FeedResponse feedResponse = new FeedResponse();
+        if (wish.getWishStatus().equals(Status.RESERVED) && !wish.getReservoir().equals(user)) {
+            feedResponse.setIsMy(false);
+        } else if (wish.getWishStatus().equals(Status.WAIT)) {
+            feedResponse.setIsMy(false);
+        } else {
+            feedResponse.setIsMy(true);
+        }
         feedResponse.setWishId(wish.getId());
         feedResponse.setUserSearchResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getImage(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
         feedResponse.setWishName(wish.getWishName());
@@ -55,9 +64,9 @@ public class FeedService {
         }
         User user = getAuthPrincipal();
         for (User friend : user.getFriends()) {
-            if (user.getFriends().equals(friend))
+            if (user.getFriends().contains(friend))
                 responses.addLast((FeedResponse) wishRepository.getFriendsWishes(friend));
-            }
+        }
         return responses;
     }
 
@@ -78,8 +87,8 @@ public class FeedService {
     }
 
     public InnerFeedResponse getById(Long id) {
-        Wish wish = wishRepository.findWishById(id).orElseThrow(() ->{
-            log.error("Wish with id: {} not found!",id);
+        Wish wish = wishRepository.findWishById(id).orElseThrow(() -> {
+            log.error("Wish with id: {} not found!", id);
             throw new NotFoundException("Желание с таким id: " + id + " не найдено!");
         });
         return mapToIdResponse(wish);

@@ -110,7 +110,7 @@ public class BookedService {
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
             if (n.getGift() != null) {
-                if (n.getFromUser().equals(user) && n.getWish().equals(gift)){
+                if (n.getFromUser().equals(user) && n.getWish().equals(gift)) {
                     notificationRepository.deleteById(n.getId());
                     break;
                 }
@@ -119,11 +119,13 @@ public class BookedService {
         if (gift.getWishStatus().equals(Status.RESERVED) || gift.getWishStatus().equals(Status.RESERVED_ANONYMOUSLY)) {
             if (gift.getReservoir().equals(user)) {
                 for (Gift g : user.getGifts()) {
-                    user.getGifts().remove(g);
-                    giftRepository.delete(g);
-                    break;
+                    if (g.getWish().equals(gift)) {
+                        user.getGifts().remove(g);
+                        giftRepository.delete(g);
+                        break;
+                    }
                 }
-                gift.setUser(null);
+                gift.setReservoir(null);
                 gift.setWishStatus(Status.WAIT);
                 log.info("Wish with id:{} the reservation was canceled", gift.getId());
             } else {
