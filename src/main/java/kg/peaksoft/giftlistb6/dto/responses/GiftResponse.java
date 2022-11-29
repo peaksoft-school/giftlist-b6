@@ -23,7 +23,7 @@ public class GiftResponse {
     private ReservedUserResponse reservedUserResponse;
 
     public GiftResponse(Gift gift) {
-        this.id = gift.getId();
+        this.id = gift.getWish().getId();
         this.giftName = gift.getWish().getWishName();
         this.date = gift.getWish().getDateOfHoliday();
         this.status = gift.getWish().getWishStatus();

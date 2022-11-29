@@ -15,4 +15,5 @@ public class FeedResponse {
     private HolidayResponse holiday;
     private UserFeedResponse userFeedResponse;
     private Status status;
+    private Boolean isMy;
 }
