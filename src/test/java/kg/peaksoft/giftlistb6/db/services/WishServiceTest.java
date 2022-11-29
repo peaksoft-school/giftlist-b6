@@ -13,19 +13,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.jdbc.Sql;
-import org.webjars.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@DataJpaTest
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 class WishServiceTest {
@@ -36,14 +36,9 @@ class WishServiceTest {
     @InjectMocks
     private WishService wishService;
 
-    @LocalServerPort
-    private String port;
-
-    private String url;
-
     @BeforeEach
     void setUp() {
-        this.url = "http://localhost:" + port + "/api/wish-list";
+        log.info("Before each: ");
     }
 
     @AfterEach
@@ -73,11 +68,8 @@ class WishServiceTest {
     @Test
     @Sql(scripts = "/scripts/wishes.sql")
     void findById() {
-        Wish wish = wishRepository.findById(1L)
-                .orElseThrow(() -> new NotFoundException("Не найден"));
+        Wish wish = wishRepository.findById(1L).get();
         assertEquals(wish.getId(), 1L);
-//        doReturn(new WishResponse()).when(wishService).findById(anyLong());
-//        wishService.findById(anyLong());
     }
 
     @Test
@@ -91,8 +83,7 @@ class WishServiceTest {
     @Test
     @Sql(scripts = "/scripts/wishes.sql")
     void update() {
-        Wish wish = wishRepository.findById(1L)
-                .orElseThrow(() -> new NotFoundException("Не найден"));
+        Wish wish = wishRepository.findById(1L).get();
         wish.setWishName("Phone");
         Wish savedWish = wishRepository.save(wish);
         log.info("wish name = {}", savedWish.getWishName());
@@ -103,26 +94,12 @@ class WishServiceTest {
     }
 
     @Test
+    @Sql(scripts = "/scripts/wishes.sql")
     void deleteWishById() {
-        Wish wish = Wish.builder().build();
-        Mockito.doReturn(true).when(wishRepository).delete(wish);
-//        SimpleResponse deleteResult= wishService.deleteWishById(anyLong());
-//        System.out.println(wishService.deleteWishById(1L));
-//        System.out.println(wishService.deleteWishById(2L));
-//        Mockito.verify(wishRepository, Mockito.times(3)).delete(wish);
-//        assertThat(wish.getWishName()).isEqualTo(wish.getId());
-//        assertThat(deleteResult).isNull();
-//        when(wishRepository.existsById(1L)).thenReturn(true);
-//        assertThrows(NotFoundException.class, () -> {
-//            wishService.deleteWishById(1L);
-//        }, "Не найден");
-//        assertNotNull(wishService);
-    }
-
-    @Test
-    void throwExceptionIfDatabase() {
-        Wish wish = Wish.builder().build();
-        Mockito.doThrow(RuntimeException.class).when(wishRepository).delete(wish);
-        assertThrows(RuntimeException.class, () -> wishService.deleteWishById(1L));
+        int before = wishRepository.findAll().size();
+        Wish wish = wishRepository.findById(1L).get();
+        wishRepository.delete(wish);
+        int after = wishRepository.findAll().size();
+        assertThat(before).isGreaterThan(after);
     }
 }
