@@ -139,7 +139,7 @@ public class CharityService {
                     charity.setReservoir(user);
                     charity.setUser(charity.getUser());
                     user.setCharities(List.of(charity));
-                    charity.setCharityStatus(Status.RESERVED);
+                    charity.setCharityStatus(Status.RESERVED_ANONYMOUSLY);
                     log.info("Charity with id: {} reserved anonymously ", charityId);
                     return new SimpleResponse("Забронирован анонимно", "ок");
                 } else {
@@ -167,7 +167,7 @@ public class CharityService {
         Charity charity = charityRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Не найден!")
         );
-        if (charity.getCharityStatus().equals(Status.RESERVED)) {
+        if (charity.getCharityStatus().equals(Status.RESERVED) || charity.getCharityStatus().equals(Status.RESERVED_ANONYMOUSLY)) {
             if (charity.getReservoir().equals(user)) {
                 charity.setReservoir(null);
                 charity.setCharityStatus(Status.WAIT);

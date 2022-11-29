@@ -53,7 +53,7 @@ public class BookedService {
                 Gift gift = new Gift();
                 gift.setWish(wish);
                 if (is) {
-                    wish.setReservoir(null);
+                    wish.setReservoir(user);
                     Notification notification = new Notification();
                     notification.setNotificationType(NotificationType.BOOKED_WISH_ANONYMOUSLY);
                     notification.setWish(gift.getWish());
@@ -65,7 +65,7 @@ public class BookedService {
                     notificationRepository.save(notification);
                     gift.setUser(user);
                     user.setGifts(List.of(gift));
-                    wish.setWishStatus(Status.RESERVED);
+                    wish.setWishStatus(Status.RESERVED_ANONYMOUSLY);
                     log.info("Wish with id:{} is reserved anonymously", wishId);
                     return new SimpleResponse("Забронирован анонимно", "ок");
                 } else {
@@ -99,29 +99,36 @@ public class BookedService {
     }
 
     @Transactional
-    public SimpleResponse waitStatus(Long giftId) {
+    public SimpleResponse waitStatus(Long wishId) {
         User user = getPrinciple();
-        Gift gift = giftRepository
-                .findById(giftId).orElseThrow(
+        Wish gift = wishRepository
+                .findById(wishId).orElseThrow(
                         () -> {
-                            log.error("Gift with id:{} not found", giftId);
+                            log.error("Gift with id:{} not found", wishId);
                             throw new NotFoundException("Подарок не найден!");
                         });
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
             if (n.getGift() != null) {
-                if (n.getFromUser().equals(user) && n.getWish().equals(gift.getWish())) {
+                if (n.getFromUser().equals(user) && n.getWish().equals(gift)){
                     notificationRepository.deleteById(n.getId());
                     break;
                 }
             }
         }
-        if (gift.getWish().getWishStatus().equals(Status.RESERVED)) {
-            user.getGifts().remove(gift);
-            giftRepository.delete(gift);
-            gift.setUser(null);
-            gift.getWish().setWishStatus(Status.WAIT);
-            log.info("Wish with id:{} the reservation was canceled", gift.getWish().getId());
+        if (gift.getWishStatus().equals(Status.RESERVED) || gift.getWishStatus().equals(Status.RESERVED_ANONYMOUSLY)) {
+            if (gift.getReservoir().equals(user)) {
+                for (Gift g : user.getGifts()) {
+                    user.getGifts().remove(g);
+                    giftRepository.delete(g);
+                    break;
+                }
+                gift.setUser(null);
+                gift.setWishStatus(Status.WAIT);
+                log.info("Wish with id:{} the reservation was canceled", gift.getId());
+            } else {
+                return new SimpleResponse("Подарок не ваш!", "");
+            }
         } else
             return new SimpleResponse("Желание в ожидании", "");
 
