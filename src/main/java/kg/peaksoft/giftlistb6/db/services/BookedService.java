@@ -154,12 +154,12 @@ public class BookedService {
     }
 
     @Transactional
-    public SimpleResponse saveWish(Long wishId,Long holidayId){
+    public SimpleResponse saveWish(Long wishId, Long holidayId) {
         User user = getPrinciple();
         Wish wishUser = wishRepository.findById(wishId).orElseThrow(
                 () -> new NotFoundException("not found")
         );
-        if (!wishUser.getUser().equals(user)){
+        if (!wishUser.getUser().equals(user)) {
             Wish newWish = new Wish();
             newWish.setWishName(wishUser.getWishName());
             newWish.setWishStatus(Status.WAIT);
@@ -170,7 +170,7 @@ public class BookedService {
             newWish.setDescription(wishUser.getDescription());
             newWish.setWishStatus(newWish.getWishStatus());
             Holiday holiday1 = holidayRepository.findById(holidayId).orElseThrow(
-                    ()->new NotFoundException("not found")
+                    () -> new NotFoundException("not found")
             );
             holiday1.setId(holiday1.getId());
             holiday1.setName(wishUser.getHoliday().getName());
@@ -182,8 +182,8 @@ public class BookedService {
             user.addWish(newWish);
             wishRepository.save(wishUser);
             log.info("Wish with id: {} successfully added to {} gifts", wishId, user.getFirstName());
-        }else {
-            return new SimpleResponse("Ваше желание!","");
+        } else {
+            return new SimpleResponse("Ваше желание!", "");
         }
         return new SimpleResponse("Оk", "Оk");
     }
