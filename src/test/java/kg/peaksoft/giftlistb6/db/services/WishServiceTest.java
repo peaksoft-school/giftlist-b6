@@ -3,6 +3,7 @@ package kg.peaksoft.giftlistb6.db.services;
 import kg.peaksoft.giftlistb6.db.models.Holiday;
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
+import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.responses.WishResponse;
 import kg.peaksoft.giftlistb6.enums.Status;
@@ -14,7 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.time.LocalDate;
@@ -25,16 +26,22 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@DataJpaTest
+//@SpringBootTest
+//@Transactional
 @Slf4j
+@ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
 class WishServiceTest {
 
     @Mock
     private WishRepository wishRepository;
 
+    @Mock
+    private HolidayRepository holidayRepository;
+
     @InjectMocks
     private WishService wishService;
+
 
     @BeforeEach
     void setUp() {
@@ -43,6 +50,8 @@ class WishServiceTest {
 
     @AfterEach
     void tearDown() throws Exception {
+        holidayRepository.deleteAll();
+        wishRepository.deleteAll();
         log.info("after each!");
     }
 
@@ -50,12 +59,12 @@ class WishServiceTest {
     void saveWish() {
         Wish wish = Wish.builder()
                 .id(1L)
-                .wishName("")
+                .wishName("Phone")
                 .holiday(new Holiday())
                 .dateOfHoliday(LocalDate.of(2022, 11, 18))
                 .wishStatus(Status.RESERVED)
-                .image("")
-                .description("")
+                .image("image")
+                .description("description")
                 .linkToGift("http://link")
                 .complaints(new ArrayList<>())
                 .isBlock(true)
@@ -64,6 +73,7 @@ class WishServiceTest {
         WishResponse wishes = wishService.mapToResponse(wish);
         assertAll(() -> assertEquals(wishes.getWishName(), wish.getWishName()));
     }
+
 
     @Test
     @Sql(scripts = "/scripts/wishes.sql")
