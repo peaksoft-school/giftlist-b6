@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface WishRepository extends JpaRepository<Wish, Long> {
 
-    @Query("select new kg.peaksoft.giftlistb6.dto.responses.BookResponse(w) from Wish w where w.user.email = ?1")
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.BookResponse(w) from Wish w where w.user.email = ?1 and w.wishStatus = 'RESERVED'")
     List<BookResponse> getALlReservoirWishes(String email);
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.WishResponse (w) from Wish w where w.user.email=?1")

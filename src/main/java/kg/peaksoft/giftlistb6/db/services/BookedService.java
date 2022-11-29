@@ -2,6 +2,7 @@ package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.*;
 import kg.peaksoft.giftlistb6.db.repositories.*;
+import kg.peaksoft.giftlistb6.dto.responses.BookingResponse;
 import kg.peaksoft.giftlistb6.dto.responses.GiftResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.dto.responses.BookResponse;
@@ -66,30 +67,32 @@ public class BookedService {
                     user.setGifts(List.of(gift));
                     wish.setWishStatus(Status.RESERVED);
                     log.info("Wish with id:{} is reserved anonymously", wishId);
+                    return new SimpleResponse("Забронирован анонимно", "ок");
                 } else {
                     wish.setReservoir(user);
                 }
-                if (wish.getWishStatus().equals(Status.WAIT)) {
-                    Notification notification = new Notification();
-                    notification.setNotificationType(NotificationType.BOOKED_WISH);
-                    notification.setWish(gift.getWish());
-                    notification.setGift(gift);
-                    notification.setCreatedDate(LocalDate.now());
-                    notification.setFromUser(user);
-                    notification.setUser(gift.getWish().getUser());
-                    notification.setIsSeen(false);
-                    notificationRepository.save(notification);
-                    gift.setUser(user);
-                    user.setGifts(List.of(gift));
-                    wish.setWishStatus(Status.RESERVED);
-                    log.info("Wish with id:{} successfully reserved", wishId);
-                }
-            } else
+                Notification notification = new Notification();
+                notification.setNotificationType(NotificationType.BOOKED_WISH);
+                notification.setWish(gift.getWish());
+                notification.setGift(gift);
+                notification.setCreatedDate(LocalDate.now());
+                notification.setFromUser(user);
+                notification.setUser(gift.getWish().getUser());
+                notification.setIsSeen(false);
+                notificationRepository.save(notification);
+                gift.setUser(user);
+                user.setGifts(List.of(gift));
+                wish.setWishStatus(Status.RESERVED);
+                log.info("Wish with id:{} successfully reserved", wishId);
+
+            } else {
+                log.error("You can't reserve your gift!");
                 return new SimpleResponse("Вы не можете забронировать свое желание!", "");
-            log.error("You can't reserve your gift!");
-        } else
+            }
+        } else {
+            log.error("Wish with id: {} is reserved", wishId);
             return new SimpleResponse("Желание забронировано!", "");
-        log.error("Wish with id: {} is reserved",wishId);
+        }
 
 
         return new SimpleResponse("Забронировано", "ок");
@@ -130,32 +133,45 @@ public class BookedService {
         return wishRepository.getALlReservoirWishes(user.getEmail());
     }
 
-    public List<GiftResponse> getAllGifts() {
+    @Transactional
+    public BookingResponse getAllGifts() {
         User user = getPrinciple();
-        return giftRepository.getAllGifts(user.getEmail());
+        BookingResponse bookingResponse = new BookingResponse();
+        List<GiftResponse> getAllGifts = giftRepository.getAllGifts(user.getEmail());
+        List<GiftResponse> getAllReservedCharity = giftRepository.getAllReservedCharity(user.getEmail());
+        bookingResponse.setGetAllGifts(getAllGifts);
+        bookingResponse.setGetReservedCharity(getAllReservedCharity);
+        return bookingResponse;
     }
 
     @Transactional
     public SimpleResponse saveWish(Long wishId) {
         User user = getPrinciple();
-        Wish wishUser = wishRepository.findById(wishId).get();
+        Wish wishUser = wishRepository.findById(wishId).orElseThrow(
+                () -> new NotFoundException("not found")
+        );
         Wish newWish = new Wish();
         newWish.setWishName(wishUser.getWishName());
+        newWish.setWishStatus(Status.WAIT);
+        newWish.setIsBlock(false);
         newWish.setLinkToGift(wishUser.getLinkToGift());
         newWish.setDateOfHoliday(wishUser.getDateOfHoliday());
         newWish.setImage(wishUser.getImage());
         newWish.setDescription(wishUser.getDescription());
-        Holiday holiday = new Holiday();
-        holiday.setName(wishUser.getHoliday().getName());
-        holiday.setDateOfHoliday(wishUser.getHoliday().getDateOfHoliday());
-        holiday.setImage(wishUser.getHoliday().getImage());
-        holiday.setUser(user);
-        holidayRepository.save(holiday);
+        newWish.setWishStatus(newWish.getWishStatus());
+        Holiday holiday1 = new Holiday();
+        holiday1.setId(holiday1.getId());
+        holiday1.setName(wishUser.getHoliday().getName());
+        holiday1.setDateOfHoliday(wishUser.getHoliday().getDateOfHoliday());
+        holiday1.setImage(wishUser.getHoliday().getImage());
+        holiday1.setUser(user);
+        holidayRepository.save(holiday1);
+        newWish.setHoliday(holiday1);
         newWish.setUser(user);
-        user.setWishes(List.of(newWish));
-        user.setHolidays(List.of(holiday));
+        user.addWish(newWish);
+        user.addHoliday(holiday1);
         wishRepository.save(wishUser);
-        log.info("Wish with id: {} successfully added to {} gifts",wishId,user.getFirstName());
+        log.info("Wish with id: {} successfully added to {} gifts", wishId, user.getFirstName());
         return new SimpleResponse("Оk", "Оk");
     }
 }

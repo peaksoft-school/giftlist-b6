@@ -20,7 +20,7 @@ public class CharityApi {
     @Operation(summary = "All charities", description = "User can see all charities")
     @GetMapping
     public CharityResponses getAllCharities() {
-        return charityService.getAllCharityResponse();
+        return charityService.getAll();
     }
 
     @Operation(summary = "Save charity", description = "User can save charities")
@@ -53,5 +53,11 @@ public class CharityApi {
     public SimpleResponse reserve(@PathVariable Long id,
                                   @RequestParam Boolean isAnonymously){
         return charityService.reserveCharity(id,isAnonymously);
+    }
+
+    @Operation(summary = "Unreserved charity ",description = "User can unreserved charity")
+    @PostMapping("un-reservation/{id}")
+    public SimpleResponse unReserve(@PathVariable Long id){
+        return charityService.unReserve(id);
     }
 }

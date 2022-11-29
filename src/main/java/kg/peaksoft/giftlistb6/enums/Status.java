@@ -6,5 +6,7 @@ public enum Status {
     WAIT,       //ожидание
     REQUEST_TO_FRIEND,
     NOT_FRIEND,
-    FRIEND
+    FRIEND,
+    GIFT,
+    CHARITY
 }
