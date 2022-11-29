@@ -99,12 +99,16 @@ INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_n
 VALUES (1, '2023-03-21', 'роман', null, null, 'книга', 'RESERVED', false, 1, 4, 3),
        (2, '2023-09-02', 'телефон', null, null, 'iphone 14pro', 'RESERVED', false, 2, 3, 4),
        (3, '2023-03-08', 'шоколад', null, null, 'sneakers', 'RESERVED', false, 3, 3, 4),
-       (4, '2023-08-08', 'ноутбук', null, null, 'macbook air pro', 'WAIT', false, 4, null, 4);
+       (4, '2023-08-08', 'ноутбук', null, null, 'macbook air pro', 'WAIT', false, 4, null, 4),
+       (5, '2023-08-04', 'сумка', null, null, 'сумка', 'RESERVED', false, 4, 5, 4),
+       (6, '2023-07-04', 'телефон', null, null, 'iphone 13', 'RESERVED', false, 4, 5, 4);
 
 INSERT INTO gift(id, user_id, wish_id)
 VALUES (1, 4, 1),
        (2, 3, 2),
-       (3, 3, 3);
+       (3, 3, 3),
+       (4, 5, 5),
+       (5, 5, 6);
 
 INSERT INTO users_requests(user_id, requests_id)
 VALUES (3, 4),

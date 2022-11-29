@@ -44,7 +44,7 @@ public class FeedService {
         feedResponse.setStatus(wish.getWishStatus());
         feedResponse.setHoliday(new HolidayResponse(wish.getHoliday().getName(), wish.getDateOfHoliday()));
         if (wish.getReservoir() == null) {
-            feedResponse.setUserFeedResponse(new UserFeedResponse(null, null));
+            feedResponse.setUserFeedResponse(new UserFeedResponse());
         } else {
             feedResponse.setUserFeedResponse(new UserFeedResponse(wish.getReservoir().getId(), wish.getReservoir().getImage()));
         }
@@ -71,7 +71,8 @@ public class FeedService {
     }
 
     public Deque<FeedResponse> getAll() {
-        return convertAllToResponse(wishRepository.getAllWishes());
+        User user = getAuthPrincipal();
+        return convertAllToResponse(wishRepository.getAllWishes(user.getEmail()));
     }
 
 
