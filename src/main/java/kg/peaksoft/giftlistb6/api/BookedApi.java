@@ -49,8 +49,8 @@ public class BookedApi {
     }
 
     @Operation(summary = "Add friend's wish to my wish",description = "User can add friend's wish to own wish")
-    @PostMapping("/{id}")
-    public SimpleResponse addFriendWishToMyWish(@PathVariable Long id) {
-        return bookedService.saveWish(id);
+    @PostMapping("/{id}/{holidayId}")
+    public SimpleResponse addFriendWishToMyWish(@PathVariable Long id, @PathVariable Long holidayId) {
+        return bookedService.saveWish(id, holidayId);
     }
 }
