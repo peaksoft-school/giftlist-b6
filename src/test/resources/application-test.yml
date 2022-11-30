@@ -1,9 +1,8 @@
-#spring.datasource.url=jdbc:h2:mem:testdb
-#spring.datasource.driverClassName=org.h2.Driver
-#spring.datasource.username=sa
-#spring.datasource.password=sa
-#spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/giftlist
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: sa
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect

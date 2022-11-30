@@ -3,113 +3,81 @@ package kg.peaksoft.giftlistb6.db.services;
 import kg.peaksoft.giftlistb6.db.models.Holiday;
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
-import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
-import kg.peaksoft.giftlistb6.dto.responses.WishResponse;
 import kg.peaksoft.giftlistb6.enums.Status;
-import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.jdbc.Sql;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-
-//@SpringBootTest
-//@Transactional
-@Slf4j
-@ActiveProfiles("test")
-@ExtendWith(MockitoExtension.class)
+@DataJpaTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class WishServiceTest {
 
-    @Mock
+    @Autowired
     private WishRepository wishRepository;
 
-    @Mock
-    private HolidayRepository holidayRepository;
-
-    @InjectMocks
-    private WishService wishService;
-
-
-    @BeforeEach
-    void setUp() {
-        log.info("Before each: ");
-    }
-
-    @AfterEach
-    void tearDown() throws Exception {
-        holidayRepository.deleteAll();
-        wishRepository.deleteAll();
-        log.info("after each!");
-    }
-
     @Test
+    @Order(1)
+    @Rollback(value = false)
     void saveWish() {
-        Wish wish = Wish.builder()
-                .id(1L)
-                .wishName("Phone")
-                .holiday(new Holiday())
-                .dateOfHoliday(LocalDate.of(2022, 11, 18))
-                .wishStatus(Status.RESERVED)
-                .image("image")
-                .description("description")
-                .linkToGift("http://link")
-                .complaints(new ArrayList<>())
-                .isBlock(true)
-                .reservoir(new User())
-                .build();
-        WishResponse wishes = wishService.mapToResponse(wish);
-        assertAll(() -> assertEquals(wishes.getWishName(), wish.getWishName()));
+        Wish wish = new Wish(1L,
+                "Phone", "http://link-gift",
+                LocalDate.of(2022, 11, 18),
+                "description",
+                "image",
+                Status.RESERVED,
+                true,
+                new User(),
+                new ArrayList<>(),
+                new User(),
+                new Holiday());
+        Assertions.assertThat(wish.getId()).isGreaterThan(0);
     }
 
-
     @Test
-    @Sql(scripts = "/scripts/wishes.sql")
+    @Order(2)
     void findById() {
         Wish wish = wishRepository.findById(1L).get();
-        assertEquals(wish.getId(), 1L);
+        Assertions.assertThat(wish.getId()).isEqualTo(1L);
     }
 
     @Test
-    @Sql(scripts = "/scripts/wishes.sql")
+    @Order(3)
     void findAll() {
-        List<WishResponse> all = wishService.findAll();
-        assertEquals(Collections.emptyList(), all);
-        assertNotNull(wishService);
+        List<Wish> wishes = wishRepository.findAll();
+        Assertions.assertThat(wishes.size()).isGreaterThan(0);
     }
 
     @Test
-    @Sql(scripts = "/scripts/wishes.sql")
+    @Order(4)
+    @Rollback(value = false)
     void update() {
         Wish wish = wishRepository.findById(1L).get();
         wish.setWishName("Phone");
-        Wish savedWish = wishRepository.save(wish);
-        log.info("wish name = {}", savedWish.getWishName());
-        assertEquals(
-                savedWish.getWishName(),
-                "Phone"
-        );
+        Wish wishUpdated = wishRepository.save(wish);
+        Assertions.assertThat(wishUpdated.getWishName()).isEqualTo("Phone");
     }
 
     @Test
-    @Sql(scripts = "/scripts/wishes.sql")
+    @Order(5)
     void deleteWishById() {
-        int before = wishRepository.findAll().size();
         Wish wish = wishRepository.findById(1L).get();
         wishRepository.delete(wish);
-        int after = wishRepository.findAll().size();
-        assertThat(before).isGreaterThan(after);
+        Wish wish1 = null;
+        Optional<Wish> optionalWish = wishRepository.findById(1L);
+        if (optionalWish.isPresent()) {
+            wish1 = optionalWish.get();
+        }
+        Assertions.assertThat(wish1).isNull();
     }
 }
