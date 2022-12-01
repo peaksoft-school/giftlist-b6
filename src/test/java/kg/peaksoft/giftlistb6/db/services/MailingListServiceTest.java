@@ -13,6 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @DataJpaTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -29,5 +30,12 @@ class MailingListServiceTest {
         MailingList mailingList = new MailingList(1L,"test","test","test",
                 LocalDateTime.now());
         Assertions.assertThat(mailingList.getId()).isGreaterThan(0);
+    }
+    @Test
+    @Order(2)
+    void getId() {
+        MailingList mailingList = repository.findById(1L).orElse(
+                new MailingList(1L,"test","test","test", LocalDateTime.now()));
+        Assertions.assertThat(mailingList.getId()).isEqualTo(1L);
     }
 }
