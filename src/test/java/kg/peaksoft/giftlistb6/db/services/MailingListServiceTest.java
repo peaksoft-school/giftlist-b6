@@ -38,4 +38,11 @@ class MailingListServiceTest {
                 new MailingList(1L,"test","test","test", LocalDateTime.now()));
         Assertions.assertThat(mailingList.getId()).isEqualTo(1L);
     }
+
+    @Test
+    @Order(3)
+    void getAllMailingLists() {
+        List<MailingList> mailingLists = repository.findAll();
+        Assertions.assertThat(mailingLists.size()).isEqualTo(0);
+    }
 }
