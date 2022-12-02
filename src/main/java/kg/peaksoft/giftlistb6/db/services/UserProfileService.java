@@ -39,7 +39,7 @@ public class UserProfileService {
     }
 
     public UserInfo updateUser(UserInfo userInfo, ProfileRequest request) {
-        userInfo.setPhoto(request.getPhoto());
+        userInfo.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
         userInfo.setPhoneNumber(request.getPhoneNumber());
@@ -61,7 +61,7 @@ public class UserProfileService {
     public UserInfo convertToEntity(ProfileRequest request) {
         User user = getAuthPrincipal();
         UserInfo userInfo = new UserInfo();
-        userInfo.setPhoto(request.getPhoto());
+        userInfo.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
         userInfo.setPhoneNumber(request.getPhoneNumber());
@@ -86,7 +86,7 @@ public class UserProfileService {
         response.setClothingSize(userInfo.getClothingSize());
         response.setHobby(userInfo.getHobby());
         response.setImportant(userInfo.getImportant());
-        response.setPhoto(userInfo.getPhoto());
+        response.setImage(userInfo.getImage());
         response.setPhoneNumber(userInfo.getPhoneNumber());
         response.setShoeSize(userInfo.getShoeSize());
         response.setDateOfBirth(userInfo.getDateOfBirth());
@@ -99,9 +99,29 @@ public class UserProfileService {
         myProfileResponse.setId(user.getId());
         myProfileResponse.setFirstName(user.getFirstName());
         myProfileResponse.setLastName(user.getLastName());
-        myProfileResponse.setPhoto(user.getImage());
+        myProfileResponse.setImage(user.getImage());
         myProfileResponse.setEmail(user.getEmail());
         return myProfileResponse;
+    }
+
+    @Transactional
+    public ProfileResponse getFullInfoMyProfile() {
+        UserInfo userInfo = new UserInfo();
+        ProfileResponse response = new ProfileResponse();
+        User user = getAuthPrincipal();
+        response.setId(user.getUserInfo().getId());
+        response.setEmail(user.getEmail());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setCountry(user.getUserInfo().getCountry());
+        response.setClothingSize(user.getUserInfo().getClothingSize());
+        response.setHobby(user.getUserInfo().getHobby());
+        response.setImportant(user.getUserInfo().getImportant());
+        response.setImage(user.getUserInfo().getImage());
+        response.setPhoneNumber(user.getUserInfo().getPhoneNumber());
+        response.setShoeSize(user.getUserInfo().getShoeSize());
+        response.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        return response;
     }
 
     public FriendProfileResponse friendProfile(Long id) {
@@ -161,6 +181,7 @@ public class UserProfileService {
                 HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
                         wish.getId(),
                         wish.getWishName(),
+                        wish.getHoliday().getName(),
                         wish.getLinkToGift(),
                         wish.getDateOfHoliday(),
                         wish.getDescription(),

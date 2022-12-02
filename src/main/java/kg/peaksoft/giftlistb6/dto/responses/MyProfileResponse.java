@@ -8,7 +8,7 @@ import lombok.Setter;
 public class MyProfileResponse {
 
     private Long id;
-    private String photo;
+    private String image;
     private String firstName;
     private String lastName;
     private String email;

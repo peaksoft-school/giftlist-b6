@@ -19,7 +19,7 @@ public class UserInfo {
     @GeneratedValue(generator = "userInfo_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String photo;
+    private String image;
 
     private String country;
 
