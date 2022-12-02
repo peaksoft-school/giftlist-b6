@@ -44,4 +44,9 @@ public class ProfileApi {
     public MyProfileResponse myProfile() {
         return service.myProfile();
     }
+    @Operation(summary = "Full Info My Profile ", description = "Can see full info my profile")
+    @GetMapping()
+    public ProfileResponse fullInfoMyProfile(){
+        return service.getFullInfoMyProfile();
+    }
 }
