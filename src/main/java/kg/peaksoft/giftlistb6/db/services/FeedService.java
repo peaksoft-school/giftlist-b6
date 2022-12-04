@@ -42,9 +42,9 @@ public class FeedService {
         feedResponse.setWishName(wish.getWishName());
         feedResponse.setImage(wish.getImage());
         feedResponse.setStatus(wish.getWishStatus());
-        if (wish.getHoliday()!=null){
-        feedResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getDateOfHoliday()));
-        }else {
+        if (wish.getHoliday() != null) {
+            feedResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getDateOfHoliday()));
+        } else {
             feedResponse.setHoliday(new HolidayResponse());
         }
         if (wish.getReservoir() == null) {
@@ -84,7 +84,7 @@ public class FeedService {
         InnerFeedResponse innerFeedResponse = new InnerFeedResponse();
         innerFeedResponse.setWishId(wish.getId());
         innerFeedResponse.setSearchUserResponse(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getImage(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
-        innerFeedResponse.setHolidayResponse(new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+        innerFeedResponse.setHolidayResponse(new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerFeedResponse.setWishName(wish.getWishName());
         innerFeedResponse.setStatus(wish.getWishStatus());
         innerFeedResponse.setDescription(wish.getDescription());
