@@ -42,7 +42,11 @@ public class FeedService {
         feedResponse.setWishName(wish.getWishName());
         feedResponse.setImage(wish.getImage());
         feedResponse.setStatus(wish.getWishStatus());
+        if (wish.getHoliday()!=null){
         feedResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getDateOfHoliday()));
+        }else {
+            feedResponse.setHoliday(new HolidayResponse());
+        }
         if (wish.getReservoir() == null) {
             feedResponse.setUserFeedResponse(new UserFeedResponse());
         } else {
