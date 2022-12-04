@@ -47,7 +47,7 @@ public class FeedService {
         } else {
             feedResponse.setHoliday(new HolidayResponse());
         }
-        if (wish.getReservoir() == null) {
+        if (wish.getReservoir() == null){
             feedResponse.setUserFeedResponse(new UserFeedResponse());
         } else {
             feedResponse.setUserFeedResponse(new UserFeedResponse(wish.getReservoir().getId(), wish.getReservoir().getImage()));
