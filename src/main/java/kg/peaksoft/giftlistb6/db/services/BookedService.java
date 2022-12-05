@@ -157,30 +157,26 @@ public class BookedService {
     public SimpleResponse saveWish(Long wishId, Long holidayId) {
         User user = getPrinciple();
         Wish wishUser = wishRepository.findById(wishId).orElseThrow(
-                () -> new NotFoundException("not found")
+                () -> new NotFoundException("Желание не найдено! ")
         );
         if (!wishUser.getUser().equals(user)) {
             Wish newWish = new Wish();
             newWish.setWishName(wishUser.getWishName());
             newWish.setWishStatus(Status.WAIT);
             newWish.setIsBlock(false);
+            newWish.setReservoir(null);
             newWish.setLinkToGift(wishUser.getLinkToGift());
-            newWish.setDateOfHoliday(wishUser.getDateOfHoliday());
             newWish.setImage(wishUser.getImage());
             newWish.setDescription(wishUser.getDescription());
-            newWish.setWishStatus(newWish.getWishStatus());
             Holiday holiday1 = holidayRepository.findById(holidayId).orElseThrow(
-                    () -> new NotFoundException("not found")
+                    () -> new NotFoundException("Праздник не найден! ")
             );
-            holiday1.setId(holiday1.getId());
-            holiday1.setName(wishUser.getHoliday().getName());
-            holiday1.setDateOfHoliday(wishUser.getHoliday().getDateOfHoliday());
-            holiday1.setImage(wishUser.getHoliday().getImage());
+            newWish.setDateOfHoliday(holiday1.getDateOfHoliday());
             newWish.setHoliday(holiday1);
             holiday1.setWishes(List.of(newWish));
             newWish.setUser(user);
             user.addWish(newWish);
-            wishRepository.save(wishUser);
+            wishRepository.save(newWish);
             log.info("Wish with id: {} successfully added to {} gifts", wishId, user.getFirstName());
         } else {
             return new SimpleResponse("Ваше желание!", "");
