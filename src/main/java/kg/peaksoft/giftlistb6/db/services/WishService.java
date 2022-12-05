@@ -98,7 +98,7 @@ public class WishService {
         response.setWishName(wish.getWishName());
         response.setImage(wish.getImage());
         response.setHoliday(
-                new HolidayResponse(wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+                new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         response.setWishStatus(wish.getWishStatus());
         return response;
     }
@@ -171,7 +171,7 @@ public class WishService {
         innerWishResponse.setWishName(wish.getWishName());
         innerWishResponse.setLinkToGift(wish.getLinkToGift());
         innerWishResponse.setImage(wish.getImage());
-        innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+        innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerWishResponse.setDescription(wish.getDescription());
         return innerWishResponse;
     }
