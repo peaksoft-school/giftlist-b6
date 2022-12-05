@@ -24,7 +24,7 @@ public class WishResponse {
         this.wishName = wish.getWishName();
         this.image = wish.getImage();
         this.wishStatus = wish.getWishStatus();
-        this.holiday = new HolidayResponse(wish.getHoliday().getName(),
+        this.holiday = new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(),
                 wish.getHoliday().getDateOfHoliday());
     }
 }

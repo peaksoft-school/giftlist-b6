@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class HolidayResponse {
 
+    private Long holidayId;
     private String name;
     private LocalDate localDate;
 }
