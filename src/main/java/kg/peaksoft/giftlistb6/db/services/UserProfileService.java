@@ -53,7 +53,7 @@ public class UserProfileService {
 
     public ProfileResponse saveUpdateUser(@PathVariable Long id, ProfileRequest request) {
         User user = userRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException("не найден!")
+                ()-> new NotFoundException("Пользователь с" + id + " не найден!")
         );
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
         log.info("User with id: {} successfully updated",user.getId());
