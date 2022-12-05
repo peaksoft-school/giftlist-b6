@@ -43,6 +43,6 @@ class MailingListServiceTest {
     @Order(3)
     void getAllMailingLists() {
         List<MailingList> mailingLists = repository.findAll();
-        Assertions.assertThat(mailingLists.size()).isEqualTo(0);
+        Assertions.assertThat(mailingLists.size()).isGreaterThan(0);
     }
 }
