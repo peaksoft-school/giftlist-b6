@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -50,8 +51,10 @@ public class UserProfileService {
         return userInfo;
     }
 
-    public ProfileResponse saveUpdateUser(ProfileRequest request) {
-        User user = getAuthPrincipal();
+    public ProfileResponse saveUpdateUser(@PathVariable Long id, ProfileRequest request) {
+        User user = userRepository.findById(id).orElseThrow(
+                ()-> new NotFoundException("Пользователь с" + id + " не найден!")
+        );
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
         log.info("User with id: {} successfully updated",user.getId());
         return convertToResponse(repository.save(userInfo1));
@@ -78,7 +81,7 @@ public class UserProfileService {
     public ProfileResponse convertToResponse(UserInfo userInfo) {
         ProfileResponse response = new ProfileResponse();
         User user = getAuthPrincipal();
-        response.setId(userInfo.getId());
+        response.setId(user.getId());
         response.setEmail(user.getEmail());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());

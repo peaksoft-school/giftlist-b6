@@ -28,9 +28,10 @@ public class ProfileApi {
     }
 
     @Operation(summary = "Update profile", description = "Can update profile")
-    @PutMapping
-    public ProfileResponse updateProfileUser(@RequestBody ProfileRequest request) {
-        return service.saveUpdateUser(request);
+    @PutMapping("{id}")
+    public ProfileResponse updateProfileUser(@PathVariable Long id,
+                                             @RequestBody ProfileRequest request) {
+        return service.saveUpdateUser(id, request);
     }
 
     @Operation(summary = "Friends profile", description = "Can see friends profile")
