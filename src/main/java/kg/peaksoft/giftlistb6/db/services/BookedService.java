@@ -157,7 +157,7 @@ public class BookedService {
     public SimpleResponse saveWish(Long wishId, Long holidayId) {
         User user = getPrinciple();
         Wish wishUser = wishRepository.findById(wishId).orElseThrow(
-                () -> new NotFoundException("Желание не найдено!")
+                () -> new NotFoundException("Желание не найдено! ")
         );
         if (!wishUser.getUser().equals(user)) {
             Wish newWish = new Wish();
@@ -169,7 +169,7 @@ public class BookedService {
             newWish.setImage(wishUser.getImage());
             newWish.setDescription(wishUser.getDescription());
             Holiday holiday1 = holidayRepository.findById(holidayId).orElseThrow(
-                    () -> new NotFoundException("Праздник не найден!")
+                    () -> new NotFoundException("Праздник не найден! ")
             );
             newWish.setDateOfHoliday(holiday1.getDateOfHoliday());
             newWish.setHoliday(holiday1);
