@@ -34,7 +34,7 @@ public class BookResponse {
         if (wish.getReservoir() != null) {
             this.reservedUserResponse = new ReservedUserResponse(wish.getReservoir().getId(),
                     wish.getReservoir().getFirstName() + " " + wish.getReservoir().getLastName(),
-                    wish.getImage());
+                    wish.getReservoir().getImage());
         } else {
             this.reservedUserResponse = new ReservedUserResponse();
         }
