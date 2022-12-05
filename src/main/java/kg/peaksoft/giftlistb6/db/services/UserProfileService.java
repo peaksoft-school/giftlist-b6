@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -39,7 +38,11 @@ public class UserProfileService {
         return convertToResponse(userInfo);
     }
 
+    @Transactional
     public UserInfo updateUser(UserInfo userInfo, ProfileRequest request) {
+        User user = getAuthPrincipal();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
         userInfo.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
@@ -48,15 +51,18 @@ public class UserProfileService {
         userInfo.setImportant(request.getImportant());
         userInfo.setShoeSize(request.getShoeSize());
         userInfo.setClothingSize(request.getClothingSize());
+        user.setUserInfo(userInfo);
+        userInfo.setUser(user);
         return userInfo;
     }
 
-    public ProfileResponse saveUpdateUser(@PathVariable Long id, ProfileRequest request) {
+    @Transactional
+    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
         User user = userRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException("Пользователь с" + id + " не найден!")
+                () -> new NotFoundException("Пользователь с" + id + " не найден!")
         );
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
-        log.info("User with id: {} successfully updated",user.getId());
+        log.info("User with id: {} successfully updated", user.getId());
         return convertToResponse(repository.save(userInfo1));
     }
 
@@ -73,6 +79,7 @@ public class UserProfileService {
         userInfo.setShoeSize(request.getShoeSize());
         userInfo.setClothingSize(request.getClothingSize());
         user.setUserInfo(userInfo);
+        userInfo.setUser(user);
         repository.save(userInfo);
         return userInfo;
     }
