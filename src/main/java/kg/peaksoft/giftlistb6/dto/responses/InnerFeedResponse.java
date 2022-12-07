@@ -13,9 +13,11 @@ import lombok.Setter;
 public class InnerFeedResponse {
 
     private Long wishId;
-    private SearchUserResponse searchUserResponse;
+    private SearchUserResponse saveUser;
     private HolidayResponse holidayResponse;
+    private String image;
     private String wishName;
     private Status status;
     private String description;
+    private UserFeedResponse reservoirUser;
 }

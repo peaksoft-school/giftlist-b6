@@ -39,4 +39,7 @@ public class UserInfo {
 
     private String important;
 
+    @OneToOne(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH},mappedBy = "userInfo")
+    private User user;
+
 }
