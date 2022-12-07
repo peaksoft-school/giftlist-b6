@@ -1,8 +1,10 @@
 package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.*;
+import kg.peaksoft.giftlistb6.db.repositories.CharityRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
+import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.enums.Status;
@@ -12,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ public class UserProfileService {
 
     private final UserProfileRepository repository;
     private final UserRepository userRepository;
+    private final WishRepository wishRepository;
+    private final CharityRepository charityRepository;
 
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -39,7 +42,11 @@ public class UserProfileService {
         return convertToResponse(userInfo);
     }
 
+    @Transactional
     public UserInfo updateUser(UserInfo userInfo, ProfileRequest request) {
+        User user = getAuthPrincipal();
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
         userInfo.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
@@ -48,15 +55,18 @@ public class UserProfileService {
         userInfo.setImportant(request.getImportant());
         userInfo.setShoeSize(request.getShoeSize());
         userInfo.setClothingSize(request.getClothingSize());
+        user.setUserInfo(userInfo);
+        userInfo.setUser(user);
         return userInfo;
     }
 
-    public ProfileResponse saveUpdateUser(@PathVariable Long id, ProfileRequest request) {
+    @Transactional
+    public ProfileResponse saveUpdateUser(Long id, ProfileRequest request) {
         User user = userRepository.findById(id).orElseThrow(
-                ()-> new NotFoundException("Пользователь с" + id + " не найден!")
+                () -> new NotFoundException("Пользователь с" + id + " не найден!")
         );
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
-        log.info("User with id: {} successfully updated",user.getId());
+        log.info("User with id: {} successfully updated", user.getId());
         return convertToResponse(repository.save(userInfo1));
     }
 
@@ -73,6 +83,7 @@ public class UserProfileService {
         userInfo.setShoeSize(request.getShoeSize());
         userInfo.setClothingSize(request.getClothingSize());
         user.setUserInfo(userInfo);
+        userInfo.setUser(user);
         repository.save(userInfo);
         return userInfo;
     }
@@ -109,10 +120,9 @@ public class UserProfileService {
 
     @Transactional
     public ProfileResponse getFullInfoMyProfile() {
-        UserInfo userInfo = new UserInfo();
         ProfileResponse response = new ProfileResponse();
         User user = getAuthPrincipal();
-        response.setId(user.getUserInfo().getId());
+        response.setId(user.getId());
         response.setEmail(user.getEmail());
         response.setFirstName(user.getFirstName());
         response.setLastName(user.getLastName());
@@ -162,36 +172,57 @@ public class UserProfileService {
                     holiday.getImage());
             holidayResponses.add(holidayResponse);
         }
-
+        friendProfileResponse.setHolidayResponses(holidayResponses);
         List<CharityResponse> charityResponses = new ArrayList<>();
-        for (Charity charity : friend.getCharities()) {
-            CharityResponse charityResponse = new CharityResponse(
-                    charity.getId(),
-                    charity.getName(),
-                    charity.getCharityStatus(),
-                    charity.getDescription(),
-                    charity.getCondition(),
-                    charity.getImage(),
-                    charity.getCreatedAt());
+        for (Charity c : friend.getCharities()) {
+            CharityResponse charityResponse = new CharityResponse();
+            charityResponse.setId(c.getId());
+            charityResponse.setName(c.getName());
+            charityResponse.setCondition(c.getCondition());
+            charityResponse.setImage(c.getImage());
+            charityResponse.setCreatedDate(c.getCreatedAt());
+            charityResponse.setDescription(c.getDescription());
+            charityResponse.setCharityStatus(c.getCharityStatus());
+            if (c.getReservoir() != null && !c.getReservoir().equals(user) && c.getCharityStatus().equals(Status.RESERVED)) {
+                charityResponse.setIsMy(false);
+            } else if (c.getCharityStatus().equals(Status.WAIT)) {
+                charityResponse.setIsMy(false);
+            } else {
+                charityResponse.setIsMy(true);
+            }
+            if (c.getReservoir() != null) {
+                charityResponse.setReservedUserResponse(new ReservedUserResponse(c.getReservoir().getId(), c.getReservoir().getFirstName() + " " + c.getReservoir().getLastName(), c.getReservoir().getImage()));
+            } else {
+                charityResponse.setReservedUserResponse(new ReservedUserResponse());
+            }
             charityResponses.add(charityResponse);
         }
-        friendProfileResponse.setHolidayResponses(holidayResponses);
         friendProfileResponse.setCharityResponses(charityResponses);
 
-        List<HolidayGiftsResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : friend.getWishes()) {
-            if (wish.getIsBlock().equals(false)) {
-                HolidayGiftsResponse wishResponse = new HolidayGiftsResponse(
-                        wish.getId(),
-                        wish.getWishName(),
-                        wish.getHoliday().getName(),
-                        wish.getLinkToGift(),
-                        wish.getDateOfHoliday(),
-                        wish.getDescription(),
-                        wish.getImage(),
-                        wish.getWishStatus());
-                wishResponses.add(wishResponse);
+        List<FriendWishesResponse> wishResponses = new ArrayList<>();
+        for (Wish w : friend.getWishes()) {
+            FriendWishesResponse friendWishesResponse = new FriendWishesResponse();
+            friendWishesResponse.setId(w.getId());
+            friendWishesResponse.setWishName(w.getWishName());
+            friendWishesResponse.setWishStatus(w.getWishStatus());
+            friendWishesResponse.setDateOfHoliday(w.getDateOfHoliday());
+            friendWishesResponse.setHolidayName(w.getHoliday().getName());
+            friendWishesResponse.setDescription(w.getDescription());
+            friendWishesResponse.setLinkToGift(w.getLinkToGift());
+            friendWishesResponse.setImage(w.getImage());
+            if (w.getReservoir() != null && !w.getReservoir().equals(user) && w.getWishStatus().equals(Status.RESERVED)) {
+                friendWishesResponse.setIsMy(false);
+            } else if (w.getWishStatus().equals(Status.WAIT)) {
+                friendWishesResponse.setIsMy(false);
+            } else {
+                friendWishesResponse.setIsMy(true);
             }
+            if (w.getReservoir() != null) {
+                friendWishesResponse.setReservedUserResponse(new ReservedUserResponse(w.getReservoir().getId(), w.getReservoir().getFirstName() + " " + w.getReservoir().getLastName(), w.getReservoir().getImage()));
+            } else {
+                friendWishesResponse.setReservedUserResponse(new ReservedUserResponse());
+            }
+            wishResponses.add(friendWishesResponse);
         }
         friendProfileResponse.setWishResponses(wishResponses);
 

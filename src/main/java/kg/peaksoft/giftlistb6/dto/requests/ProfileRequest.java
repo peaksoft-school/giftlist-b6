@@ -10,6 +10,8 @@ import java.time.LocalDate;
 public class ProfileRequest {
 
     private String image;
+    private String firstName;
+    private String lastName;
     private String country;
     private String phoneNumber;
     private LocalDate dateOfBirth;
