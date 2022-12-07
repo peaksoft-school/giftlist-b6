@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class ProfileResponse {
 
     private Long id;
-    private String photo;
+    private String image;
     private String firstName;
     private String lastName;
     private String email;

@@ -28,9 +28,10 @@ public class ProfileApi {
     }
 
     @Operation(summary = "Update profile", description = "Can update profile")
-    @PutMapping
-    public ProfileResponse updateProfileUser(@RequestBody ProfileRequest request) {
-        return service.saveUpdateUser(request);
+    @PutMapping("{id}")
+    public ProfileResponse updateProfileUser(@PathVariable Long id,
+                                             @RequestBody ProfileRequest request) {
+        return service.saveUpdateUser(id, request);
     }
 
     @Operation(summary = "Friends profile", description = "Can see friends profile")
@@ -43,5 +44,10 @@ public class ProfileApi {
     @GetMapping("/me")
     public MyProfileResponse myProfile() {
         return service.myProfile();
+    }
+    @Operation(summary = "Full Info My Profile ", description = "Can see full info my profile")
+    @GetMapping()
+    public ProfileResponse fullInfoMyProfile(){
+        return service.getFullInfoMyProfile();
     }
 }

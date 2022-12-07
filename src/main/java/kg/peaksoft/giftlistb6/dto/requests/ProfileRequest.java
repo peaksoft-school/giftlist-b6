@@ -9,7 +9,9 @@ import java.time.LocalDate;
 @Setter
 public class ProfileRequest {
 
-    private String photo;
+    private String image;
+    private String firstName;
+    private String lastName;
     private String country;
     private String phoneNumber;
     private LocalDate dateOfBirth;

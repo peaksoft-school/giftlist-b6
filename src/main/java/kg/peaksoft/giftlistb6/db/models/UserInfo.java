@@ -19,7 +19,7 @@ public class UserInfo {
     @GeneratedValue(generator = "userInfo_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    private String photo;
+    private String image;
 
     private String country;
 
@@ -38,5 +38,8 @@ public class UserInfo {
     private String hobby;
 
     private String important;
+
+    @OneToOne(cascade ={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH},mappedBy = "userInfo")
+    private User user;
 
 }

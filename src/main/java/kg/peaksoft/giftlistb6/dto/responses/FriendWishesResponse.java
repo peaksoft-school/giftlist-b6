@@ -10,17 +10,18 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class CharityResponse {
+@NoArgsConstructor
+public class FriendWishesResponse {
 
     private Long id;
-    private String name;
-    private Status charityStatus;
+    private String wishName;
+    private String holidayName;
+    private String linkToGift;
+    private LocalDate dateOfHoliday;
     private String description;
-    private String condition;
     private String image;
-    private LocalDate createdDate;
+    private Status wishStatus;
     private Boolean isMy;
     private ReservedUserResponse reservedUserResponse;
 }
