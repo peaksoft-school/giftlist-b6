@@ -72,7 +72,7 @@ class ComplaintsServiceTest {
         SimpleResponse simpleResponse = complaintsService.unBlockWishByIdFromComplaint(1L);
         Wish wish1 = wishRepository.findWishById(1L).orElseThrow(
                 () -> new NotFoundException("Wish not found"));
-        Assertions.assertThat(simpleResponse).info.description("разблокирован");
+        Assertions.assertThat(simpleResponse).info.description("Разблокирован");
         assertEquals(false, wish1.getIsBlock());
     }
 }
