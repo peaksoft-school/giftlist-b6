@@ -1,10 +1,8 @@
 package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.*;
-import kg.peaksoft.giftlistb6.db.repositories.CharityRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
-import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.enums.Status;
@@ -26,8 +24,6 @@ public class UserProfileService {
 
     private final UserProfileRepository repository;
     private final UserRepository userRepository;
-    private final WishRepository wishRepository;
-    private final CharityRepository charityRepository;
 
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -57,6 +53,10 @@ public class UserProfileService {
         userInfo.setClothingSize(request.getClothingSize());
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
+        userInfo.setFacebookLink(request.getFacebookLink());
+        userInfo.setInstagramLink(request.getInstagramLink());
+        userInfo.setTelegramLink(request.getTelegramLink());
+        userInfo.setVkLink(request.getVkLink());
         return userInfo;
     }
 
@@ -84,6 +84,10 @@ public class UserProfileService {
         userInfo.setClothingSize(request.getClothingSize());
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
+        userInfo.setFacebookLink(request.getFacebookLink());
+        userInfo.setInstagramLink(request.getInstagramLink());
+        userInfo.setTelegramLink(request.getTelegramLink());
+        userInfo.setVkLink(request.getVkLink());
         repository.save(userInfo);
         return userInfo;
     }
@@ -104,6 +108,10 @@ public class UserProfileService {
         response.setPhoneNumber(userInfo.getPhoneNumber());
         response.setShoeSize(userInfo.getShoeSize());
         response.setDateOfBirth(userInfo.getDateOfBirth());
+        response.setFacebookLink(userInfo.getFacebookLink());
+        response.setInstagramLink(userInfo.getInstagramLink());
+        response.setTelegramLink(userInfo.getTelegramLink());
+        response.setVkLink(userInfo.getVkLink());
         return response;
     }
 
@@ -134,6 +142,10 @@ public class UserProfileService {
         response.setPhoneNumber(user.getUserInfo().getPhoneNumber());
         response.setShoeSize(user.getUserInfo().getShoeSize());
         response.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        response.setFacebookLink(user.getUserInfo().getFacebookLink());
+        response.setInstagramLink(user.getUserInfo().getInstagramLink());
+        response.setTelegramLink(user.getUserInfo().getTelegramLink());
+        response.setVkLink(user.getUserInfo().getVkLink());
         return response;
     }
 
@@ -162,6 +174,10 @@ public class UserProfileService {
         friendProfileResponse.setImportant(friend.getUserInfo().getImportant());
         friendProfileResponse.setShoeSize(friend.getUserInfo().getShoeSize());
         friendProfileResponse.setDateOfBirth(friend.getUserInfo().getDateOfBirth());
+        friendProfileResponse.setFacebookLink(friend.getUserInfo().getFacebookLink());
+        friendProfileResponse.setInstagramLink(friend.getUserInfo().getInstagramLink());
+        friendProfileResponse.setTelegramLink(friend.getUserInfo().getTelegramLink());
+        friendProfileResponse.setVkLink(friend.getUserInfo().getVkLink());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
         for (Holiday holiday : friend.getHolidays()) {

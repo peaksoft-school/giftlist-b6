@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class ResetPasswordRequest {
 
-    private Long id;
+    @NotBlank
+    @NotNull
+    private String oldPassword;
 
     @NotNull
     @NotBlank

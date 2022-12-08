@@ -27,4 +27,8 @@ public class FriendProfileResponse {
     private List<FriendWishesResponse> wishResponses;
     private List<HolidayResponses> holidayResponses;
     private List<CharityResponse> charityResponses;
+    private String facebookLink;
+    private String instagramLink;
+    private String telegramLink;
+    private String vkLink;
 }
