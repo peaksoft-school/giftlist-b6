@@ -61,6 +61,4 @@ public class Charity {
         this.image = charityRequest.getImage();
         this.createdAt = LocalDate.now();
     }
-
-
 }
