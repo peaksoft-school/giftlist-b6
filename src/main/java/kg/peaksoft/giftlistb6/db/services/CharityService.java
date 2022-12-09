@@ -259,4 +259,26 @@ public class CharityService {
         }
         return charityResponse;
     }
+
+    @Transactional
+    public SimpleResponse blockCharity(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(() -> {
+            log.error("Charity with id:{} not found", id);
+            throw new NotFoundException("Благотворительность с таким id= %s не найден");
+        });
+        charity.setIsBlock(true);
+        log.info("Charity with id:{} is block", id);
+        return new SimpleResponse("Заблокирован", "Благотворительность заблокирован");
+    }
+
+    @Transactional
+    public SimpleResponse unblockCharity(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(() -> {
+            log.error("Charity with id:{} not found", id);
+            throw new NotFoundException("Благотворительность с таким id= %s не найден");
+        });
+        charity.setIsBlock(false);
+        log.info("Charity with id:{} is unblock", id);
+        return new SimpleResponse("Разблокирован", "Благотворительность разблокирован");
+    }
 }

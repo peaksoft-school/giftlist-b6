@@ -2,12 +2,8 @@ package kg.peaksoft.giftlistb6.api;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import kg.peaksoft.giftlistb6.db.services.AdminService;
-import kg.peaksoft.giftlistb6.db.services.CharityService;
-import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
-import kg.peaksoft.giftlistb6.dto.responses.CharityResponses;
-import kg.peaksoft.giftlistb6.dto.responses.InnerCharityResponse;
-import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
+import kg.peaksoft.giftlistb6.db.services.*;
+import kg.peaksoft.giftlistb6.dto.responses.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +20,20 @@ public class AdminApi {
 
     private final AdminService adminService;
     private final CharityService charityService;
+    private final UserProfileService service;
+    private final ComplaintsService complaintsService;
+    private final HolidayService holidayService;
 
     @Operation(summary = "Get all users", description = "Admin can see all users.")
     @GetMapping("/users")
     public List<AdminResponse> getAllUsers() {
         return adminService.getAllUsers();
+    }
+
+    @Operation(summary = "Get by id", description = "Admin see user profile")
+    @GetMapping("get/{id}")
+    public FriendProfileResponse FriendProfile(@PathVariable Long id) {
+        return service.friendProfile(id);
     }
 
     @Operation(summary = "Block user", description = "Block user by id.")
@@ -53,5 +58,35 @@ public class AdminApi {
     @GetMapping("/charities")
     public CharityResponses getAllCharities() {
         return charityService.getAllCharityResponseByAdmin();
+    }
+    @Operation(summary = "Block wish",description = "Admin can block user wishes")
+    @GetMapping("wishBlock/{id}")
+    public SimpleResponse blockWishByIdFromComplaint(@PathVariable Long id){
+        return complaintsService.blockWishByIdFromComplaint(id);
+    }
+
+    @Operation(summary = "Unblock wish",description = "Admin can unblock user wishes")
+    @PutMapping("/unblockWish/{id}")
+    public SimpleResponse unBlockWishByIdFromComplaint(@PathVariable Long id){
+        return complaintsService.unBlockWishByIdFromComplaint(id);
+    }
+    @Operation(summary ="Block holiday",description = "Admin can block user holidays")
+    @GetMapping("holidayBlock/{id}")
+    public SimpleResponse blockHoliday(@PathVariable Long id){
+        return holidayService.blockHoliday(id);
+    }@Operation(summary = "Unblock holiday",description = "Admin can unblock user holidays")
+    @PutMapping("/unblockHoliday/{id}")
+    public SimpleResponse unblockHoliday(@PathVariable Long id){
+        return holidayService.unblockHoliday(id);
+    }
+    @Operation(summary = "Block charity",description = "Admin can block user charity")
+    @PutMapping("charityBlock/{id}")
+    public SimpleResponse blockCharity(@PathVariable Long id){
+        return charityService.blockCharity(id);
+    }
+    @Operation(summary = "UnBlock charity",description ="Admin can unblock user charity")
+    @PutMapping("/unblockCharity/{id}")
+    public SimpleResponse unblockCharity(@PathVariable Long id){
+        return charityService.unblockCharity(id);
     }
 }
