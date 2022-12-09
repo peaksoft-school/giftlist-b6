@@ -22,7 +22,6 @@ public class BookedApi {
 
     private final BookedService bookedService;
 
-
     @Operation(summary = "Book wishes",description = "User can book wish")
     @PostMapping("reserve/{id}")
     public SimpleResponse reservation(@PathVariable Long id,
