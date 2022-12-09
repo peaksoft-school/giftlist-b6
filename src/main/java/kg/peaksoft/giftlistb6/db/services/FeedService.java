@@ -66,11 +66,6 @@ public class FeedService {
                 responses.addFirst(mapToAllResponse(wish));
             }
         }
-        User user = getAuthPrincipal();
-        for (User friend : user.getFriends()) {
-            if (user.getFriends().contains(friend))
-                responses.addLast((FeedResponse) wishRepository.getFriendsWishes(friend));
-        }
         return responses;
     }
 
