@@ -43,7 +43,7 @@ public class UserProfileService {
         User user = getAuthPrincipal();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        userInfo.setImage(request.getImage());
+        user.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
         userInfo.setPhoneNumber(request.getPhoneNumber());
@@ -74,7 +74,7 @@ public class UserProfileService {
     public UserInfo convertToEntity(ProfileRequest request) {
         User user = getAuthPrincipal();
         UserInfo userInfo = new UserInfo();
-        userInfo.setImage(request.getImage());
+        user.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
         userInfo.setPhoneNumber(request.getPhoneNumber());
@@ -104,7 +104,7 @@ public class UserProfileService {
         response.setClothingSize(userInfo.getClothingSize());
         response.setHobby(userInfo.getHobby());
         response.setImportant(userInfo.getImportant());
-        response.setImage(userInfo.getImage());
+        response.setImage(user.getImage());
         response.setPhoneNumber(userInfo.getPhoneNumber());
         response.setShoeSize(userInfo.getShoeSize());
         response.setDateOfBirth(userInfo.getDateOfBirth());
@@ -138,7 +138,7 @@ public class UserProfileService {
         response.setClothingSize(user.getUserInfo().getClothingSize());
         response.setHobby(user.getUserInfo().getHobby());
         response.setImportant(user.getUserInfo().getImportant());
-        response.setImage(user.getUserInfo().getImage());
+        response.setImage(user.getImage());
         response.setPhoneNumber(user.getUserInfo().getPhoneNumber());
         response.setShoeSize(user.getUserInfo().getShoeSize());
         response.setDateOfBirth(user.getUserInfo().getDateOfBirth());
