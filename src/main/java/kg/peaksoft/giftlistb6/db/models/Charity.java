@@ -2,6 +2,7 @@ package kg.peaksoft.giftlistb6.db.models;
 
 import kg.peaksoft.giftlistb6.dto.requests.CharityRequest;
 import kg.peaksoft.giftlistb6.enums.Status;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Charity {
 
     @Id
