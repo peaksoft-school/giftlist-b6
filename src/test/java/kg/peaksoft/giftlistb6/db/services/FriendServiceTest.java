@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -37,12 +39,13 @@ class FriendServiceTest {
 
     @Test
     void sendRequestToFriend() {
-        User user = userRepository.findById(5L).get();
+        User user = userRepository.findById(9L).get();
         User friend = userRepository.findById(6L).get();
         int before = friendRepository.getAllRequests(user.getEmail()).size();
-        SimpleResponse simpleResponse = friendService.sendRequestToFriend(5L);
+//        friendService.sendRequestToFriend(5L);
+        user.setRequests(List.of(friend));
         int size = friendRepository.getAllRequests(user.getEmail()).size();
-        assertThat(simpleResponse).info.description("Удачно");
+        assertThat(size).isGreaterThan(before);
 
     }
 
