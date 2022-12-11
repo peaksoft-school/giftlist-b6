@@ -55,7 +55,7 @@ public class NotificationService {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
                         n.getId(), "",
-                        n.getFromUser().getFirstName() ,
+                        n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
                         n.getFromUser().getImage(),
                         n.getCreatedDate(),
@@ -84,7 +84,7 @@ public class NotificationService {
                         n.getWish().getImage(),
                         n.getCreatedDate(),
                         NotificationType.BOOKED_WISH_ANONYMOUSLY,
-                         " было забронировано анонимным пользователем "));
+                        " было забронировано анонимным пользователем "));
             }
         }
         allNotifications.setResponseList(responses);
@@ -92,24 +92,24 @@ public class NotificationService {
         return allNotifications;
     }
 
-    public SimpleResponse markAsRead(){
+    public SimpleResponse markAsRead() {
         User user = getAuthPrincipal();
         List<Notification> notifications = notificationRepository.findAll();
-        for (Notification n:notifications) {
-            if (n.getUser().equals(user)){
-            notificationRepository.deleteById(n.getId());
+        for (Notification n : notifications) {
+            if (n.getUser().equals(user)) {
+                notificationRepository.deleteById(n.getId());
             }
         }
         log.info("Mark as read all notifications");
-        return new SimpleResponse("Удачно","ок");
+        return new SimpleResponse("Удачно", "ок");
     }
 
-    public AllNotificationsResponse getAllNotificationsForAdmin(){
+    public AllNotificationsResponse getAllNotificationsForAdmin() {
         AllNotificationsResponse response = new AllNotificationsResponse();
-        List<NotificationResponse> notificationResponses=new ArrayList<>();
+        List<NotificationResponse> notificationResponses = new ArrayList<>();
         List<Notification> notifications = notificationRepository.findAll();
-        for (Notification n:notifications) {
-            if (n.getNotificationType().equals(NotificationType.CREATE_COMPLAINTS)){
+        for (Notification n : notifications) {
+            if (n.getNotificationType().equals(NotificationType.CREATE_COMPLAINTS)) {
                 notificationResponses.add(new NotificationResponse(
                         n.getFromUser().getId(),
                         n.getWish().getId(),
@@ -121,7 +121,8 @@ public class NotificationService {
                         NotificationType.CREATE_COMPLAINTS,
                         " пожаловался на "));
             }
-        } response.setResponseList(notificationResponses);
+        }
+        response.setResponseList(notificationResponses);
         log.info("Admin has seen all notifications");
         return response;
     }
