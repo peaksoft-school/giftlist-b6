@@ -1,6 +1,7 @@
 package kg.peaksoft.giftlistb6.dto.requests;
 
 import kg.peaksoft.giftlistb6.validations.PasswordValid;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
+@Builder
 public class AuthRequest {
 
     @Email
