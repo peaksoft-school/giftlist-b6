@@ -39,6 +39,7 @@ class UserServiceTest {
     @Test
     @DisplayName("register success")
     void shouldSaveTheUser_WhenTheEmailIs_NotTaken() {
+
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstName("Jaulan")
                 .lastName("Nurkamal uulu")
