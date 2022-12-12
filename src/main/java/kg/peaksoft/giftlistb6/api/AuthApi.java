@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import com.google.firebase.auth.FirebaseAuthException;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
+import kg.peaksoft.giftlistb6.dto.requests.ForgotPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
@@ -44,15 +45,22 @@ public class AuthApi {
     }
 
     @Operation(summary = "Forgot password", description = "Send link forgot password")
-    @PostMapping("forgot-password")
+    @PutMapping("forgot-password")
     public SimpleResponse forgotPassword(@RequestParam String email,
                                          @RequestParam String link) throws MessagingException {
         return userService.forgotPassword(email,link);
     }
 
     @Operation(summary = "Reset Password", description = "Change password")
-    @PostMapping("reset-password/{id}")
-    public SimpleResponse resetPassword(@PathVariable("id") Long id,  @RequestBody @Valid ResetPasswordRequest request){
+    @PutMapping("reset-password/{id}")
+    public SimpleResponse resetPassword(@PathVariable("id") Long id,
+                                        @RequestBody @Valid ResetPasswordRequest request){
         return userService.resetPassword(id,request);
+    }
+
+    @Operation(summary = "Change password", description = "Link to change password")
+    @PutMapping("change-password")
+    public SimpleResponse changePasswordOnForgot(@RequestBody @Valid ForgotPasswordRequest forgotPassword) {
+        return userService.changeOnForgot(forgotPassword);
     }
 }

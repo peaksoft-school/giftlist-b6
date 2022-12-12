@@ -1,7 +1,6 @@
 package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.User;
-import kg.peaksoft.giftlistb6.db.repositories.CharityRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
@@ -21,7 +20,6 @@ public class AdminService {
 
     private final UserRepository userRepository;
     private final UserService userService;
-    private final CharityRepository charityRepository;
 
     public List<AdminResponse> getAllUsers() {
         List<User> users = userRepository.getAll();
@@ -36,7 +34,7 @@ public class AdminService {
     public SimpleResponse block(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> {
             log.error("User with id:{} not found", id);
-            throw new NotFoundException("Пользователь с таким id= %s не найден");
+            throw new NotFoundException("Пользователь с таким id: %s не найден");
         });
         user.setIsBlock(true);
         log.info("User with id:{} is blocked", id);
@@ -48,10 +46,10 @@ public class AdminService {
         User user = userRepository.findById(id).orElseThrow(() -> {
             log.error("User with id:{} not found", id);
             throw new NotFoundException(
-                    "Пользователь с таким id= %s не найден");
+                    "Пользователь с таким id: %s не найден");
         });
         user.setIsBlock(false);
-        log.info("User with id:{} is unblocked ",id);
+        log.info("User with id:{} is unblocked ", id);
         return new SimpleResponse("Разблокирован", "Пользователь разблокирован");
     }
 }

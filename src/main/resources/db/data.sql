@@ -82,17 +82,17 @@ VALUES (1, 'Телефон', 1),
        (43,'Аксессуары, шины',6),
        (44,'Другой транспорт',6);
 
-INSERT INTO charity(id, charity_status, condition, created_date,
+INSERT INTO charity(id, charity_status, condition, created_date,is_block,
                     description, image, name, reservoir_id, user_id, category_id, sub_category_id)
-VALUES (1, 'RESERVED', 'Б/У', '2021-12-12', 'white', null, 'сумка', 3, 4, 2, 6),
-    (2, 'WAIT', 'Б/У', '2022-09-08', null, null, 'ноутбук', null, 4, 1, 3),
-    (3, 'WAIT', 'Новый', '2020-12-01', null, null, 'платье', null, 4, 2, 5);
+VALUES (1, 'RESERVED', 'Б/У', '2021-12-12',false, 'white', null, 'сумка', 3, 4, 2, 6),
+    (2, 'WAIT', 'Б/У', '2022-09-08',false, null, null, 'ноутбук', null, 4, 1, 3),
+    (3, 'WAIT', 'Новый', '2020-12-01',false, null, null, 'платье', null, 4, 2, 5);
 
-INSERT INTO holidays(id, date_of_holiday, image, name, user_id)
-VALUES (1, '2023-03-21', null, 'Нооруз', 4),
-       (2, '2023-09-02', null, 'День рождения', 4),
-       (3, '2023-03-08', null, '8-март', 3),
-       (4, '2023-08-08', null, 'Курбан айт', 4);
+INSERT INTO holidays(id, date_of_holiday, image,is_block, name, user_id)
+VALUES (1, '2023-03-21', null,false, 'Нооруз', 4),
+       (2, '2023-09-02',null,false, 'День рождения', 4),
+       (3, '2023-03-08',null,false, '8-март', 3),
+       (4, '2023-08-08', null,false, 'Курбан айт', 4);
 
 INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, is_block, holiday_id,
                    reservoir_id, user_id)
