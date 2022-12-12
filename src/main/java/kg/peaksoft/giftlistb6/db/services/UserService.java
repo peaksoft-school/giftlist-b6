@@ -31,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
@@ -107,7 +108,7 @@ public class UserService {
             throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
         }
         String jwt = jwtUtils.generateToken(user.getEmail());
-        log.info("User with email: {} successfully logged ",authRequest.getEmail());
+        log.info("User with email: {} successfully logged ", authRequest.getEmail());
 
         return new AuthResponse(
                 user.getId(),
@@ -147,7 +148,7 @@ public class UserService {
                     throw new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", firebaseToken.getEmail()));
                 });
         String token = jwtUtils.generateToken(user.getPassword());
-        log.info("User with email: {} successfully authenticate with google ",firebaseToken.getEmail());
+        log.info("User with email: {} successfully authenticate with google ", firebaseToken.getEmail());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), token);
     }
 
@@ -168,15 +169,19 @@ public class UserService {
         return new SimpleResponse("Отправлено", "Ок");
     }
 
-    public SimpleResponse resetPassword(ResetPasswordRequest request) {
-        User user = userRepo.findById(request.getId()).orElseThrow(
+    @Transactional
+    public SimpleResponse resetPassword(Long id, ResetPasswordRequest request) {
+        User user = userRepo.findById(id).orElseThrow(
                 () -> {
-                    log.error("User with id: {} not found!", request.getId());
-                    throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", request.getId()));
+                    log.error("User with id: {} not found!", id);
+                    throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", id));
                 }
         );
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            return new SimpleResponse("неверный старый пароль", "CREDENTIALS");
+        }
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        log.info("The user's with id:{} password was successfully updated", request.getId());
+        log.info("The user's with id:{} password was successfully updated", id);
         return new SimpleResponse("Пароль обновлен", "ок");
     }
 

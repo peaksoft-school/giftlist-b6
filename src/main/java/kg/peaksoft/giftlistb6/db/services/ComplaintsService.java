@@ -51,7 +51,7 @@ public class ComplaintsService {
 
     public Complaint convertToEntity(ComplaintRequest request) {
         Wish wish = wishRepository.findById(request.getWishId()).orElseThrow(
-                ()-> new NotFoundException(String.format("Жалоба с таким id  = %s не найдено", request.getWishId()))
+                () -> new NotFoundException(String.format("Жалоба с таким id  = %s не найдено", request.getWishId()))
         );
         User user = getPrinciple();
         Complaint complaint = new Complaint();
@@ -89,7 +89,7 @@ public class ComplaintsService {
                 () -> new NotFoundException(String.format("Желания с таким id = %s не найдено", id))
         );
         wish.setIsBlock(true);
-        log.info("Wish with id: {} successfully blocked ",id);
+        log.info("Wish with id: {} successfully blocked ", id);
         return new SimpleResponse("Заблокирован", "ok");
     }
 
@@ -98,7 +98,7 @@ public class ComplaintsService {
                 () -> new NotFoundException(String.format("Желания с таким id = %s не найдено", id))
         );
         wish.setIsBlock(false);
-        log.info("Wish with id: {} successfully unblocked ",id);
+        log.info("Wish with id: {} successfully unblocked ", id);
         return new SimpleResponse("Разблокирован", "ok");
     }
 

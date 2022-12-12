@@ -11,12 +11,7 @@ import kg.peaksoft.giftlistb6.db.services.UserService;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -56,8 +51,8 @@ public class AuthApi {
     }
 
     @Operation(summary = "Reset Password", description = "Change password")
-    @PostMapping("reset-password")
-    public SimpleResponse resetPassword(@RequestBody @Valid ResetPasswordRequest request){
-        return userService.resetPassword(request);
+    @PostMapping("reset-password/{id}")
+    public SimpleResponse resetPassword(@PathVariable("id") Long id,  @RequestBody @Valid ResetPasswordRequest request){
+        return userService.resetPassword(id,request);
     }
 }
