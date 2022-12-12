@@ -6,6 +6,7 @@ import kg.peaksoft.giftlistb6.db.repositories.NotificationRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.responses.AllNotificationsResponse;
 import kg.peaksoft.giftlistb6.dto.responses.NotificationResponse;
+import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.NotificationType;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -41,42 +42,49 @@ public class NotificationService {
             if (n.getNotificationType().equals(NotificationType.ADD_WISH)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
+                        n.getWish().getId(),
+                        n.getWish().getWishName(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
                         n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.ADD_WISH,
-                        "Добавил желаемый подарок"));
+                        " добавил желаемый подарок "));
             }
             if (n.getNotificationType().equals(NotificationType.REQUEST_TO_FRIEND)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
-                        n.getFromUser().getFirstName() ,
+                        n.getId(), "",
+                        n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
                         n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.REQUEST_TO_FRIEND,
-                        "Отправил запрос в друзья"));
+                        " отправил запрос в друзья "));
             }
             if (n.getNotificationType().equals(NotificationType.BOOKED_WISH)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
+                        n.getWish().getId(),
+                        n.getWish().getWishName(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
                         n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.BOOKED_WISH,
-                        n.getWish().getWishName() + " было забронировано " + n.getFromUser().getFirstName() + " " + n.getFromUser().getLastName()));
+                        " было забронировано "));
             }
             if (n.getNotificationType().equals(NotificationType.BOOKED_WISH_ANONYMOUSLY)) {
                 responses.add(new NotificationResponse(
                         n.getFromUser().getId(),
+                        n.getWish().getId(),
+                        n.getWish().getWishName(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
                         n.getWish().getImage(),
                         n.getCreatedDate(),
                         NotificationType.BOOKED_WISH_ANONYMOUSLY,
-                        n.getWish().getWishName() + " было забронировано анонимным пользователем "));
+                        " было забронировано анонимным пользователем "));
             }
         }
         allNotifications.setResponseList(responses);
@@ -84,35 +92,37 @@ public class NotificationService {
         return allNotifications;
     }
 
-    public AllNotificationsResponse markAsRead(){
+    public SimpleResponse markAsRead() {
         User user = getAuthPrincipal();
         List<Notification> notifications = notificationRepository.findAll();
-        for (Notification n:notifications) {
-            if (n.getUser().equals(user)){
-            notificationRepository.deleteById(n.getId());
+        for (Notification n : notifications) {
+            if (n.getUser().equals(user)) {
+                notificationRepository.deleteById(n.getId());
             }
         }
         log.info("Mark as read all notifications");
-        return null;
+        return new SimpleResponse("Удачно", "ок");
     }
 
-    public AllNotificationsResponse getAllNotificationsForAdmin(){
+    public AllNotificationsResponse getAllNotificationsForAdmin() {
         AllNotificationsResponse response = new AllNotificationsResponse();
-        List<NotificationResponse> notificationResponses=new ArrayList<>();
+        List<NotificationResponse> notificationResponses = new ArrayList<>();
         List<Notification> notifications = notificationRepository.findAll();
-        for (Notification n:notifications) {
-            if (n.getNotificationType().equals(NotificationType.CREATE_COMPLAINTS)){
+        for (Notification n : notifications) {
+            if (n.getNotificationType().equals(NotificationType.CREATE_COMPLAINTS)) {
                 notificationResponses.add(new NotificationResponse(
                         n.getFromUser().getId(),
+                        n.getWish().getId(),
+                        n.getWish().getWishName(),
                         n.getFromUser().getFirstName(),
                         n.getFromUser().getLastName(),
                         n.getFromUser().getImage(),
                         n.getCreatedDate(),
                         NotificationType.CREATE_COMPLAINTS,
-                        n.getFromUser().getFirstName()+n.getFromUser().getFirstName()+" пожаловался на "+
-                                n.getWish().getWishName()));
+                        " пожаловался на "));
             }
-        } response.setResponseList(notificationResponses);
+        }
+        response.setResponseList(notificationResponses);
         log.info("Admin has seen all notifications");
         return response;
     }

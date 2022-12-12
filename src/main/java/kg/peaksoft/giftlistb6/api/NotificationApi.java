@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.NotificationService;
 import kg.peaksoft.giftlistb6.dto.responses.AllNotificationsResponse;
+import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +27,7 @@ public class NotificationApi {
 
     @Operation(summary = "Mark as read", description = "User can mark as read all notifications")
     @PostMapping
-    public AllNotificationsResponse isRead() {
+    public SimpleResponse isRead() {
         return notificationService.markAsRead();
     }
 
