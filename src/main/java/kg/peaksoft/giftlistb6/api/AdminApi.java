@@ -62,55 +62,55 @@ public class AdminApi {
     }
 
     @Operation(summary = "Block wish", description = "Admin can block user wishes")
-    @PostMapping("wish-block/{id}")
+    @PutMapping("wish-block/{id}")
     public SimpleResponse blockWishByIdFromComplaint(@PathVariable Long id) {
         return complaintsService.blockWishByIdFromComplaint(id);
     }
 
     @Operation(summary = "Unblock wish", description = "Admin can unblock user wishes")
-    @PostMapping("wish-unblock{id}")
+    @PutMapping("wish-unblock{id}")
     public SimpleResponse unBlockWishByIdFromComplaint(@PathVariable Long id) {
         return complaintsService.unBlockWishByIdFromComplaint(id);
     }
 
     @Operation(summary = "Block holiday", description = "Admin can block user holidays")
-    @PostMapping("holiday-block/{id}")
+    @PutMapping("holiday-block/{id}")
     public SimpleResponse blockHoliday(@PathVariable Long id) {
         return holidayService.blockHoliday(id);
     }
 
     @Operation(summary = "Unblock holiday", description = "Admin can unblock user holidays")
-    @PostMapping("holiday-unblock{id}")
+    @PutMapping("holiday-unblock{id}")
     public SimpleResponse unblockHoliday(@PathVariable Long id) {
         return holidayService.unblockHoliday(id);
     }
 
     @Operation(summary = "Block charity", description = "Admin can block user charity")
-    @PostMapping("charity-block/{id}")
+    @PutMapping("charity-block/{id}")
     public SimpleResponse blockCharity(@PathVariable Long id) {
         return charityService.blockCharity(id);
     }
 
     @Operation(summary = "UnBlock charity", description = "Admin can unblock user charity")
-    @PostMapping("charity-unblock{id}")
+    @PutMapping("charity-unblock{id}")
     public SimpleResponse unblockCharity(@PathVariable Long id) {
         return charityService.unblockCharity(id);
     }
 
     @Operation(summary = "Delete charity", description = "Admin can delete user charity")
-    @DeleteMapping("charity-delete{id}")
+    @DeleteMapping("charity{id}")
     public SimpleResponse deleteCharityById(@PathVariable Long id) {
         return charityService.deleteCharityByAdmin(id);
     }
 
     @Operation(summary = "Delete holiday",description = "Admin can delete holiday by id")
-    @DeleteMapping("holiday-delete/{id}")
+    @DeleteMapping("holiday/{id}")
     public SimpleResponse deleteHolidayById(@PathVariable Long id){
         return holidayService.deleteHolidayById(id);
     }
 
     @Operation(summary = "Delete wish", description = "Admin can delete wish")
-    @DeleteMapping("wish-delete/{id}")
+    @DeleteMapping("wish/{id}")
     public SimpleResponse deleteWishById(@PathVariable Long id) {
         return wishService.deleteWish(id);
     }
