@@ -37,8 +37,8 @@ class UserServiceTest {
     private UserService underTest;
 
     @Test
-    @DisplayName("register test one")
-    void shouldSaveTheUserWhenTheEmailIsNotTaken() {
+    @DisplayName("register success")
+    void shouldSaveTheUser_WhenTheEmailIs_NotTaken() {
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstName("Jaulan")
                 .lastName("Nurkamal uulu")
@@ -53,8 +53,8 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("register test two")
-    void shouldThrowAnExceptionWhenTheEmailIsAlreadyTaken() {
+    @DisplayName("register fail")
+    void shouldThrowAnException_WhenTheEmail_IsAlreadyTaken() {
 
         RegisterRequest registerRequest = RegisterRequest.builder()
                 .firstName("Jaulan")
@@ -68,9 +68,9 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("login test one")
+    @DisplayName("incorrect password")
     @SneakyThrows
-    void ShouldThrowAnExceptionWhenThePasswordIsIncorrect() {
+    void ShouldThrowAnException_WhenThePassword_IsIncorrect() {
 
         AuthRequest authRequest = AuthRequest.builder()
                 .email("aiza@gmail.com")
@@ -86,9 +86,9 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("login test two")
+    @DisplayName("login fail")
     @SneakyThrows
-    void throwAnExceptionIfUserDoesNotExistsInADatabase() {
+    void throwAnException_IfUserDoesNotExists_In_A_Database() {
 
         AuthRequest authRequest = AuthRequest
                 .builder()
