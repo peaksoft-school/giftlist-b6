@@ -3,7 +3,6 @@ package kg.peaksoft.giftlistb6.db.services;
 import kg.peaksoft.giftlistb6.db.models.Holiday;
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
-import kg.peaksoft.giftlistb6.db.repositories.CharityRepository;
 import kg.peaksoft.giftlistb6.db.repositories.GiftRepository;
 import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
@@ -32,7 +31,6 @@ public class HolidayService {
     private final HolidayRepository holidayRepository;
     private final UserRepository userRepository;
     private final GiftRepository giftRepository;
-
 
     public User getPrinciple() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -133,7 +131,7 @@ public class HolidayService {
     public SimpleResponse blockHoliday(Long id) {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(() -> {
             log.error("Holiday with id:{} not found", id);
-            throw new NotFoundException("Праздник с таким id= %s не найден");
+            throw new NotFoundException("Праздник с таким id: %s не найден");
         });
         holiday.setIsBlock(true);
         log.info("Holiday with id{} is block", id);
@@ -144,7 +142,7 @@ public class HolidayService {
     public SimpleResponse unblockHoliday(Long id) {
         Holiday holiday = holidayRepository.findById(id).orElseThrow(() -> {
             log.error("Holiday with id:{} not found", id);
-            throw new NotFoundException("Праздник с таким id= %s не найден");
+            throw new NotFoundException("Праздник с таким id: %s не найден");
         });
         holiday.setIsBlock(false);
         log.info("Holiday with id:{} is unblocked", id);

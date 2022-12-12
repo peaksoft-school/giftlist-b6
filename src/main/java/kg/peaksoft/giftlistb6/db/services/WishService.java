@@ -115,6 +115,34 @@ public class WishService {
             throw new BadRequestException("Не правильная дата праздника");
         }
     }
+    @Transactional
+    public SimpleResponse deleteWish(Long id){
+        Wish wish = wishRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!", id)));
+            List<Notification> notifications = notificationRepository.findAll();
+            for (Notification n : notifications) {
+                if (n.getWish() != null && n.getWish().equals(wish)) {
+                    notificationRepository.deleteById(n.getId());
+                }
+            }
+            List<Gift> gifts = giftRepository.findAll();
+            for (Gift g : gifts) {
+                if (g.getWish().equals(wish)) {
+                    giftRepository.deleteById(g.getId());
+                }
+            }
+            for (Complaint c : complaintRepository.findAll()) {
+                if (wish.getComplaints().contains(c)) {
+                    wish.setComplaints(null);
+                    complaintRepository.delete(c);
+                }
+            }
+            wish.setReservoir(null);
+            wish.setUser(null);
+            wish.setHoliday(null);
+            wishRepository.deleteById(id);
+            return new SimpleResponse("Удалено", "Желание с таким id " + id + " удачно удалено");
+        }
 
     @Transactional
     public SimpleResponse deleteWishById(Long id) {

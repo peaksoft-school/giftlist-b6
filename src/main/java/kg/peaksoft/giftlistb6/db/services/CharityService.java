@@ -115,6 +115,16 @@ public class CharityService {
                 charity1.getUser().getImage(), charity1.getUser().getFirstName(), charity1.getUser().getLastName());
     }
 
+    public SimpleResponse deleteCharityByAdmin(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found"));
+        charity.setUser(null);
+        charity.setCategory(null);
+        charity.setSubCategory(null);
+        charity.setReservoir(null);
+        charityRepository.deleteById(id);
+        return new SimpleResponse("deleted", "OK");
+    }
+
     public SimpleResponse deleteCharityById(Long id) {
         User user = getPrinciple();
         if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(() -> new NotFoundException("Не найден!")))) {
@@ -264,7 +274,7 @@ public class CharityService {
     public SimpleResponse blockCharity(Long id) {
         Charity charity = charityRepository.findById(id).orElseThrow(() -> {
             log.error("Charity with id:{} not found", id);
-            throw new NotFoundException("Благотворительность с таким id= %s не найден");
+            throw new NotFoundException("Благотворительность с таким id: %s не найден");
         });
         charity.setIsBlock(true);
         log.info("Charity with id:{} is block", id);
@@ -275,7 +285,7 @@ public class CharityService {
     public SimpleResponse unblockCharity(Long id) {
         Charity charity = charityRepository.findById(id).orElseThrow(() -> {
             log.error("Charity with id:{} not found", id);
-            throw new NotFoundException("Благотворительность с таким id= %s не найден");
+            throw new NotFoundException("Благотворительность с таким id: %s не найден");
         });
         charity.setIsBlock(false);
         log.info("Charity with id:{} is unblock", id);

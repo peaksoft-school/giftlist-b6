@@ -34,7 +34,7 @@ public class AdminService {
     public SimpleResponse block(Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> {
             log.error("User with id:{} not found", id);
-            throw new NotFoundException("Пользователь с таким id= %s не найден");
+            throw new NotFoundException("Пользователь с таким id: %s не найден");
         });
         user.setIsBlock(true);
         log.info("User with id:{} is blocked", id);
@@ -46,7 +46,7 @@ public class AdminService {
         User user = userRepository.findById(id).orElseThrow(() -> {
             log.error("User with id:{} not found", id);
             throw new NotFoundException(
-                    "Пользователь с таким id= %s не найден");
+                    "Пользователь с таким id: %s не найден");
         });
         user.setIsBlock(false);
         log.info("User with id:{} is unblocked ", id);

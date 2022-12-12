@@ -23,6 +23,7 @@ public class AdminApi {
     private final UserProfileService service;
     private final ComplaintsService complaintsService;
     private final HolidayService holidayService;
+    private  final WishService wishService;
 
     @Operation(summary = "Get all users", description = "Admin can see all users.")
     @GetMapping("/users")
@@ -31,7 +32,7 @@ public class AdminApi {
     }
 
     @Operation(summary = "Get by id", description = "Admin see user profile")
-    @GetMapping("get/{id}")
+    @GetMapping("profile/{id}")
     public FriendProfileResponse FriendProfile(@PathVariable Long id) {
         return service.friendProfile(id);
     }
@@ -59,34 +60,58 @@ public class AdminApi {
     public CharityResponses getAllCharities() {
         return charityService.getAllCharityResponseByAdmin();
     }
-    @Operation(summary = "Block wish",description = "Admin can block user wishes")
-    @GetMapping("wishBlock/{id}")
-    public SimpleResponse blockWishByIdFromComplaint(@PathVariable Long id){
+
+    @Operation(summary = "Block wish", description = "Admin can block user wishes")
+    @PostMapping("wish-block/{id}")
+    public SimpleResponse blockWishByIdFromComplaint(@PathVariable Long id) {
         return complaintsService.blockWishByIdFromComplaint(id);
     }
 
-    @Operation(summary = "Unblock wish",description = "Admin can unblock user wishes")
-    @PutMapping("/unblockWish/{id}")
-    public SimpleResponse unBlockWishByIdFromComplaint(@PathVariable Long id){
+    @Operation(summary = "Unblock wish", description = "Admin can unblock user wishes")
+    @PostMapping("wish-unblock{id}")
+    public SimpleResponse unBlockWishByIdFromComplaint(@PathVariable Long id) {
         return complaintsService.unBlockWishByIdFromComplaint(id);
     }
-    @Operation(summary ="Block holiday",description = "Admin can block user holidays")
-    @GetMapping("holidayBlock/{id}")
-    public SimpleResponse blockHoliday(@PathVariable Long id){
+
+    @Operation(summary = "Block holiday", description = "Admin can block user holidays")
+    @PostMapping("holiday-block/{id}")
+    public SimpleResponse blockHoliday(@PathVariable Long id) {
         return holidayService.blockHoliday(id);
-    }@Operation(summary = "Unblock holiday",description = "Admin can unblock user holidays")
-    @PutMapping("/unblockHoliday/{id}")
-    public SimpleResponse unblockHoliday(@PathVariable Long id){
+    }
+
+    @Operation(summary = "Unblock holiday", description = "Admin can unblock user holidays")
+    @PostMapping("holiday-unblock{id}")
+    public SimpleResponse unblockHoliday(@PathVariable Long id) {
         return holidayService.unblockHoliday(id);
     }
-    @Operation(summary = "Block charity",description = "Admin can block user charity")
-    @PutMapping("charityBlock/{id}")
-    public SimpleResponse blockCharity(@PathVariable Long id){
+
+    @Operation(summary = "Block charity", description = "Admin can block user charity")
+    @PostMapping("charity-block/{id}")
+    public SimpleResponse blockCharity(@PathVariable Long id) {
         return charityService.blockCharity(id);
     }
-    @Operation(summary = "UnBlock charity",description ="Admin can unblock user charity")
-    @PutMapping("/unblockCharity/{id}")
-    public SimpleResponse unblockCharity(@PathVariable Long id){
+
+    @Operation(summary = "UnBlock charity", description = "Admin can unblock user charity")
+    @PostMapping("charity-unblock{id}")
+    public SimpleResponse unblockCharity(@PathVariable Long id) {
         return charityService.unblockCharity(id);
+    }
+
+    @Operation(summary = "Delete charity", description = "Admin can delete user charity")
+    @DeleteMapping("charity-delete{id}")
+    public SimpleResponse deleteCharityById(@PathVariable Long id) {
+        return charityService.deleteCharityByAdmin(id);
+    }
+
+    @Operation(summary = "Delete holiday",description = "Admin can delete holiday by id")
+    @DeleteMapping("holiday-delete/{id}")
+    public SimpleResponse deleteHolidayById(@PathVariable Long id){
+        return holidayService.deleteHolidayById(id);
+    }
+
+    @Operation(summary = "Delete wish", description = "Admin can delete wish")
+    @DeleteMapping("wish-delete/{id}")
+    public SimpleResponse deleteWishById(@PathVariable Long id) {
+        return wishService.deleteWish(id);
     }
 }
