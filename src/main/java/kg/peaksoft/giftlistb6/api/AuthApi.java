@@ -53,7 +53,8 @@ public class AuthApi {
 
     @Operation(summary = "Reset Password", description = "Change password")
     @PostMapping("reset-password/{id}")
-    public SimpleResponse resetPassword(@PathVariable("id") Long id,  @RequestBody @Valid ResetPasswordRequest request){
+    public SimpleResponse resetPassword(@PathVariable("id") Long id,
+                                        @RequestBody @Valid ResetPasswordRequest request){
         return userService.resetPassword(id,request);
     }
 
