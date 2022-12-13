@@ -7,7 +7,7 @@ public class PasswordValidator implements ConstraintValidator<PasswordValid, Str
     @Override
     public boolean isValid(String password, ConstraintValidatorContext constraintValidatorContext) {
         if (password.length()>3){
-            return password.matches("^[A-Za-z]{3,14}$");
+            return true;
         }else{
             return false;
         }
