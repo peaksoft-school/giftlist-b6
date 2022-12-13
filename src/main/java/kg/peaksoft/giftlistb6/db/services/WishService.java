@@ -93,7 +93,6 @@ public class WishService {
     }
 
     public WishResponse mapToResponse(Wish wish) {
-        User user = getAuthPrincipal();
         WishResponse response = new WishResponse();
         response.setId(wish.getId());
         response.setWishName(wish.getWishName());
@@ -101,13 +100,6 @@ public class WishService {
         response.setHoliday(
                 new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         response.setWishStatus(wish.getWishStatus());
-        if (wish.getWishStatus().equals(Status.RESERVED) && !wish.getReservoir().equals(user)) {
-            response.setIsMy(false);
-        } else if (wish.getWishStatus().equals(Status.WAIT)) {
-            response.setIsMy(false);
-        } else {
-            response.setIsMy(true);
-        }
         return response;
     }
 
@@ -217,14 +209,6 @@ public class WishService {
         wish.setWishName(wishRequest.getWishName());
         wish.setImage(wishRequest.getImage());
         wish.setLinkToGift(wishRequest.getLinkToGift());
-    }
-
-    public List<WishResponse> convertAllToResponse(List<Wish> wishes) {
-        List<WishResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : wishes) {
-            wishResponses.add(mapToResponse(wish));
-        }
-        return wishResponses;
     }
 
     private Wish getById(Long id) {
