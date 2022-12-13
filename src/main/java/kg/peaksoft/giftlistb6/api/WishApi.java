@@ -35,7 +35,8 @@ public class WishApi {
                                        @RequestBody WishRequest wishRequest) {
         return wishService.update(id, wishRequest);
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @Operation(summary = "Delete wish", description = "User can delete wishlist, when we delete wish holiday and user will not be deleted")
     @DeleteMapping("/{id}")
     public SimpleResponse deleteWishById(@PathVariable Long id) {
