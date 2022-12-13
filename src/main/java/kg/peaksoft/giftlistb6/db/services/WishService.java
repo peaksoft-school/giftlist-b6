@@ -93,13 +93,21 @@ public class WishService {
     }
 
     public WishResponse mapToResponse(Wish wish) {
+        User user = getAuthPrincipal();
         WishResponse response = new WishResponse();
         response.setId(wish.getId());
         response.setWishName(wish.getWishName());
         response.setImage(wish.getImage());
         response.setHoliday(
-                new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+                new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         response.setWishStatus(wish.getWishStatus());
+        if (wish.getWishStatus().equals(Status.RESERVED) && !wish.getReservoir().equals(user)) {
+            response.setIsMy(false);
+        } else if (wish.getWishStatus().equals(Status.WAIT)) {
+            response.setIsMy(false);
+        } else {
+            response.setIsMy(true);
+        }
         return response;
     }
 
@@ -115,34 +123,35 @@ public class WishService {
             throw new BadRequestException("Не правильная дата праздника");
         }
     }
+
     @Transactional
-    public SimpleResponse deleteWish(Long id){
+    public SimpleResponse deleteWish(Long id) {
         Wish wish = wishRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Желание с таким id: %s не найден!", id)));
-            List<Notification> notifications = notificationRepository.findAll();
-            for (Notification n : notifications) {
-                if (n.getWish() != null && n.getWish().equals(wish)) {
-                    notificationRepository.deleteById(n.getId());
-                }
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n : notifications) {
+            if (n.getWish() != null && n.getWish().equals(wish)) {
+                notificationRepository.deleteById(n.getId());
             }
-            List<Gift> gifts = giftRepository.findAll();
-            for (Gift g : gifts) {
-                if (g.getWish().equals(wish)) {
-                    giftRepository.deleteById(g.getId());
-                }
-            }
-            for (Complaint c : complaintRepository.findAll()) {
-                if (wish.getComplaints().contains(c)) {
-                    wish.setComplaints(null);
-                    complaintRepository.delete(c);
-                }
-            }
-            wish.setReservoir(null);
-            wish.setUser(null);
-            wish.setHoliday(null);
-            wishRepository.deleteById(id);
-            return new SimpleResponse("Удалено", "Желание с таким id " + id + " удачно удалено");
         }
+        List<Gift> gifts = giftRepository.findAll();
+        for (Gift g : gifts) {
+            if (g.getWish().equals(wish)) {
+                giftRepository.deleteById(g.getId());
+            }
+        }
+        for (Complaint c : complaintRepository.findAll()) {
+            if (wish.getComplaints().contains(c)) {
+                wish.setComplaints(null);
+                complaintRepository.delete(c);
+            }
+        }
+        wish.setReservoir(null);
+        wish.setUser(null);
+        wish.setHoliday(null);
+        wishRepository.deleteById(id);
+        return new SimpleResponse("Удалено", "Желание с таким id " + id + " удачно удалено");
+    }
 
     @Transactional
     public SimpleResponse deleteWishById(Long id) {
@@ -199,7 +208,7 @@ public class WishService {
         innerWishResponse.setWishName(wish.getWishName());
         innerWishResponse.setLinkToGift(wish.getLinkToGift());
         innerWishResponse.setImage(wish.getImage());
-        innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+        innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerWishResponse.setDescription(wish.getDescription());
         return innerWishResponse;
     }
