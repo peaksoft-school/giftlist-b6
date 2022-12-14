@@ -152,6 +152,7 @@ public class UserProfileService {
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
         User user = getAuthPrincipal();
+
         User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
@@ -180,17 +181,26 @@ public class UserProfileService {
         friendProfileResponse.setVkLink(friend.getUserInfo().getVkLink());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
+        List<Holiday>block = new ArrayList<>();
         for (Holiday holiday : friend.getHolidays()) {
+            if (holiday.getIsBlock().equals(true)){
+                block.add(holiday);
+            }else {
             HolidayResponses holidayResponse = new HolidayResponses(
                     holiday.getId(),
                     holiday.getName(),
                     holiday.getDateOfHoliday(),
                     holiday.getImage());
             holidayResponses.add(holidayResponse);
+            }
         }
         friendProfileResponse.setHolidayResponses(holidayResponses);
         List<CharityResponse> charityResponses = new ArrayList<>();
+        List<Charity> blockCharities = new ArrayList<>();
         for (Charity c : friend.getCharities()) {
+            if (c.getIsBlock().equals(true)){
+                blockCharities.add(c);
+            }else {
             CharityResponse charityResponse = new CharityResponse();
             charityResponse.setId(c.getId());
             charityResponse.setName(c.getName());
@@ -212,11 +222,16 @@ public class UserProfileService {
                 charityResponse.setReservedUserResponse(new ReservedUserResponse());
             }
             charityResponses.add(charityResponse);
+            }
         }
         friendProfileResponse.setCharityResponses(charityResponses);
 
         List<FriendWishesResponse> wishResponses = new ArrayList<>();
+        List<Wish> blockWish = new ArrayList<>();
         for (Wish w : friend.getWishes()) {
+            if (w.getIsBlock().equals(true)){
+                blockWish.add(w);
+            }else {
             FriendWishesResponse friendWishesResponse = new FriendWishesResponse();
             friendWishesResponse.setId(w.getId());
             friendWishesResponse.setWishName(w.getWishName());
@@ -239,6 +254,7 @@ public class UserProfileService {
                 friendWishesResponse.setReservedUserResponse(new ReservedUserResponse());
             }
             wishResponses.add(friendWishesResponse);
+            }
         }
         friendProfileResponse.setWishResponses(wishResponses);
 

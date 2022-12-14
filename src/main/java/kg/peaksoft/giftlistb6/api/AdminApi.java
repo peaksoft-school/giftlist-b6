@@ -34,7 +34,7 @@ public class AdminApi {
     @Operation(summary = "Get by id", description = "Admin see user profile")
     @GetMapping("profile/{id}")
     public FriendProfileResponse FriendProfile(@PathVariable Long id) {
-        return service.friendProfile(id);
+        return adminService.getUserById(id);
     }
 
     @Operation(summary = "Block user", description = "Block user by id.")
