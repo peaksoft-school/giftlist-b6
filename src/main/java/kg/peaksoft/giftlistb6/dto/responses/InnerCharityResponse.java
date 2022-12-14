@@ -20,6 +20,7 @@ public class InnerCharityResponse {
     private String condition;
     private LocalDate addedTime;
     private Status status;
+    private Boolean isBlock;
     private UserCharityResponse userCharityResponse;
     private ReservoirResponse reservoirResponse;
 
@@ -33,5 +34,18 @@ public class InnerCharityResponse {
         this.condition = condition;
         this.addedTime = addedTime;
         this.status = status;
+    }
+
+    public InnerCharityResponse(Long id, String image, String name, String description, String category, String subCategory, String condition, LocalDate addedTime, Status status, Boolean isBlock) {
+        this.id = id;
+        this.image = image;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.subCategory = subCategory;
+        this.condition = condition;
+        this.addedTime = addedTime;
+        this.status = status;
+        this.isBlock = isBlock;
     }
 }
