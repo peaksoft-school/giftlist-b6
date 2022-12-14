@@ -6,7 +6,6 @@ import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.responses.*;
-import kg.peaksoft.giftlistb6.enums.Status;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
