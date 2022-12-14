@@ -41,7 +41,7 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
             "ch.user.lastName," +
             "ch.user.image," +
             "ch.isBlock) from Charity ch")
-    List<OtherCharityResponse> getAllFromAdmin();
+    List<OtherCharityResponse> getAllForAdmin();
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse("+
             "ch.id," +

@@ -247,7 +247,7 @@ public class CharityService {
     @Transactional
     public CharityResponses getAllCharityResponseByAdmin() {
         CharityResponses charityResponse = new CharityResponses();
-        List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllFromAdmin();
+        List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllForAdmin();
         charityResponse.setOtherCharityResponses(otherCharityResponses);
         return charityResponse;
     }
