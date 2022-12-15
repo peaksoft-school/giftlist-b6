@@ -13,4 +13,12 @@ public class UserCharityResponse {
     private String fistName;
     private String lastName;
     private String image;
+    private String phoneNumber;
+
+    public UserCharityResponse(Long id, String fistName, String lastName, String image) {
+        this.id = id;
+        this.fistName = fistName;
+        this.lastName = lastName;
+        this.image = image;
+    }
 }

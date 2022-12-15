@@ -30,6 +30,19 @@ public interface CharityRepository extends JpaRepository<Charity, Long> {
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse(ch) from Charity ch where ch.user.email <> ?1")
     List<OtherCharityResponse> getAll(String email);
 
+    @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse (" +
+            "ch.id," +
+            "ch.image," +
+            "ch.name," +
+            "ch.condition," +
+            "ch.createdAt," +
+            "ch.user.id," +
+            "ch.user.firstName," +
+            "ch.user.lastName," +
+            "ch.user.image," +
+            "ch.isBlock) from Charity ch")
+    List<OtherCharityResponse> getAllForAdmin();
+
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.OtherCharityResponse("+
             "ch.id," +
             "ch.image," +
