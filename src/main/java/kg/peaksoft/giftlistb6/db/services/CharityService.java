@@ -78,6 +78,7 @@ public class CharityService {
         charity.setSubCategory(subCategoryRepository.findByName(charityRequest.getSubCategory()));
         user.setCharities(List.of(charity));
         charity.setUser(user);
+        charity.setIsBlock(false);
         charityRepository.save(charity);
         log.info("Charity successfully saved in database");
         return new YourCharityResponse(charity.getId(), charity.getImage());

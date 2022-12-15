@@ -95,6 +95,7 @@ public class HolidayService {
         holiday.setName(request.getName());
         holiday.setDateOfHoliday(request.getDateOfHoliday());
         holiday.setImage(request.getImage());
+        holiday.setIsBlock(false);
         return holiday;
     }
 
