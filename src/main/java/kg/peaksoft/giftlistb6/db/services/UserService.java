@@ -10,12 +10,10 @@ import kg.peaksoft.giftlistb6.configs.security.JwtUtils;
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
+import kg.peaksoft.giftlistb6.dto.requests.ForgotPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
-import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
-import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
-import kg.peaksoft.giftlistb6.dto.responses.SearchUserResponse;
-import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
+import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.enums.Role;
 import kg.peaksoft.giftlistb6.exceptions.BadCredentialsException;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
@@ -167,6 +165,16 @@ public class UserService {
         mailSender.send(mimeMessage);
         log.info("A message was sent to the user's email {}", email);
         return new SimpleResponse("Отправлено", "Ок");
+    }
+
+    @Transactional
+    public SimpleResponse changeOnForgot(ForgotPasswordRequest password) {
+        if (!password.getNewPassword().equals(password.getVerifyPassword())) {
+            return new SimpleResponse("passwords does not matches", "INCORRECT");
+        }
+        User user = userRepo.findById(password.getId()).orElseThrow(() -> new NotFoundException("not found"));
+        user.setPassword(passwordEncoder.encode(password.getVerifyPassword()));
+        return new SimpleResponse("Changed", "OK");
     }
 
     @Transactional

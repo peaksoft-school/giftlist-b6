@@ -31,6 +31,9 @@ public class Holiday {
     @Column(length = 10000)
     private String image;
 
+    @Column(name = "is_block")
+    private Boolean isBlock;
+
     @ManyToOne
     private User user;
 
@@ -38,7 +41,7 @@ public class Holiday {
     @JsonIgnore
     private List<Wish> wishes;
 
-    public void addWish(Wish wish){
+    public void addWish(Wish wish) {
         this.wishes.add(wish);
     }
 }

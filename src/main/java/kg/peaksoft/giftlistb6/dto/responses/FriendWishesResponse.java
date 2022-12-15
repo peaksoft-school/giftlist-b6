@@ -23,5 +23,6 @@ public class FriendWishesResponse {
     private String image;
     private Status wishStatus;
     private Boolean isMy;
+    private Boolean isBlock;
     private ReservedUserResponse reservedUserResponse;
 }

@@ -115,6 +115,16 @@ public class CharityService {
                 charity1.getUser().getImage(), charity1.getUser().getFirstName(), charity1.getUser().getLastName());
     }
 
+    public SimpleResponse deleteCharityByAdmin(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(() -> new NotFoundException("not found"));
+        charity.setUser(null);
+        charity.setCategory(null);
+        charity.setSubCategory(null);
+        charity.setReservoir(null);
+        charityRepository.deleteById(id);
+        return new SimpleResponse("deleted", "OK");
+    }
+
     public SimpleResponse deleteCharityById(Long id) {
         User user = getPrinciple();
         if (!user.getCharities().contains(charityRepository.findById(id).orElseThrow(() -> new NotFoundException("Не найден!")))) {
@@ -225,38 +235,42 @@ public class CharityService {
         Charity charity = charityRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("Не найден!")
         );
-
         InnerCharityResponse response = new InnerCharityResponse(charity.getId(), charity.getImage(), charity.getName(),
                 charity.getDescription(), charity.getCategory().getName(), charity.getSubCategory().getName(),
-                charity.getCondition(), charity.getCreatedAt(), charity.getCharityStatus());
-
-        ReservoirResponse reservoirResponse = new ReservoirResponse(charity);
-
+                charity.getCondition(), charity.getCreatedAt(),charity.getCharityStatus(), charity.getIsBlock());
         UserCharityResponse userCharityResponse = new UserCharityResponse(charity.getUser().getId(), charity.getUser().getFirstName(),
-                charity.getUser().getLastName(), charity.getUser().getImage());
-
+                charity.getUser().getLastName(), charity.getUser().getImage(),charity.getUser().getUserInfo().getPhoneNumber());
         response.setUserCharityResponse(userCharityResponse);
-        if (charity.getReservoir() == null) {
-            response.setReservoirResponse(new ReservoirResponse());
-        }
-        response.setReservoirResponse(reservoirResponse);
         return response;
     }
 
     @Transactional
     public CharityResponses getAllCharityResponseByAdmin() {
         CharityResponses charityResponse = new CharityResponses();
-        List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllCharities();
-        for (Charity c : charityRepository.findAll()) {
-            for (OtherCharityResponse o : otherCharityResponses) {
-                if (o.getReservoir() == null) {
-                    o.setReservoir(new ReservoirResponse());
-                }
-                ReservoirResponse reservoirResponse1 = new ReservoirResponse(o.getReservoir().getId(), o.getReservoir().getImage());
-                o.setReservoir(reservoirResponse1);
-            }
-            charityResponse.setOtherCharityResponses(otherCharityResponses);
-        }
+        List<OtherCharityResponse> otherCharityResponses = charityRepository.getAllForAdmin();
+        charityResponse.setOtherCharityResponses(otherCharityResponses);
         return charityResponse;
+    }
+
+    @Transactional
+    public SimpleResponse blockCharity(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(() -> {
+            log.error("Charity with id:{} not found", id);
+            throw new NotFoundException("Благотворительность с таким id: %s не найден");
+        });
+        charity.setIsBlock(true);
+        log.info("Charity with id:{} is block", id);
+        return new SimpleResponse("Заблокирован", "Благотворительность заблокирован");
+    }
+
+    @Transactional
+    public SimpleResponse unblockCharity(Long id) {
+        Charity charity = charityRepository.findById(id).orElseThrow(() -> {
+            log.error("Charity with id:{} not found", id);
+            throw new NotFoundException("Благотворительность с таким id: %s не найден");
+        });
+        charity.setIsBlock(false);
+        log.info("Charity with id:{} is unblock", id);
+        return new SimpleResponse("Разблокирован", "Благотворительность разблокирован");
     }
 }

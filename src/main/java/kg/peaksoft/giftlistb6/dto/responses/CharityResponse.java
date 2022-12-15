@@ -22,5 +22,6 @@ public class CharityResponse {
     private String image;
     private LocalDate createdDate;
     private Boolean isMy;
+    private Boolean isBlock;
     private ReservedUserResponse reservedUserResponse;
 }
