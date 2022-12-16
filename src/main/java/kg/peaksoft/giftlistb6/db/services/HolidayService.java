@@ -7,7 +7,10 @@ import kg.peaksoft.giftlistb6.db.repositories.GiftRepository;
 import kg.peaksoft.giftlistb6.db.repositories.HolidayRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.HolidayRequest;
-import kg.peaksoft.giftlistb6.dto.responses.*;
+import kg.peaksoft.giftlistb6.dto.responses.HolidayGiftsResponse;
+import kg.peaksoft.giftlistb6.dto.responses.HolidayResponseForGet;
+import kg.peaksoft.giftlistb6.dto.responses.HolidayResponses;
+import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -92,6 +95,7 @@ public class HolidayService {
         holiday.setName(request.getName());
         holiday.setDateOfHoliday(request.getDateOfHoliday());
         holiday.setImage(request.getImage());
+        holiday.setIsBlock(false);
         return holiday;
     }
 
@@ -122,5 +126,27 @@ public class HolidayService {
         holidayResponses.setImage(holiday.getImage());
         holidayResponses.setUser(user.getId());
         return holidayResponses;
+    }
+
+    @Transactional
+    public SimpleResponse blockHoliday(Long id) {
+        Holiday holiday = holidayRepository.findById(id).orElseThrow(() -> {
+            log.error("Holiday with id:{} not found", id);
+            throw new NotFoundException("Праздник с таким id: %s не найден");
+        });
+        holiday.setIsBlock(true);
+        log.info("Holiday with id{} is block", id);
+        return new SimpleResponse("Заблокирован", "Праздник заблокирован");
+    }
+
+    @Transactional
+    public SimpleResponse unblockHoliday(Long id) {
+        Holiday holiday = holidayRepository.findById(id).orElseThrow(() -> {
+            log.error("Holiday with id:{} not found", id);
+            throw new NotFoundException("Праздник с таким id: %s не найден");
+        });
+        holiday.setIsBlock(false);
+        log.info("Holiday with id:{} is unblocked", id);
+        return new SimpleResponse("Разблокирован", "Праздник разблокирован");
     }
 }

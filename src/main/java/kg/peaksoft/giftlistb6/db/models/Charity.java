@@ -50,6 +50,9 @@ public class Charity {
     @Column(name = "created_date")
     private LocalDate createdAt;
 
+    @Column(name = "is_block")
+    private Boolean isBlock;
+
     public Charity(CharityRequest charityRequest) {
         this.name = charityRequest.getName();
         this.charityStatus = Status.WAIT;

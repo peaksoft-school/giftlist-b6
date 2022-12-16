@@ -18,13 +18,18 @@ public class WishResponse {
     private String image;
     private HolidayResponse holiday;
     private Status wishStatus;
+    private Boolean isMy;
 
     public WishResponse(Wish wish) {
         this.id = wish.getId();
         this.wishName = wish.getWishName();
         this.image = wish.getImage();
         this.wishStatus = wish.getWishStatus();
-        this.holiday = new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(),
-                wish.getHoliday().getDateOfHoliday());
+        if (wish.getHoliday() != null) {
+            this.holiday = new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(),
+                    wish.getHoliday().getDateOfHoliday());
+        } else {
+            this.holiday = new HolidayResponse();
+        }
     }
 }

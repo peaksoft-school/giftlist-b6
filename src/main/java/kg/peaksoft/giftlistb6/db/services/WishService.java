@@ -98,7 +98,7 @@ public class WishService {
         response.setWishName(wish.getWishName());
         response.setImage(wish.getImage());
         response.setHoliday(
-                new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+                new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         response.setWishStatus(wish.getWishStatus());
         return response;
     }
@@ -114,6 +114,35 @@ public class WishService {
         } else {
             throw new BadRequestException("Не правильная дата праздника");
         }
+    }
+
+    @Transactional
+    public SimpleResponse deleteWish(Long id) {
+        Wish wish = wishRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("Желание с таким id: %s не найден!", id)));
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n : notifications) {
+            if (n.getWish() != null && n.getWish().equals(wish)) {
+                notificationRepository.deleteById(n.getId());
+            }
+        }
+        List<Gift> gifts = giftRepository.findAll();
+        for (Gift g : gifts) {
+            if (g.getWish().equals(wish)) {
+                giftRepository.deleteById(g.getId());
+            }
+        }
+        for (Complaint c : complaintRepository.findAll()) {
+            if (wish.getComplaints().contains(c)) {
+                wish.setComplaints(null);
+                complaintRepository.delete(c);
+            }
+        }
+        wish.setReservoir(null);
+        wish.setUser(null);
+        wish.setHoliday(null);
+        wishRepository.deleteById(id);
+        return new SimpleResponse("Удалено", "Желание с таким id " + id + " удачно удалено");
     }
 
     @Transactional
@@ -171,7 +200,7 @@ public class WishService {
         innerWishResponse.setWishName(wish.getWishName());
         innerWishResponse.setLinkToGift(wish.getLinkToGift());
         innerWishResponse.setImage(wish.getImage());
-        innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(),wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
+        innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerWishResponse.setDescription(wish.getDescription());
         return innerWishResponse;
     }
@@ -180,14 +209,6 @@ public class WishService {
         wish.setWishName(wishRequest.getWishName());
         wish.setImage(wishRequest.getImage());
         wish.setLinkToGift(wishRequest.getLinkToGift());
-    }
-
-    public List<WishResponse> convertAllToResponse(List<Wish> wishes) {
-        List<WishResponse> wishResponses = new ArrayList<>();
-        for (Wish wish : wishes) {
-            wishResponses.add(mapToResponse(wish));
-        }
-        return wishResponses;
     }
 
     private Wish getById(Long id) {
