@@ -9,15 +9,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@DataJpaTest
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-@TestPropertySource("/application-test.yml")
+@SpringBootTest
 class MailingListServiceTest {
 
     @Autowired
@@ -31,6 +30,7 @@ class MailingListServiceTest {
                 LocalDateTime.now());
         Assertions.assertThat(mailingList.getId()).isGreaterThan(0);
     }
+
     @Test
     @Order(2)
     void getId() {
