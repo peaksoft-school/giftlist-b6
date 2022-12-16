@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -17,5 +18,6 @@ public class SearchCharityResponse {
     private String charityName;
     private String charityCondition;
     private LocalDate createdAt;
+    private Status status;
     private UserFeedResponse reservoirUser;
 }

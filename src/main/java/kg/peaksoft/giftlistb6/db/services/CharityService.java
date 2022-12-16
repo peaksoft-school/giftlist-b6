@@ -215,8 +215,9 @@ public class CharityService {
         searchCharityResponse.setCharityName(charity.getName());
         searchCharityResponse.setCharityCondition(charity.getCondition());
         searchCharityResponse.setCreatedAt(charity.getCreatedAt());
+        searchCharityResponse.setStatus(charity.getCharityStatus());
         if (charity.getReservoir() == null) {
-            searchCharityResponse.setReservoirUser(new UserFeedResponse(null, null));
+            searchCharityResponse.setReservoirUser(new UserFeedResponse());
         } else {
             searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getImage()));
         }
