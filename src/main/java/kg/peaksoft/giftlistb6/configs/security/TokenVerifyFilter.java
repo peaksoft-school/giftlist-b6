@@ -1,14 +1,14 @@
 package kg.peaksoft.giftlistb6.configs.security;
 
 import kg.peaksoft.giftlistb6.db.models.User;
-import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
+import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;

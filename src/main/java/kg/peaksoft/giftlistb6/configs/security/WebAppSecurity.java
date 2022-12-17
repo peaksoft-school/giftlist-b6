@@ -39,7 +39,8 @@ public class WebAppSecurity {
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, TokenVerifyFilter filter) throws Exception {
 
         httpSecurity.cors().and().csrf().disable()
-                .authorizeHttpRequests(auth -> {auth
+                .authorizeHttpRequests(auth -> {
+                    auth
                             .antMatchers("api/public/**").permitAll()
                             .antMatchers("/api-docs", "/v3/api-docs")
                             .permitAll()
