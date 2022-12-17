@@ -35,7 +35,7 @@ public class SearchApi {
     public SearchAllResponse searchCharity(@RequestParam(value = "text", required = false) String text,
                                            @RequestParam(value = "condition", required = false) String condition,
                                            @RequestParam(value = "category", required = false) String category,
-                                           @RequestParam(value = "subCategory", required = false) String subCategory){
+                                           @RequestParam(value = "subCategory", required = false) String subCategory) {
         return charityService.searchCharity(text, condition, category, subCategory);
     }
 }

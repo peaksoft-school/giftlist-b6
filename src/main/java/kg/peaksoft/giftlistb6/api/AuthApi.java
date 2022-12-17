@@ -1,17 +1,16 @@
 package kg.peaksoft.giftlistb6.api;
 
+import com.google.firebase.auth.FirebaseAuthException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import com.google.firebase.auth.FirebaseAuthException;
+import kg.peaksoft.giftlistb6.db.services.UserService;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ForgotPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
-import kg.peaksoft.giftlistb6.db.services.UserService;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
@@ -26,13 +25,13 @@ public class AuthApi {
 
     private final UserService userService;
 
-    @Operation(summary = "Sign up",description = "Any user can register")
+    @Operation(summary = "Sign up", description = "Any user can register")
     @PostMapping("register")
     public AuthResponse register(@RequestBody @Valid RegisterRequest registerRequest) {
         return userService.register(registerRequest);
     }
 
-    @Operation(summary = "Sign in",description = "Only registered users can login")
+    @Operation(summary = "Sign in", description = "Only registered users can login")
     @PostMapping("login")
     public AuthResponse login(@RequestBody @Valid AuthRequest authRequest) throws MessagingException {
         return userService.login(authRequest);
@@ -48,14 +47,14 @@ public class AuthApi {
     @PutMapping("forgot-password")
     public SimpleResponse forgotPassword(@RequestParam String email,
                                          @RequestParam String link) throws MessagingException {
-        return userService.forgotPassword(email,link);
+        return userService.forgotPassword(email, link);
     }
 
     @Operation(summary = "Reset Password", description = "Change password")
     @PutMapping("reset-password/{id}")
     public SimpleResponse resetPassword(@PathVariable("id") Long id,
-                                        @RequestBody @Valid ResetPasswordRequest request){
-        return userService.resetPassword(id,request);
+                                        @RequestBody @Valid ResetPasswordRequest request) {
+        return userService.resetPassword(id, request);
     }
 
     @Operation(summary = "Change password", description = "Link to change password")

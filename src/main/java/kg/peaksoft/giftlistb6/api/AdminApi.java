@@ -23,7 +23,7 @@ public class AdminApi {
     private final UserProfileService service;
     private final ComplaintsService complaintsService;
     private final HolidayService holidayService;
-    private  final WishService wishService;
+    private final WishService wishService;
 
     @Operation(summary = "Get all users", description = "Admin can see all users.")
     @GetMapping("/users")
@@ -103,9 +103,9 @@ public class AdminApi {
         return charityService.deleteCharityByAdmin(id);
     }
 
-    @Operation(summary = "Delete holiday",description = "Admin can delete holiday by id")
+    @Operation(summary = "Delete holiday", description = "Admin can delete holiday by id")
     @DeleteMapping("holiday/{id}")
-    public SimpleResponse deleteHolidayById(@PathVariable Long id){
+    public SimpleResponse deleteHolidayById(@PathVariable Long id) {
         return holidayService.deleteHolidayById(id);
     }
 

@@ -23,33 +23,33 @@ public class HolidayApi {
 
     private final HolidayService holidayService;
 
-    @Operation(summary = "Save Holiday",description = "User can save holiday")
+    @Operation(summary = "Save Holiday", description = "User can save holiday")
     @PostMapping
-    public HolidayResponses saveHoliday(@RequestBody HolidayRequest request){
+    public HolidayResponses saveHoliday(@RequestBody HolidayRequest request) {
         return holidayService.saveHoliday(request);
     }
 
-    @Operation(summary = "Get all holidays",description = "User can get all holidays")
+    @Operation(summary = "Get all holidays", description = "User can get all holidays")
     @GetMapping
-    public List<HolidayResponses> getAllHolidays(){
+    public List<HolidayResponses> getAllHolidays() {
         return holidayService.getAllHolidays();
     }
 
-    @Operation(summary = "Get holiday",description = "Get holiday by id")
+    @Operation(summary = "Get holiday", description = "Get holiday by id")
     @GetMapping("/{id}")
-    public HolidayResponseForGet getHolidayById(@PathVariable Long id){
+    public HolidayResponseForGet getHolidayById(@PathVariable Long id) {
         return holidayService.getHolidayById(id);
     }
 
-    @Operation(summary = "Delete holiday",description = "User can delete holiday by id")
+    @Operation(summary = "Delete holiday", description = "User can delete holiday by id")
     @DeleteMapping("/{id}")
-    public SimpleResponse deleteHolidayById(@PathVariable Long id){
-       return holidayService.deleteHolidayById(id);
+    public SimpleResponse deleteHolidayById(@PathVariable Long id) {
+        return holidayService.deleteHolidayById(id);
     }
 
-    @Operation(summary = "Update holiday",description = "User can update holiday by id")
+    @Operation(summary = "Update holiday", description = "User can update holiday by id")
     @PutMapping("/{id}")
-    public HolidayResponses updateHolidayById(@PathVariable Long id, @RequestBody HolidayRequest request){
-        return holidayService.saveUpdateHoliday(id,request);
+    public HolidayResponses updateHolidayById(@PathVariable Long id, @RequestBody HolidayRequest request) {
+        return holidayService.saveUpdateHoliday(id, request);
     }
 }

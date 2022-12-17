@@ -34,7 +34,7 @@ public class NotificationApi {
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Admin notifications", description = "Admin can see all notifications")
     @GetMapping("admin")
-    public AllNotificationsResponse getAllNotificationForAdmin(){
+    public AllNotificationsResponse getAllNotificationForAdmin() {
         return notificationService.getAllNotificationsForAdmin();
     }
 }

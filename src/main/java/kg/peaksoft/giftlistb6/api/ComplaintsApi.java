@@ -23,33 +23,33 @@ public class ComplaintsApi {
     private final ComplaintsService complaintsService;
 
     @PreAuthorize("hasAuthority('USER')")
-    @Operation(summary = "Create complaint",description = "User can created complaints")
+    @Operation(summary = "Create complaint", description = "User can created complaints")
     @PostMapping
-    public SimpleResponse createComplain(@RequestBody ComplaintRequest request){
+    public SimpleResponse createComplain(@RequestBody ComplaintRequest request) {
         return complaintsService.creatComplain(request);
     }
 
-    @Operation(summary = "Get complaint",description = "Admin can get complaint by id")
+    @Operation(summary = "Get complaint", description = "Admin can get complaint by id")
     @GetMapping("{id}")
-    public ComplaintResponseForAdmin getComplainBuyId(@PathVariable Long id){
+    public ComplaintResponseForAdmin getComplainBuyId(@PathVariable Long id) {
         return complaintsService.getComplaintById(id);
     }
 
-    @Operation(summary = "Get all complaints",description = "Admin can see all complaints")
+    @Operation(summary = "Get all complaints", description = "Admin can see all complaints")
     @GetMapping
-    public List<ComplaintResponseForAdmin> getAllComplains(){
+    public List<ComplaintResponseForAdmin> getAllComplains() {
         return complaintsService.getAllComplaints();
     }
 
-    @Operation(summary = "Block wish",description = "Admin can block user wish")
+    @Operation(summary = "Block wish", description = "Admin can block user wish")
     @GetMapping("block/{id}")
-    public SimpleResponse blockWishByIdFromComplaint(@PathVariable Long id){
+    public SimpleResponse blockWishByIdFromComplaint(@PathVariable Long id) {
         return complaintsService.blockWishByIdFromComplaint(id);
     }
 
-    @Operation(summary = "Unblock wish",description = "Admin can unblock user wish")
+    @Operation(summary = "Unblock wish", description = "Admin can unblock user wish")
     @PutMapping("/unblock/{id}")
-    public SimpleResponse unBlockWishByIdFromComplaint(@PathVariable Long id){
+    public SimpleResponse unBlockWishByIdFromComplaint(@PathVariable Long id) {
         return complaintsService.unBlockWishByIdFromComplaint(id);
     }
 }
