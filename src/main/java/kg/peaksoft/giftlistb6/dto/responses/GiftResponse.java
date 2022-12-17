@@ -33,17 +33,17 @@ public class GiftResponse {
                 gift.getWish().getUser().getFirstName() + " " + gift.getWish().getUser().getLastName(), gift.getWish().getUser().getImage());
     }
 
-    public GiftResponse (Charity charity ){
-        this.giftName=charity.getName();
+    public GiftResponse(Charity charity) {
+        this.giftName = charity.getName();
         this.id = charity.getId();
         this.date = charity.getCreatedAt();
         this.image = charity.getImage();
         this.status = charity.getCharityStatus();
-        this.giftStatus=Status.CHARITY;
-        if (charity.getReservoir()!=null){
-        this.reservedUserResponse= new ReservedUserResponse(charity.getUser().getId(),
-                charity.getUser().getFirstName()+" "+charity.getUser().getLastName(),charity.getUser().getImage());
-        }else {
+        this.giftStatus = Status.CHARITY;
+        if (charity.getReservoir() != null) {
+            this.reservedUserResponse = new ReservedUserResponse(charity.getUser().getId(),
+                    charity.getUser().getFirstName() + " " + charity.getUser().getLastName(), charity.getUser().getImage());
+        } else {
             this.reservedUserResponse = new ReservedUserResponse();
         }
     }

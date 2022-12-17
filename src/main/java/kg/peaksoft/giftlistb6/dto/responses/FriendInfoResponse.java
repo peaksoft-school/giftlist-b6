@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class FriendInfoResponse {
+
     private Long id;
     private String image;
     private String fullName;
