@@ -9,6 +9,7 @@ import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,17 +50,17 @@ public class MailingListService {
     }
 
     public List<AllMailingListResponse> convertToAllView(List<MailingList> mailingLists) {
-       List<AllMailingListResponse> list = new ArrayList<>();
-       for (MailingList mailingList : mailingLists) {
-           list.add(convertToResponse(mailingList));
-       }
-       return list;
+        List<AllMailingListResponse> list = new ArrayList<>();
+        for (MailingList mailingList : mailingLists) {
+            list.add(convertToResponse(mailingList));
+        }
+        return list;
     }
 
     public MailingListResponse getId(Long id) {
-         return mailingListRepository.findMailingById(id).orElseThrow(
-                ()-> {
-                    log.error("Mailing list with id:{} not found!",id);
+        return mailingListRepository.findMailingById(id).orElseThrow(
+                () -> {
+                    log.error("Mailing list with id:{} not found!", id);
                     throw new NotFoundException(String.format("Рассылка с id: %s не найдена!", id));
                 }
         );

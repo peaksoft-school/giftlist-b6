@@ -239,9 +239,9 @@ public class CharityService {
         );
         InnerCharityResponse response = new InnerCharityResponse(charity.getId(), charity.getImage(), charity.getName(),
                 charity.getDescription(), charity.getCategory().getName(), charity.getSubCategory().getName(),
-                charity.getCondition(), charity.getCreatedAt(),charity.getCharityStatus(), charity.getIsBlock());
+                charity.getCondition(), charity.getCreatedAt(), charity.getCharityStatus(), charity.getIsBlock());
         UserCharityResponse userCharityResponse = new UserCharityResponse(charity.getUser().getId(), charity.getUser().getFirstName(),
-                charity.getUser().getLastName(), charity.getUser().getImage(),charity.getUser().getUserInfo().getPhoneNumber());
+                charity.getUser().getLastName(), charity.getUser().getImage(), charity.getUser().getUserInfo().getPhoneNumber());
         response.setUserCharityResponse(userCharityResponse);
         return response;
     }

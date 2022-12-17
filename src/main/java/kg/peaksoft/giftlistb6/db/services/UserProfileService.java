@@ -181,47 +181,47 @@ public class UserProfileService {
         friendProfileResponse.setVkLink(friend.getUserInfo().getVkLink());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
-        List<Holiday>block = new ArrayList<>();
+        List<Holiday> block = new ArrayList<>();
         for (Holiday holiday : friend.getHolidays()) {
-            if (holiday.getIsBlock().equals(true)){
+            if (holiday.getIsBlock().equals(true)) {
                 block.add(holiday);
-            }else {
-            HolidayResponses holidayResponse = new HolidayResponses(
-                    holiday.getId(),
-                    holiday.getName(),
-                    holiday.getDateOfHoliday(),
-                    holiday.getImage());
-            holidayResponses.add(holidayResponse);
+            } else {
+                HolidayResponses holidayResponse = new HolidayResponses(
+                        holiday.getId(),
+                        holiday.getName(),
+                        holiday.getDateOfHoliday(),
+                        holiday.getImage());
+                holidayResponses.add(holidayResponse);
             }
         }
         friendProfileResponse.setHolidayResponses(holidayResponses);
         List<CharityResponse> charityResponses = new ArrayList<>();
         List<Charity> blockCharities = new ArrayList<>();
         for (Charity c : friend.getCharities()) {
-            if (c.getIsBlock().equals(true)){
+            if (c.getIsBlock().equals(true)) {
                 blockCharities.add(c);
-            }else {
-            CharityResponse charityResponse = new CharityResponse();
-            charityResponse.setId(c.getId());
-            charityResponse.setName(c.getName());
-            charityResponse.setCondition(c.getCondition());
-            charityResponse.setImage(c.getImage());
-            charityResponse.setCreatedDate(c.getCreatedAt());
-            charityResponse.setDescription(c.getDescription());
-            charityResponse.setCharityStatus(c.getCharityStatus());
-            if (c.getReservoir() != null && !c.getReservoir().equals(user) && c.getCharityStatus().equals(Status.RESERVED)) {
-                charityResponse.setIsMy(false);
-            } else if (c.getCharityStatus().equals(Status.WAIT)) {
-                charityResponse.setIsMy(false);
             } else {
-                charityResponse.setIsMy(true);
-            }
-            if (c.getReservoir() != null) {
-                charityResponse.setReservedUserResponse(new ReservedUserResponse(c.getReservoir().getId(), c.getReservoir().getFirstName() + " " + c.getReservoir().getLastName(), c.getReservoir().getImage()));
-            } else {
-                charityResponse.setReservedUserResponse(new ReservedUserResponse());
-            }
-            charityResponses.add(charityResponse);
+                CharityResponse charityResponse = new CharityResponse();
+                charityResponse.setId(c.getId());
+                charityResponse.setName(c.getName());
+                charityResponse.setCondition(c.getCondition());
+                charityResponse.setImage(c.getImage());
+                charityResponse.setCreatedDate(c.getCreatedAt());
+                charityResponse.setDescription(c.getDescription());
+                charityResponse.setCharityStatus(c.getCharityStatus());
+                if (c.getReservoir() != null && !c.getReservoir().equals(user) && c.getCharityStatus().equals(Status.RESERVED)) {
+                    charityResponse.setIsMy(false);
+                } else if (c.getCharityStatus().equals(Status.WAIT)) {
+                    charityResponse.setIsMy(false);
+                } else {
+                    charityResponse.setIsMy(true);
+                }
+                if (c.getReservoir() != null) {
+                    charityResponse.setReservedUserResponse(new ReservedUserResponse(c.getReservoir().getId(), c.getReservoir().getFirstName() + " " + c.getReservoir().getLastName(), c.getReservoir().getImage()));
+                } else {
+                    charityResponse.setReservedUserResponse(new ReservedUserResponse());
+                }
+                charityResponses.add(charityResponse);
             }
         }
         friendProfileResponse.setCharityResponses(charityResponses);
@@ -229,31 +229,31 @@ public class UserProfileService {
         List<FriendWishesResponse> wishResponses = new ArrayList<>();
         List<Wish> blockWish = new ArrayList<>();
         for (Wish w : friend.getWishes()) {
-            if (w.getIsBlock().equals(true)){
+            if (w.getIsBlock().equals(true)) {
                 blockWish.add(w);
-            }else {
-            FriendWishesResponse friendWishesResponse = new FriendWishesResponse();
-            friendWishesResponse.setId(w.getId());
-            friendWishesResponse.setWishName(w.getWishName());
-            friendWishesResponse.setWishStatus(w.getWishStatus());
-            friendWishesResponse.setDateOfHoliday(w.getDateOfHoliday());
-            friendWishesResponse.setHolidayName(w.getHoliday().getName());
-            friendWishesResponse.setDescription(w.getDescription());
-            friendWishesResponse.setLinkToGift(w.getLinkToGift());
-            friendWishesResponse.setImage(w.getImage());
-            if (w.getReservoir() != null && !w.getReservoir().equals(user) && w.getWishStatus().equals(Status.RESERVED)) {
-                friendWishesResponse.setIsMy(false);
-            } else if (w.getWishStatus().equals(Status.WAIT)) {
-                friendWishesResponse.setIsMy(false);
             } else {
-                friendWishesResponse.setIsMy(true);
-            }
-            if (w.getReservoir() != null) {
-                friendWishesResponse.setReservedUserResponse(new ReservedUserResponse(w.getReservoir().getId(), w.getReservoir().getFirstName() + " " + w.getReservoir().getLastName(), w.getReservoir().getImage()));
-            } else {
-                friendWishesResponse.setReservedUserResponse(new ReservedUserResponse());
-            }
-            wishResponses.add(friendWishesResponse);
+                FriendWishesResponse friendWishesResponse = new FriendWishesResponse();
+                friendWishesResponse.setId(w.getId());
+                friendWishesResponse.setWishName(w.getWishName());
+                friendWishesResponse.setWishStatus(w.getWishStatus());
+                friendWishesResponse.setDateOfHoliday(w.getDateOfHoliday());
+                friendWishesResponse.setHolidayName(w.getHoliday().getName());
+                friendWishesResponse.setDescription(w.getDescription());
+                friendWishesResponse.setLinkToGift(w.getLinkToGift());
+                friendWishesResponse.setImage(w.getImage());
+                if (w.getReservoir() != null && !w.getReservoir().equals(user) && w.getWishStatus().equals(Status.RESERVED)) {
+                    friendWishesResponse.setIsMy(false);
+                } else if (w.getWishStatus().equals(Status.WAIT)) {
+                    friendWishesResponse.setIsMy(false);
+                } else {
+                    friendWishesResponse.setIsMy(true);
+                }
+                if (w.getReservoir() != null) {
+                    friendWishesResponse.setReservedUserResponse(new ReservedUserResponse(w.getReservoir().getId(), w.getReservoir().getFirstName() + " " + w.getReservoir().getLastName(), w.getReservoir().getImage()));
+                } else {
+                    friendWishesResponse.setReservedUserResponse(new ReservedUserResponse());
+                }
+                wishResponses.add(friendWishesResponse);
             }
         }
         friendProfileResponse.setWishResponses(wishResponses);
