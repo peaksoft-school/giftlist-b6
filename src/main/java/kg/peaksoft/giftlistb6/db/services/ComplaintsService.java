@@ -117,6 +117,7 @@ public class ComplaintsService {
         complaintResponseForAdmin.setComplainerId(complaint.getComplainer().getId());
         complaintResponseForAdmin.setComplainerPhoto(complaint.getComplainer().getImage());
         complaintResponseForAdmin.setReason(complaint.getReasonText());
+        complaintResponseForAdmin.setIsBLock(complaint.getWish().getIsBlock());
         return complaintResponseForAdmin;
     }
 }
