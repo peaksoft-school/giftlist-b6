@@ -9,13 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @SpringBootApplication
 public class GiftlistB6Application {
 
-	public static void main(String[] args) {
-		SpringApplication.run(GiftlistB6Application.class, args);
-		System.out.println("Welcome colleagues, project name is Giftlist!");
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(GiftlistB6Application.class, args);
+        System.out.println("Welcome colleagues, project name is Giftlist!");
+    }
 
-	@GetMapping("/")
-	public String greetingPage(){
-		return "welcome";
-	}
+    @GetMapping("/")
+    public String greetingPage() {
+        return "welcome";
+    }
 }
