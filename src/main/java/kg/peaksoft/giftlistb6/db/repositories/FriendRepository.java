@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface FriendRepository extends JpaRepository<User,Long> {
+public interface FriendRepository extends JpaRepository<User, Long> {
 
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.FriendInfoResponse( " +
             "f.id," +
@@ -25,6 +25,6 @@ public interface FriendRepository extends JpaRepository<User,Long> {
             "concat(f.firstName,' ',f.lastName)," +
             "f.holidays.size" +
             ",f.wishes.size) from User u join u.requests f where u.email =?1")
-    List<FriendInfoResponse>getAllRequests(String email);
+    List<FriendInfoResponse> getAllRequests(String email);
 
 }
