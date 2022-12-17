@@ -8,6 +8,7 @@ import java.util.List;
 @Getter
 @Setter
 public class BookingResponse {
+
     private List<GiftResponse> getAllGifts;
     private List<GiftResponse> getReservedCharity;
 }

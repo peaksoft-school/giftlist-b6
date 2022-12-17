@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @NoArgsConstructor
-public class  InnerPageCharityResponse {
+public class InnerPageCharityResponse {
 
     private Long id;
     private String image;

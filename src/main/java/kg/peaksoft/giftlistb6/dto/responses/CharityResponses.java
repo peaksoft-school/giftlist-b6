@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class  CharityResponses {
+public class CharityResponses {
 
     List<YourCharityResponse> yourCharityResponses;
     List<OtherCharityResponse> otherCharityResponses;

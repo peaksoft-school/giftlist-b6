@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import static javax.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name = "users")
@@ -48,7 +48,7 @@ public class User implements UserDetails {
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Wish> wishes;
 
-    public void addWish(Wish wish){
+    public void addWish(Wish wish) {
         wishes.add(wish);
     }
 
@@ -58,16 +58,16 @@ public class User implements UserDetails {
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Charity> charities;
 
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<User> friends;
 
-    @ManyToMany(cascade = {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private List<User> requests;
 
     @OneToMany(cascade = ALL, mappedBy = "user")
     private List<Holiday> holidays;
 
-    public void addHoliday(Holiday holiday){
+    public void addHoliday(Holiday holiday) {
         holidays.add(holiday);
     }
 
@@ -77,7 +77,7 @@ public class User implements UserDetails {
     @OneToOne
     private UserInfo userInfo;
 
-    public void addFriend(User friend){
+    public void addFriend(User friend) {
         friends.add(friend);
     }
 

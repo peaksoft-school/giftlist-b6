@@ -32,7 +32,7 @@ public class AdminService {
         return userList;
     }
 
-    public FriendProfileResponse getUserById(Long id){
+    public FriendProfileResponse getUserById(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
         User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))

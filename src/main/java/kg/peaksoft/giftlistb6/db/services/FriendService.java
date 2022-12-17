@@ -34,20 +34,20 @@ public class FriendService {
         String email = auth.getName();
         return userRepository.findByEmail(email).orElseThrow(
                 () -> {
-                    log.error("User with email: {} not found!",email);
+                    log.error("User with email: {} not found!", email);
                     throw new NotFoundException(String.format("Пользователь с таким электронным адресом: %s не найден", email));
                 });
     }
 
     public List<FriendInfoResponse> getAllFriends() {
         User user = getAuthPrincipal();
-        log.info("User with email: {} seen all friends",user.getEmail());
+        log.info("User with email: {} seen all friends", user.getEmail());
         return friendRepository.getAllFriends(user.getEmail());
     }
 
     public List<FriendInfoResponse> getAllRequests() {
         User user = getAuthPrincipal();
-        log.info("User with email : {} seen all requests ",user.getEmail());
+        log.info("User with email : {} seen all requests ", user.getEmail());
         return friendRepository.getAllRequests(user.getEmail());
     }
 
@@ -55,9 +55,9 @@ public class FriendService {
     public SimpleResponse sendRequestToFriend(Long friendId) {
         User user = getAuthPrincipal();
         User friend = userRepository.findById(friendId).orElseThrow(
-                () ->{
-                    log.error("User with id:{} not found",friendId);
-                     throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", friendId));
+                () -> {
+                    log.error("User with id:{} not found", friendId);
+                    throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", friendId));
                 });
         if (user.equals(friend)) {
             log.error("User can't send a request to yourself");
@@ -79,7 +79,7 @@ public class FriendService {
         notification.setCreatedDate(LocalDate.now());
         notification.setNotificationType(NotificationType.REQUEST_TO_FRIEND);
         notificationRepository.save(notification);
-        log.info("User with email: {} successfully send a request to friend :{}",user.getEmail(),friend.getEmail());
+        log.info("User with email: {} successfully send a request to friend :{}", user.getEmail(), friend.getEmail());
         return new SimpleResponse("Удачно", "Запрос в друзья");
     }
 
@@ -123,7 +123,7 @@ public class FriendService {
         } else {
             return new SimpleResponse("Запрос не найден", "");
         }
-        log.info("User with email: {} rejected request ",user.getEmail());
+        log.info("User with email: {} rejected request ", user.getEmail());
         return new SimpleResponse("Удачно", "Не в друзьях");
     }
 

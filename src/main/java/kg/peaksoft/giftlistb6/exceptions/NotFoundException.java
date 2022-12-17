@@ -1,6 +1,6 @@
 package kg.peaksoft.giftlistb6.exceptions;
 
-public class NotFoundException extends RuntimeException{
+public class NotFoundException extends RuntimeException {
 
     public NotFoundException() {
         super();
