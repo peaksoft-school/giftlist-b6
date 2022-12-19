@@ -17,6 +17,7 @@ public interface HolidayRepository extends JpaRepository<Holiday, Long> {
             "h.name," +
             "h.dateOfHoliday," +
             "h.image," +
+            "h.isBlock," +
             "h.user.id) from User u join u.holidays h where u.email = ?1")
     List<HolidayResponses> getAllHolidays(String email);
 

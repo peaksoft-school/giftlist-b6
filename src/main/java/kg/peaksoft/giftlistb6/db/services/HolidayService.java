@@ -114,6 +114,7 @@ public class HolidayService {
         holidayResponse.setImage(holiday.getImage());
         holidayResponse.setUser(user.getId());
         holidayResponse.setWishResponse(wishResponses);
+        holidayResponse.setHolidayIsBlock(holiday.getIsBlock());
         return holidayResponse;
     }
 
@@ -125,6 +126,7 @@ public class HolidayService {
         holidayResponses.setDateOfHoliday(holiday.getDateOfHoliday());
         holidayResponses.setImage(holiday.getImage());
         holidayResponses.setUser(user.getId());
+        holidayResponses.setIsBlock(holiday.getIsBlock());
         return holidayResponses;
     }
 

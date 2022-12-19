@@ -2,6 +2,7 @@ package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.models.Wish;
+import kg.peaksoft.giftlistb6.db.repositories.MailingListRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.responses.*;
@@ -26,6 +27,15 @@ public class FeedService {
     private final WishRepository wishRepository;
 
     private final UserRepository userRepository;
+
+    private final MailingListRepository mailingListRepository;
+
+    public User getAuthPrincipal() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getName();
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new NotFoundException(String.format("Пользователь с таким  электронным адресом: %s не найден!", email)));
+    }
 
     public FeedResponse mapToAllResponse(Wish wish) {
         User user = getAuthPrincipal();
@@ -55,6 +65,13 @@ public class FeedService {
         return feedResponse;
     }
 
+    public AllFeedResponse feedResponse() {
+        User user = getAuthPrincipal();
+        AllFeedResponse allFeedResponse = new AllFeedResponse();
+        allFeedResponse.setMailingLists(mailingListRepository.findAllMailingList());
+        allFeedResponse.setFeeds(convertAllToResponse(wishRepository.getAllWishes(user.getEmail())));
+        return allFeedResponse;
+    }
 
     public Deque<FeedResponse> convertAllToResponse(List<Wish> wishes) {
         List<Wish> block = new ArrayList<>();
@@ -74,36 +91,11 @@ public class FeedService {
         return convertAllToResponse(wishRepository.getAllWishes(user.getEmail()));
     }
 
-
-    public InnerFeedResponse mapToIdResponse(Wish wish) {
-        InnerFeedResponse innerFeedResponse = new InnerFeedResponse();
-        innerFeedResponse.setWishId(wish.getId());
-        innerFeedResponse.setSaveUser(new SearchUserResponse(wish.getUser().getId(), wish.getUser().getImage(), wish.getUser().getFirstName() + " " + wish.getUser().getLastName()));
-        innerFeedResponse.setHolidayResponse(new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
-        innerFeedResponse.setImage(wish.getImage());
-        innerFeedResponse.setWishName(wish.getWishName());
-        innerFeedResponse.setStatus(wish.getWishStatus());
-        innerFeedResponse.setDescription(wish.getDescription());
-        if (wish.getReservoir() == null) {
-            innerFeedResponse.setReservoirUser(new UserFeedResponse());
-        } else {
-            innerFeedResponse.setReservoirUser(new UserFeedResponse(wish.getReservoir().getId(), wish.getReservoir().getImage()));
-        }
-        return innerFeedResponse;
-    }
-
     public InnerFeedResponse getById(Long id) {
         Wish wish = wishRepository.findWishById(id).orElseThrow(() -> {
             log.error("Wish with id: {} not found!", id);
             throw new NotFoundException("Желание с таким id: " + id + " не найдено!");
         });
-        return mapToIdResponse(wish);
-    }
-
-    public User getAuthPrincipal() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String email = auth.getName();
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new NotFoundException(String.format("Пользователь с таким  электронным адресом: %s не найден!", email)));
+        return new InnerFeedResponse(wish);
     }
 }

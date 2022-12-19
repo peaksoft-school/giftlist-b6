@@ -19,5 +19,6 @@ public class HolidayResponseForGet {
     private LocalDate dateOfHoliday;
     private String image;
     private Long user;
+    private Boolean holidayIsBlock;
     private List<HolidayGiftsResponse> wishResponse;
 }
