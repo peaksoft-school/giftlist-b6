@@ -13,7 +13,7 @@ INSERT INTO users(id, first_name, last_name, is_block, email, password, image, r
 VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQeybae.dumhUkp1ABxxESQN7c5zgmK9GFwHeIW',
         'image', 'ADMIN', 1),
        (2, 'User', 'User', false, 'user@gmail.com', '$2a$12$MXgVFpgW8uWMwTMjG/0I4ekXUiiPojhMXjBf6vefv3Ea.ZOx48fei',
-        'image', 'USER', 2),
+        'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1669042212332IMG_6270.JPG', 'USER', 2),
        (3, 'Aiza', 'Anarbekova', false, 'aiza@gmail.com',
         '$2a$12$yU5x4BST3FpXc0af1mwSfu3pGe./QBMU58VHinr9soYes/pf9jUca', 'image', 'USER', 3),
        (4, 'Aiperi', 'Mirlanova', false, 'mirlanova@gmail.com',
