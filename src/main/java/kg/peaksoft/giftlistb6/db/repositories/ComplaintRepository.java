@@ -23,6 +23,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             "c.wish.image," +
             "c.createdAt," +
             "c.complainer.id," +
-            "c.complainer.image) from Complaint c")
+            "c.complainer.image," +
+            "c.wish.isBlock) from Complaint c")
     List<ComplaintResponseForAdmin> getAllComplaints();
 }

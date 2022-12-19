@@ -78,6 +78,7 @@ public class CharityService {
         charity.setSubCategory(subCategoryRepository.findByName(charityRequest.getSubCategory()));
         user.setCharities(List.of(charity));
         charity.setUser(user);
+        charity.setIsBlock(false);
         charityRepository.save(charity);
         log.info("Charity successfully saved in database");
         return new YourCharityResponse(charity.getId(), charity.getImage());
@@ -214,8 +215,9 @@ public class CharityService {
         searchCharityResponse.setCharityName(charity.getName());
         searchCharityResponse.setCharityCondition(charity.getCondition());
         searchCharityResponse.setCreatedAt(charity.getCreatedAt());
+        searchCharityResponse.setStatus(charity.getCharityStatus());
         if (charity.getReservoir() == null) {
-            searchCharityResponse.setReservoirUser(new UserFeedResponse(null, null));
+            searchCharityResponse.setReservoirUser(new UserFeedResponse());
         } else {
             searchCharityResponse.setReservoirUser(new UserFeedResponse(charity.getReservoir().getId(), charity.getReservoir().getImage()));
         }
