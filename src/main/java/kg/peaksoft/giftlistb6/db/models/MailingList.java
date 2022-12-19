@@ -1,11 +1,13 @@
 package kg.peaksoft.giftlistb6.db.models;
 
 import kg.peaksoft.giftlistb6.dto.requests.MailingListRequest;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -27,7 +29,13 @@ public class MailingList {
     @Column(length = 10000)
     private String text;
 
-
     private LocalDateTime createdAt;
 
+    public MailingList(MailingListRequest mailingListRequest) {
+        this.name = mailingListRequest.getName();
+        this.image = mailingListRequest.getName();
+        this.text = mailingListRequest.getText();
+        this.createdAt = LocalDateTime.now();
+
+    }
 }

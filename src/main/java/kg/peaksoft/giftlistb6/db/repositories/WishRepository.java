@@ -24,13 +24,12 @@ public interface WishRepository extends JpaRepository<Wish, Long> {
     @Query("select w from Wish w where w.user.isBlock = false and w.user.email <> ?1")
     List<Wish> getAllWishes(String email);
 
-    @Query("select w from Wish w where w.user.friends = :user")
-    List<Wish> getFriendsWishes(User user);
-
     @Query("select w from Wish w where w.user.isBlock = false and w.id = :id")
     Optional<Wish> findWishById(Long id);
 
     @Modifying
     @Query("delete from Wish w where w.id = :id")
     void deleteById(Long id);
+
+
 }
