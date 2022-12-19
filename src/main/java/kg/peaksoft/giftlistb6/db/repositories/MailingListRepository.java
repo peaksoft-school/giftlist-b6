@@ -6,7 +6,6 @@ import kg.peaksoft.giftlistb6.dto.responses.MailingListResponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,5 +24,5 @@ public interface MailingListRepository extends JpaRepository<MailingList, Long> 
             "m.image," +
             "m.name," +
             "m.createdAt) from MailingList m ")
-    Deque<AllMailingListResponse> findAllMailingList();
+    List<AllMailingListResponse> findAllMailingList();
 }

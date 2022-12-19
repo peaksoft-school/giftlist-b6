@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Deque;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -36,7 +36,7 @@ public class MailingListApi {
 
     @Operation(summary = "All mailing lists", description = "Show all mailing-list")
     @GetMapping
-    public Deque<AllMailingListResponse> getAllMailingLists() {
+    public List<AllMailingListResponse> getAllMailingLists() {
         return mailingListService.getAllMailingLists();
     }
 }

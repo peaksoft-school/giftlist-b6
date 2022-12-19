@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Deque;
 import java.util.List;
 
 @Service
@@ -39,7 +38,7 @@ public class MailingListService {
         );
     }
 
-    public Deque<AllMailingListResponse> getAllMailingLists() {
+    public List<AllMailingListResponse> getAllMailingLists() {
         return mailingListRepository.findAllMailingList();
     }
 }

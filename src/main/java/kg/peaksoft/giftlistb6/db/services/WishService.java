@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -200,6 +199,7 @@ public class WishService {
         innerWishResponse.setWishName(wish.getWishName());
         innerWishResponse.setLinkToGift(wish.getLinkToGift());
         innerWishResponse.setImage(wish.getImage());
+        innerWishResponse.setIsBlock(wish.getIsBlock());
         innerWishResponse.setHoliday(new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(), wish.getHoliday().getDateOfHoliday()));
         innerWishResponse.setDescription(wish.getDescription());
         return innerWishResponse;

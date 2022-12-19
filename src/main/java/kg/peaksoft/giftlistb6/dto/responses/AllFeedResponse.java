@@ -10,6 +10,6 @@ import java.util.List;
 @Setter
 public class AllFeedResponse {
 
-    Deque<AllMailingListResponse> mailingLists;
+    List<AllMailingListResponse> mailingLists;
     Deque<FeedResponse> feeds;
 }

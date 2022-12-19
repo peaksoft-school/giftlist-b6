@@ -34,12 +34,4 @@ public class HolidayResponses {
         this.image = image;
         this.isBlock = isBlock;
     }
-
-    public HolidayResponses(Long id, String name, LocalDate dateOfHoliday, String image, Long user) {
-        this.id = id;
-        this.name = name;
-        this.dateOfHoliday = dateOfHoliday;
-        this.image = image;
-        this.user = user;
-    }
 }

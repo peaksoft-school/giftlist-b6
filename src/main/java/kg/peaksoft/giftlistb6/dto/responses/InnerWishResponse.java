@@ -13,4 +13,5 @@ public class InnerWishResponse {
     private HolidayResponse holiday;
     private String description;
     private String image;
+    private Boolean isBlock;
 }
