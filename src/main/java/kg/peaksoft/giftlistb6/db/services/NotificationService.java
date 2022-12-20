@@ -126,4 +126,13 @@ public class NotificationService {
         log.info("Admin has seen all notifications");
         return response;
     }
+
+    public SimpleResponse markAsReadForAdmin(){
+        List<Notification> notifications = notificationRepository.findAll();
+        for (Notification n : notifications) {
+                notificationRepository.deleteById(n.getId());
+        }
+        log.info("Mark as read all notifications");
+        return new SimpleResponse("Удачно", "ок");
+    }
 }

@@ -3,9 +3,11 @@ package kg.peaksoft.giftlistb6.db.repositories;
 import kg.peaksoft.giftlistb6.db.models.Complaint;
 import kg.peaksoft.giftlistb6.dto.responses.ComplaintResponseForAdmin;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
@@ -28,4 +30,10 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             "c.wish.isBlock," +
             "c.reasonText) from Complaint c")
     List<ComplaintResponseForAdmin> getAllComplaints();
+
+    @Modifying
+    @Transactional
+    @Query("delete from Complaint w where w.id = :id")
+    void deleteComplaintById(Long id);
+
 }

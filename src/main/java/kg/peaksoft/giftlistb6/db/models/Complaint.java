@@ -30,6 +30,9 @@ public class Complaint {
     @ManyToOne(cascade = CascadeType.ALL)
     private User complainer;
 
+    @ManyToOne(cascade = ALL)
+    private Notification notification;
+
     @CreatedDate
     private LocalDate createdAt;
 
