@@ -14,6 +14,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
     @Query("select new kg.peaksoft.giftlistb6.dto.responses.ComplaintResponseForAdmin(" +
             "c.id," +
             "c.wish.user.id," +
+            "c.wish.id," +
             "c.wish.user.image," +
             "c.wish.user.userInfo.phoneNumber," +
             "c.wish.user.firstName," +
@@ -24,6 +25,7 @@ public interface ComplaintRepository extends JpaRepository<Complaint, Long> {
             "c.createdAt," +
             "c.complainer.id," +
             "c.complainer.image," +
-            "c.wish.isBlock) from Complaint c")
+            "c.wish.isBlock," +
+            "c.reasonText) from Complaint c")
     List<ComplaintResponseForAdmin> getAllComplaints();
 }

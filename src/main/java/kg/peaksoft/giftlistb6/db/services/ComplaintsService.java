@@ -10,6 +10,7 @@ import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ComplaintRequest;
 import kg.peaksoft.giftlistb6.dto.responses.ComplaintResponseForAdmin;
+import kg.peaksoft.giftlistb6.dto.responses.ReservoirResponse;
 import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import kg.peaksoft.giftlistb6.enums.NotificationType;
 import kg.peaksoft.giftlistb6.exceptions.NotFoundException;
@@ -112,12 +113,22 @@ public class ComplaintsService {
         complaintResponseForAdmin.setLastName(complaint.getWish().getUser().getLastName());
         complaintResponseForAdmin.setHolidayName(complaint.getWish().getHoliday().getName());
         complaintResponseForAdmin.setWishName(complaint.getWish().getWishName());
+        complaintResponseForAdmin.setWishId(complaint.getWish().getId());
         complaintResponseForAdmin.setWishPhoto(complaint.getWish().getImage());
         complaintResponseForAdmin.setCreatedAt(complaint.getCreatedAt());
         complaintResponseForAdmin.setComplainerId(complaint.getComplainer().getId());
         complaintResponseForAdmin.setComplainerPhoto(complaint.getComplainer().getImage());
         complaintResponseForAdmin.setReason(complaint.getReasonText());
         complaintResponseForAdmin.setIsBLock(complaint.getWish().getIsBlock());
+        complaintResponseForAdmin.setStatus(complaint.getWish().getWishStatus());
+        complaintResponseForAdmin.setComplainerFirstName(complaint.getComplainer().getFirstName());
+        complaintResponseForAdmin.setComplainerLastName(complaint.getComplainer().getLastName());
+       if (complaint.getWish().getReservoir()==null){
+           complaintResponseForAdmin.setReservedUserResponse(new ReservoirResponse());
+       }else {
+        ReservoirResponse reservoirResponse = new ReservoirResponse(complaint.getWish().getReservoir().getId(),complaint.getWish().getReservoir().getImage());
+        complaintResponseForAdmin.setReservedUserResponse(reservoirResponse);
+       }
         return complaintResponseForAdmin;
     }
 }
