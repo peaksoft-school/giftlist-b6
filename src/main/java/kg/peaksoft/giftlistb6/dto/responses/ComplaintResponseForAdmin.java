@@ -1,5 +1,6 @@
 package kg.peaksoft.giftlistb6.dto.responses;
 
+import kg.peaksoft.giftlistb6.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,15 +21,21 @@ public class ComplaintResponseForAdmin {
     private String holidayName;
     private String wishName;
     private String wishPhoto;
+    private Long wishId;
     private LocalDate createdAt;
     private Long complainerId;
     private String complainerPhoto;
+    private String complainerFirstName;
+    private String complainerLastName;
+    private Status status;
     private String reason;
+    private ReservoirResponse reservedUserResponse;
     private Boolean isBLock;
 
-    public ComplaintResponseForAdmin(Long id, Long userId, String userPhoto, String userPhoneNumber, String firstName, String lastName, String holidayName, String wishName, String wishPhoto, LocalDate createdAt, Long complainerId, String complainerPhoto,Boolean isBlock) {
+    public ComplaintResponseForAdmin(Long id, Long userId,Long wishId, String userPhoto, String userPhoneNumber, String firstName, String lastName, String holidayName, String wishName, String wishPhoto, LocalDate createdAt, Long complainerId, String complainerPhoto,Boolean isBlock,String reason) {
         this.id = id;
         this.userId = userId;
+        this.wishId = wishId;
         this.userPhoto = userPhoto;
         this.userPhoneNumber = userPhoneNumber;
         this.firstName = firstName;
@@ -40,5 +47,6 @@ public class ComplaintResponseForAdmin {
         this.complainerId = complainerId;
         this.complainerPhoto = complainerPhoto;
         this.isBLock = isBlock;
+        this.reason = reason;
     }
 }
