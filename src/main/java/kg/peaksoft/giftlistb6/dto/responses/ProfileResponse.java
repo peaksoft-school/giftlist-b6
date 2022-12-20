@@ -21,4 +21,8 @@ public class ProfileResponse {
     private String clothingSize;
     private String hobby;
     private String important;
+    private String facebookLink;
+    private String instagramLink;
+    private String telegramLink;
+    private String vkLink;
 }

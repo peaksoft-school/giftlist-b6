@@ -10,12 +10,10 @@ import kg.peaksoft.giftlistb6.configs.security.JwtUtils;
 import kg.peaksoft.giftlistb6.db.models.User;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
 import kg.peaksoft.giftlistb6.dto.requests.AuthRequest;
+import kg.peaksoft.giftlistb6.dto.requests.ForgotPasswordRequest;
 import kg.peaksoft.giftlistb6.dto.requests.RegisterRequest;
 import kg.peaksoft.giftlistb6.dto.requests.ResetPasswordRequest;
-import kg.peaksoft.giftlistb6.dto.responses.AdminResponse;
-import kg.peaksoft.giftlistb6.dto.responses.AuthResponse;
-import kg.peaksoft.giftlistb6.dto.responses.SearchUserResponse;
-import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
+import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.enums.Role;
 import kg.peaksoft.giftlistb6.exceptions.BadCredentialsException;
 import kg.peaksoft.giftlistb6.exceptions.BadRequestException;
@@ -31,6 +29,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.List;
 
@@ -107,7 +106,7 @@ public class UserService {
             throw new BadRequestException("ваш аккаунт заблокирован,на ваш электронный адрес было отправлено письмо!");
         }
         String jwt = jwtUtils.generateToken(user.getEmail());
-        log.info("User with email: {} successfully logged ",authRequest.getEmail());
+        log.info("User with email: {} successfully logged ", authRequest.getEmail());
 
         return new AuthResponse(
                 user.getId(),
@@ -147,7 +146,7 @@ public class UserService {
                     throw new NotFoundException(String.format("Пользователь с таким электронным адресом %s не найден!", firebaseToken.getEmail()));
                 });
         String token = jwtUtils.generateToken(user.getPassword());
-        log.info("User with email: {} successfully authenticate with google ",firebaseToken.getEmail());
+        log.info("User with email: {} successfully authenticate with google ", firebaseToken.getEmail());
         return new AuthResponse(user.getId(), user.getFirstName(), user.getLastName(), user.getEmail(), user.getRole(), token);
     }
 
@@ -168,15 +167,29 @@ public class UserService {
         return new SimpleResponse("Отправлено", "Ок");
     }
 
-    public SimpleResponse resetPassword(ResetPasswordRequest request) {
-        User user = userRepo.findById(request.getId()).orElseThrow(
+    @Transactional
+    public SimpleResponse changeOnForgot(ForgotPasswordRequest password) {
+        if (!password.getNewPassword().equals(password.getVerifyPassword())) {
+            return new SimpleResponse("passwords does not matches", "INCORRECT");
+        }
+        User user = userRepo.findById(password.getId()).orElseThrow(() -> new NotFoundException("not found"));
+        user.setPassword(passwordEncoder.encode(password.getVerifyPassword()));
+        return new SimpleResponse("Changed", "OK");
+    }
+
+    @Transactional
+    public SimpleResponse resetPassword(Long id, ResetPasswordRequest request) {
+        User user = userRepo.findById(id).orElseThrow(
                 () -> {
-                    log.error("User with id: {} not found!", request.getId());
-                    throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", request.getId()));
+                    log.error("User with id: {} not found!", id);
+                    throw new NotFoundException(String.format("Пользователь с таким id: %s не найден!", id));
                 }
         );
+        if (!passwordEncoder.matches(request.getOldPassword(), user.getPassword())) {
+            return new SimpleResponse("неверный старый пароль", "CREDENTIALS");
+        }
         user.setPassword(passwordEncoder.encode(request.getNewPassword()));
-        log.info("The user's with id:{} password was successfully updated", request.getId());
+        log.info("The user's with id:{} password was successfully updated", id);
         return new SimpleResponse("Пароль обновлен", "ок");
     }
 

@@ -13,6 +13,8 @@ import java.time.LocalDate;
 public class NotificationResponse {
 
     private Long userId;
+    private Long wishId;
+    private String wishName;
     private String firstName;
     private String lastName;
     private String photo;

@@ -3,12 +3,10 @@ package kg.peaksoft.giftlistb6.api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import kg.peaksoft.giftlistb6.db.services.FeedService;
-import kg.peaksoft.giftlistb6.dto.responses.FeedResponse;
+import kg.peaksoft.giftlistb6.dto.responses.AllFeedResponse;
 import kg.peaksoft.giftlistb6.dto.responses.InnerFeedResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Deque;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,7 +25,7 @@ public class FeedApi {
 
     @Operation(summary = "Get wishes of all users", description = "User can see all users wish")
     @GetMapping
-    public Deque<FeedResponse> getAllWishes() {
-        return feedService.getAll();
+    public AllFeedResponse getAllWishes() {
+        return feedService.feedResponse();
     }
 }

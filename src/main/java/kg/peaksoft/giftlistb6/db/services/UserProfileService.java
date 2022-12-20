@@ -1,10 +1,8 @@
 package kg.peaksoft.giftlistb6.db.services;
 
 import kg.peaksoft.giftlistb6.db.models.*;
-import kg.peaksoft.giftlistb6.db.repositories.CharityRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserProfileRepository;
 import kg.peaksoft.giftlistb6.db.repositories.UserRepository;
-import kg.peaksoft.giftlistb6.db.repositories.WishRepository;
 import kg.peaksoft.giftlistb6.dto.requests.ProfileRequest;
 import kg.peaksoft.giftlistb6.dto.responses.*;
 import kg.peaksoft.giftlistb6.enums.Status;
@@ -26,8 +24,6 @@ public class UserProfileService {
 
     private final UserProfileRepository repository;
     private final UserRepository userRepository;
-    private final WishRepository wishRepository;
-    private final CharityRepository charityRepository;
 
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -47,7 +43,7 @@ public class UserProfileService {
         User user = getAuthPrincipal();
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
-        userInfo.setImage(request.getImage());
+        user.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
         userInfo.setPhoneNumber(request.getPhoneNumber());
@@ -57,6 +53,10 @@ public class UserProfileService {
         userInfo.setClothingSize(request.getClothingSize());
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
+        userInfo.setFacebookLink(request.getFacebookLink());
+        userInfo.setInstagramLink(request.getInstagramLink());
+        userInfo.setTelegramLink(request.getTelegramLink());
+        userInfo.setVkLink(request.getVkLink());
         return userInfo;
     }
 
@@ -74,7 +74,7 @@ public class UserProfileService {
     public UserInfo convertToEntity(ProfileRequest request) {
         User user = getAuthPrincipal();
         UserInfo userInfo = new UserInfo();
-        userInfo.setImage(request.getImage());
+        user.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
         userInfo.setPhoneNumber(request.getPhoneNumber());
@@ -84,6 +84,10 @@ public class UserProfileService {
         userInfo.setClothingSize(request.getClothingSize());
         user.setUserInfo(userInfo);
         userInfo.setUser(user);
+        userInfo.setFacebookLink(request.getFacebookLink());
+        userInfo.setInstagramLink(request.getInstagramLink());
+        userInfo.setTelegramLink(request.getTelegramLink());
+        userInfo.setVkLink(request.getVkLink());
         repository.save(userInfo);
         return userInfo;
     }
@@ -100,10 +104,14 @@ public class UserProfileService {
         response.setClothingSize(userInfo.getClothingSize());
         response.setHobby(userInfo.getHobby());
         response.setImportant(userInfo.getImportant());
-        response.setImage(userInfo.getImage());
+        response.setImage(user.getImage());
         response.setPhoneNumber(userInfo.getPhoneNumber());
         response.setShoeSize(userInfo.getShoeSize());
         response.setDateOfBirth(userInfo.getDateOfBirth());
+        response.setFacebookLink(userInfo.getFacebookLink());
+        response.setInstagramLink(userInfo.getInstagramLink());
+        response.setTelegramLink(userInfo.getTelegramLink());
+        response.setVkLink(userInfo.getVkLink());
         return response;
     }
 
@@ -130,16 +138,21 @@ public class UserProfileService {
         response.setClothingSize(user.getUserInfo().getClothingSize());
         response.setHobby(user.getUserInfo().getHobby());
         response.setImportant(user.getUserInfo().getImportant());
-        response.setImage(user.getUserInfo().getImage());
+        response.setImage(user.getImage());
         response.setPhoneNumber(user.getUserInfo().getPhoneNumber());
         response.setShoeSize(user.getUserInfo().getShoeSize());
         response.setDateOfBirth(user.getUserInfo().getDateOfBirth());
+        response.setFacebookLink(user.getUserInfo().getFacebookLink());
+        response.setInstagramLink(user.getUserInfo().getInstagramLink());
+        response.setTelegramLink(user.getUserInfo().getTelegramLink());
+        response.setVkLink(user.getUserInfo().getVkLink());
         return response;
     }
 
     public FriendProfileResponse friendProfile(Long id) {
         FriendProfileResponse friendProfileResponse = new FriendProfileResponse();
         User user = getAuthPrincipal();
+
         User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
@@ -162,19 +175,32 @@ public class UserProfileService {
         friendProfileResponse.setImportant(friend.getUserInfo().getImportant());
         friendProfileResponse.setShoeSize(friend.getUserInfo().getShoeSize());
         friendProfileResponse.setDateOfBirth(friend.getUserInfo().getDateOfBirth());
+        friendProfileResponse.setFacebookLink(friend.getUserInfo().getFacebookLink());
+        friendProfileResponse.setInstagramLink(friend.getUserInfo().getInstagramLink());
+        friendProfileResponse.setTelegramLink(friend.getUserInfo().getTelegramLink());
+        friendProfileResponse.setVkLink(friend.getUserInfo().getVkLink());
 
         List<HolidayResponses> holidayResponses = new ArrayList<>();
+        List<Holiday>block = new ArrayList<>();
         for (Holiday holiday : friend.getHolidays()) {
+            if (holiday.getIsBlock().equals(true)){
+                block.add(holiday);
+            }else {
             HolidayResponses holidayResponse = new HolidayResponses(
                     holiday.getId(),
                     holiday.getName(),
                     holiday.getDateOfHoliday(),
                     holiday.getImage());
             holidayResponses.add(holidayResponse);
+            }
         }
         friendProfileResponse.setHolidayResponses(holidayResponses);
         List<CharityResponse> charityResponses = new ArrayList<>();
+        List<Charity> blockCharities = new ArrayList<>();
         for (Charity c : friend.getCharities()) {
+            if (c.getIsBlock().equals(true)){
+                blockCharities.add(c);
+            }else {
             CharityResponse charityResponse = new CharityResponse();
             charityResponse.setId(c.getId());
             charityResponse.setName(c.getName());
@@ -196,11 +222,16 @@ public class UserProfileService {
                 charityResponse.setReservedUserResponse(new ReservedUserResponse());
             }
             charityResponses.add(charityResponse);
+            }
         }
         friendProfileResponse.setCharityResponses(charityResponses);
 
         List<FriendWishesResponse> wishResponses = new ArrayList<>();
+        List<Wish> blockWish = new ArrayList<>();
         for (Wish w : friend.getWishes()) {
+            if (w.getIsBlock().equals(true)){
+                blockWish.add(w);
+            }else {
             FriendWishesResponse friendWishesResponse = new FriendWishesResponse();
             friendWishesResponse.setId(w.getId());
             friendWishesResponse.setWishName(w.getWishName());
@@ -223,6 +254,7 @@ public class UserProfileService {
                 friendWishesResponse.setReservedUserResponse(new ReservedUserResponse());
             }
             wishResponses.add(friendWishesResponse);
+            }
         }
         friendProfileResponse.setWishResponses(wishResponses);
 

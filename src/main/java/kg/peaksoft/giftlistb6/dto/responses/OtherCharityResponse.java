@@ -24,18 +24,19 @@ public class OtherCharityResponse {
     private String lastName;
     private String photo;
     private ReservoirResponse reservoir;
+    private Boolean isBlock;
 
-    public OtherCharityResponse(Long id, String image, String name, String condition, LocalDate addedDate, Status status, Long userId, String firstName, String lastName, String photo) {
+    public OtherCharityResponse(Long id, String image, String name, String condition, LocalDate addedDate, Long userId, String firstName, String lastName, String photo, Boolean isBlock) {
         this.id = id;
         this.image = image;
         this.name = name;
         this.condition = condition;
         this.addedDate = addedDate;
-        this.status = status;
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.photo = photo;
+        this.isBlock = isBlock;
     }
 
     public OtherCharityResponse(Charity charity) {
@@ -49,6 +50,7 @@ public class OtherCharityResponse {
         this.firstName = charity.getUser().getFirstName();
         this.lastName = charity.getUser().getLastName();
         this.photo = charity.getUser().getImage();
+        this.isBlock = charity.getIsBlock();
         if (charity.getReservoir() != null) {
             this.reservoir = new ReservoirResponse(charity.getReservoir().getId(), charity.getReservoir().getImage());
         } else {

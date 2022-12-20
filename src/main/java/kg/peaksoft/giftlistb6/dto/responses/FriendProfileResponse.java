@@ -24,7 +24,12 @@ public class FriendProfileResponse {
     private String clothingSize;
     private String hobby;
     private String important;
+    private Boolean isBlock;
     private List<FriendWishesResponse> wishResponses;
     private List<HolidayResponses> holidayResponses;
     private List<CharityResponse> charityResponses;
+    private String facebookLink;
+    private String instagramLink;
+    private String telegramLink;
+    private String vkLink;
 }

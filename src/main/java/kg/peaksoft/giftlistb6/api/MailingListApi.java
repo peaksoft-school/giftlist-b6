@@ -29,7 +29,7 @@ public class MailingListApi {
     }
 
     @Operation(summary = "Mailing list", description = "Get mailing list by id")
-    @PostMapping("{id}")
+    @GetMapping("{id}")
     public MailingListResponse getById(@PathVariable Long id) {
         return mailingListService.getId(id);
     }
