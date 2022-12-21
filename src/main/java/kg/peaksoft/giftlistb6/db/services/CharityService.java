@@ -249,6 +249,8 @@ public class CharityService {
         UserCharityResponse userCharityResponse = new UserCharityResponse(charity.getUser().getId(), charity.getUser().getFirstName(),
                 charity.getUser().getLastName(), charity.getUser().getImage(),charity.getUser().getUserInfo().getPhoneNumber());
         response.setUserCharityResponse(userCharityResponse);
+        ReservoirResponse reservoirResponse = new ReservoirResponse(charity);
+        response.setReservoirResponse(reservoirResponse);
         return response;
     }
 

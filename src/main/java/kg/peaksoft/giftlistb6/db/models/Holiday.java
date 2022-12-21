@@ -19,7 +19,7 @@ import java.util.List;
 public class Holiday {
 
     @Id
-    @SequenceGenerator(name = "holiday_gen", sequenceName = "holiday_seq", allocationSize = 1, initialValue = 5)
+    @SequenceGenerator(name = "holiday_gen", sequenceName = "holiday_seq", allocationSize = 1, initialValue = 20)
     @GeneratedValue(generator = "holiday_gen", strategy = GenerationType.SEQUENCE)
     private Long id;
 

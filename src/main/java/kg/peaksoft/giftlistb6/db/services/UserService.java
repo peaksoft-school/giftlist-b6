@@ -204,7 +204,7 @@ public class UserService {
         }
         AdminResponse adminUserGetAllResponse = new AdminResponse();
         adminUserGetAllResponse.setId(user.getId());
-        adminUserGetAllResponse.setGiftCount(user.getGifts().size());
+        adminUserGetAllResponse.setGiftCount(user.getWishes().size());
         adminUserGetAllResponse.setFirstName(user.getFirstName());
         adminUserGetAllResponse.setLastName(user.getLastName());
         adminUserGetAllResponse.setPhoto(user.getImage());
