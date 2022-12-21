@@ -1,6 +1,6 @@
 INSERT INTO user_info(id, clothing_size, country, date_of_birth, hobby, important, phone_number, shoe_size)
 VALUES (1, 'XS', 'Kyrgyzstan', '2000-12-12', 'tennis', null, '0999234554', 36),
-       (2, 'S', 'Kyrgyzstan', '1999-11-11', 'volleyball', null, '0709899876', 37),
+       (2, 'M', 'Kyrgyzstan', '2004-11-11', 'volleyball', null, '0709899876', 37),
        (3, 'S', 'Kyrgyzstan', '1998-10-09', 'football', null, '0709465733', 38),
        (4, 'XS', 'Kyrgyzstan', '2000-10-05', null, null, '0559234595', 35),
        (5, 'S', 'Kyrgyzstan', '1997-12-03', null, null, '0559234595', 36),
@@ -12,8 +12,8 @@ VALUES (1, 'XS', 'Kyrgyzstan', '2000-12-12', 'tennis', null, '0999234554', 36),
 INSERT INTO users(id, first_name, last_name, is_block, email, password, image, role, user_info_id)
 VALUES (1, 'Admin', 'Admin', false, 'admin@gmail.com', '$2a$12$a/7JdTteE5.pmewQeybae.dumhUkp1ABxxESQN7c5zgmK9GFwHeIW',
         'image', 'ADMIN', 1),
-       (2, 'User', 'User', false, 'user@gmail.com', '$2a$12$MXgVFpgW8uWMwTMjG/0I4ekXUiiPojhMXjBf6vefv3Ea.ZOx48fei',
-        'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1669042212332IMG_6270.JPG', 'USER', 2),
+       (2, 'Bektur', 'Kanybekov', false, 'bektur@gmail.com', '$2a$12$MXgVFpgW8uWMwTMjG/0I4ekXUiiPojhMXjBf6vefv3Ea.ZOx48fei',
+        'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671654162438photo_2022-12-22_02-21-49.jpg', 'USER', 2),
        (3, 'Aiza', 'Anarbekova', false, 'aiza@gmail.com',
         '$2a$12$yU5x4BST3FpXc0af1mwSfu3pGe./QBMU58VHinr9soYes/pf9jUca', 'image', 'USER', 3),
        (4, 'Aiperi', 'Mirlanova', false, 'mirlanova@gmail.com',
@@ -89,19 +89,35 @@ VALUES (1, 'RESERVED', 'Б/У', '2021-12-12',false, 'white', null, 'сумка',
     (3, 'WAIT', 'Новый', '2020-12-01',false, null, null, 'платье', null, 4, 2, 5);
 
 INSERT INTO holidays(id, date_of_holiday, image,is_block, name, user_id)
-VALUES (1, '2023-03-21', null,false, 'Нооруз', 4),
-       (2, '2023-09-02',null,false, 'День рождения', 4),
-       (3, '2023-03-08',null,false, '8-март', 3),
-       (4, '2023-08-08', null,false, 'Курбан айт', 4);
+VALUES (1, '2023-03-21', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671643919783252950.jpg',false, 'Нооруз', 4),
+       (2, '2023-11-15','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644063231den-rozhdeniya.jpg',false, 'День рождения', 4),
+       (3, '2023-03-08','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644327119-01-08-2020-193112.png',false, '8-март', 3),
+       (4, '2023-08-08', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/16716444864580170dd058e449c971751808fe2829d15.jpg',false, 'Курбан айт', 4),
+       (5, '2023-02-24', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/167164512606907-12-18_2.jpg',false, 'День рождения',9),
+       (6, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 9),
+       (7, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 3),
+       (8, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 4),
+       (9, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 5),
+       (10, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 6),
+       (11, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 7),
+       (12, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 8),
+       (13, '2022-12-31', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671645212294ng.jpg',false, 'Новый год', 2),
+       (14, '2023-01-08', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/167164536675278a63cefd569bbe7b9adada2d36d60d7.jpeg',false, 'Halloween', 9),
+       (15, '2023-09-02','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644063231den-rozhdeniya.jpg',false, 'День рождения', 3),
+       (16, '2023-03-05','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644063231den-rozhdeniya.jpg',false, 'День рождения', 5),
+       (17, '2023-11-09','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644063231den-rozhdeniya.jpg',false, 'День рождения', 6),
+       (18, '2023-06-15','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644063231den-rozhdeniya.jpg',false, 'День рождения', 7),
+       (19, '2023-01-01','https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671644063231den-rozhdeniya.jpg',false, 'День рождения', 8);
+
 
 INSERT INTO wishes(id, date_of_holiday, description, image, link_to_gift, wish_name, wish_status, is_block, holiday_id,
                    reservoir_id, user_id)
-VALUES (1, '2023-03-21', 'роман', null, null, 'книга', 'RESERVED', false, 1, 4, 3),
-       (2, '2023-09-02', 'телефон', null, null, 'iphone 14pro', 'RESERVED', false, 2, 3, 4),
-       (3, '2023-03-08', 'шоколад', null, null, 'sneakers', 'RESERVED', false, 3, 3, 4),
-       (4, '2023-08-08', 'ноутбук', null, null, 'macbook air pro', 'WAIT', false, 4, null, 4),
-       (5, '2023-08-04', 'сумка', null, null, 'сумка', 'RESERVED', false, 4, 5, 4),
-       (6, '2023-07-04', 'телефон', null, null, 'iphone 13', 'RESERVED', false, 4, 5, 4);
+VALUES (1, '2023-03-21', 'Книга, покорившая мир, эталон литературы, синоним успеха. Книга, ставшая культовой уже для нескольких поколений.', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671655269614307ee2b078788afb3a64d903b389bf54.webp', 'https://topkaup.ee/garri-potter-i-uznik-azkabana-s-cvetnymi-illyustraciyami-kupit-knigu', 'книга', 'RESERVED', false, 1, 4, 3),
+       (2, '2023-09-02', 'Телефон', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671655467740CFE1B928-708E-4DB5-B801-85BA8BF1ABFF.jpeg', 'https://asiastore.kg/apple-iphone/iphone-14-pro/iphone-14-pro-128-gb-temno-fioletovyj-2166', 'iphone 14pro', 'RESERVED', false, 2, 3, 4),
+       (3, '2023-03-08', 'Велосипед', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671655775275r140.jpg', 'https://bikes.kg/c/velosipedy-dlya-malchikov-9-13-let/podrostkovyj-velosiped-stels-mustang-v-24-v030-2018/', 'sneakers', 'RESERVED', false, 3, 3, 4),
+       (4, '2023-08-08', 'Ноутбук', 'https://giftlist-b6.s3.eu-central-1.amazonaws.com/1671656155376273178363.jpg', 'https://bikes.kg/c/velosipedy-dlya-malchikov-9-13-let/podrostkovyj-ve', 'macbook air pro', 'WAIT', false, 4, null, 4),
+       (5, '2023-08-04', 'Сумка', null, null, 'сумка', 'RESERVED', false, 4, 5, 4),
+       (6, '2023-07-04', 'телефон', null, null, 'iphone 13', 'RESERVED', false, 4, 5, 2);
 
 INSERT INTO gift(id, user_id, wish_id)
 VALUES (1, 4, 1),
