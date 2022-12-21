@@ -40,7 +40,7 @@ public class NotificationApi {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @Operation(summary = "Mark as read", description = "Admin can mark as read all notifications")
-    @PostMapping("admin")
+    @PutMapping("admin")
     public SimpleResponse MarkIsRead() {
         return notificationService.markAsReadForAdmin();
     }
