@@ -123,18 +123,19 @@ public class WishService {
         for (Notification n : notifications) {
             if (n.getWish() != null && n.getWish().equals(wish)) {
                 notificationRepository.deleteById(n.getId());
+                break;
             }
         }
         List<Gift> gifts = giftRepository.findAll();
         for (Gift g : gifts) {
             if (g.getWish().equals(wish)) {
-                giftRepository.deleteById(g.getId());
+                giftRepository.deleteGiftById(g.getId());
             }
         }
-        for (Complaint c : complaintRepository.findAll()) {
-            if (wish.getComplaints().contains(c)) {
-                wish.setComplaints(null);
-                complaintRepository.delete(c);
+        List<Complaint> complaints = complaintRepository.findAll();
+        for (Complaint c :complaints ) {
+            if (c.getWish().equals(wish)) {
+                complaintRepository.deleteComplaintById(c.getId());
             }
         }
         wish.setReservoir(null);
@@ -159,7 +160,8 @@ public class WishService {
             List<Gift> gifts = giftRepository.findAll();
             for (Gift g : gifts) {
                 if (g.getWish().equals(wish)) {
-                    giftRepository.deleteById(g.getId());
+                    giftRepository.deleteGiftById(g.getId());
+                    user.getGifts().remove(g);
                 }
             }
             for (Charity ch : charityRepository.findAll()) {
@@ -169,9 +171,9 @@ public class WishService {
                 }
             }
             for (Complaint c : complaintRepository.findAll()) {
-                if (wish.getComplaints().contains(c)) {
+                if (c.getWish().equals(wish)) {
                     wish.setComplaints(null);
-                    complaintRepository.delete(c);
+                    complaintRepository.deleteComplaintById(c.getId());
                 }
             }
             wish.setReservoir(null);

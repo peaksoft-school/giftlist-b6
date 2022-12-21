@@ -6,10 +6,12 @@ import kg.peaksoft.giftlistb6.db.services.MailingListService;
 import kg.peaksoft.giftlistb6.dto.requests.MailingListRequest;
 import kg.peaksoft.giftlistb6.dto.responses.AllMailingListResponse;
 import kg.peaksoft.giftlistb6.dto.responses.MailingListResponse;
+import kg.peaksoft.giftlistb6.dto.responses.SimpleResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
@@ -38,5 +40,10 @@ public class MailingListApi {
     @GetMapping
     public List<AllMailingListResponse> getAllMailingLists() {
         return mailingListService.getAllMailingLists();
+    }
+    @Operation(summary = "Delete mailing list",description = "Admin can delete mailing list")
+    @DeleteMapping("{id}")
+    public SimpleResponse delete(@PathVariable Long id){
+        return mailingListService.delete(id);
     }
 }

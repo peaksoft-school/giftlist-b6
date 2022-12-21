@@ -33,7 +33,7 @@ public class MailingList {
 
     public MailingList(MailingListRequest mailingListRequest) {
         this.name = mailingListRequest.getName();
-        this.image = mailingListRequest.getName();
+        this.image = mailingListRequest.getImage();
         this.text = mailingListRequest.getText();
         this.createdAt = LocalDateTime.now();
 

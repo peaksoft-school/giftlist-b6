@@ -17,6 +17,7 @@ public class WishResponse {
     private String wishName;
     private String image;
     private HolidayResponse holiday;
+    private Boolean isBlock;
     private Status wishStatus;
     private Boolean isMy;
 
@@ -24,6 +25,7 @@ public class WishResponse {
         this.id = wish.getId();
         this.wishName = wish.getWishName();
         this.image = wish.getImage();
+        this.isBlock = wish.getIsBlock();
         this.wishStatus = wish.getWishStatus();
         if (wish.getHoliday() != null) {
             this.holiday = new HolidayResponse(wish.getHoliday().getId(), wish.getHoliday().getName(),
