@@ -118,10 +118,15 @@ public class UserService {
         );
     }
 
+    public String capitalize(String str) {
+        if (str == null || str.length() == 0) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     public User convertToRegisterEntity(RegisterRequest registerRequest) {
         return User.builder()
-                .firstName(registerRequest.getFirstName())
-                .lastName(registerRequest.getLastName())
+                .firstName(capitalize(registerRequest.getFirstName()))
+                .lastName(capitalize(registerRequest.getLastName()))
                 .email(registerRequest.getEmail())
                 .password(registerRequest.getPassword())
                 .build();
