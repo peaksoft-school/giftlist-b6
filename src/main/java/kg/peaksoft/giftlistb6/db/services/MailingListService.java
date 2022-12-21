@@ -22,13 +22,19 @@ public class MailingListService {
 
     private final MailingListRepository mailingListRepository;
 
+    public String capitalize(String str) {
+        if (str == null || str.length() == 0) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     public AllMailingListResponse saveMailingList(MailingListRequest request) {
         MailingList mailingList = new MailingList(request);
+        mailingList.setName(capitalize(mailingList.getName()));
         mailingListRepository.save(mailingList);
         log.info("Mailing list saved in database");
         return new AllMailingListResponse(mailingList.getId(),
-                mailingList.getName(),
                 mailingList.getImage(),
+                mailingList.getName(),
                 mailingList.getCreatedAt());
     }
 

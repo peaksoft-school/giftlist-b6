@@ -39,6 +39,11 @@ public class WishService {
 
     private final GiftRepository giftRepository;
 
+    public String capitalize(String str) {
+        if (str == null || str.length() == 0) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     public User getAuthPrincipal() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getName();
@@ -77,7 +82,7 @@ public class WishService {
         Wish wish = new Wish();
         User user = getAuthPrincipal();
         wish.setUser(user);
-        wish.setWishName(wishRequest.getWishName());
+        wish.setWishName(capitalize(wishRequest.getWishName()));
         wish.setDescription(wishRequest.getDescription());
         Holiday holiday = holidayRepository.findById(wishRequest.getHolidayId())
                 .orElseThrow(() -> new NotFoundException("Не найден"));

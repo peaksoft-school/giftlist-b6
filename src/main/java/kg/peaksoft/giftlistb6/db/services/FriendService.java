@@ -71,7 +71,7 @@ public class FriendService {
             log.error("Already friends");
             throw new BadRequestException("Вы уже в друзьях!");
         }
-        friend.setRequests(List.of(user));
+        friend.addRequest(user);
         Notification notification = new Notification();
         notification.setUser(friend);
         notification.setFromUser(user);
@@ -135,6 +135,7 @@ public class FriendService {
         if (user.getFriends().contains(friend)) {
             user.getFriends().remove(friend);
             friend.getFriends().remove(user);
+
         } else {
             return new SimpleResponse("Не найден", "");
         }

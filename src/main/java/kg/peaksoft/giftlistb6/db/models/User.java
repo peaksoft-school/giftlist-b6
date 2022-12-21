@@ -81,6 +81,10 @@ public class User implements UserDetails {
         friends.add(friend);
     }
 
+    public void addRequest(User friend){
+        requests.add(friend);
+    }
+
     public User(String name) {
         this.firstName = name;
     }

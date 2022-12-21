@@ -67,6 +67,11 @@ public class CharityService {
         return response;
     }
 
+    public String capitalize(String str) {
+        if (str == null || str.length() == 0) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     public YourCharityResponse saveCharity(CharityRequest charityRequest) {
         if (!categoryRepository.findByName(charityRequest.getCategory()).getSubCategory()
                 .contains(subCategoryRepository.findByName(charityRequest.getSubCategory()))) {
@@ -74,6 +79,7 @@ public class CharityService {
         }
         User user = getPrinciple();
         Charity charity = new Charity(charityRequest);
+        charity.setName(capitalize(charity.getName()));
         charity.setCategory(categoryRepository.findByName(charityRequest.getCategory()));
         charity.setSubCategory(subCategoryRepository.findByName(charityRequest.getSubCategory()));
         user.setCharities(List.of(charity));

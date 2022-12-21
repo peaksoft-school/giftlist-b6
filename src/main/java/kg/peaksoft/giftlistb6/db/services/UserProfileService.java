@@ -41,8 +41,8 @@ public class UserProfileService {
     @Transactional
     public UserInfo updateUser(UserInfo userInfo, ProfileRequest request) {
         User user = getAuthPrincipal();
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
+        user.setFirstName(capitalize(request.getFirstName()));
+        user.setLastName(capitalize(request.getLastName()));
         user.setImage(request.getImage());
         userInfo.setCountry(request.getCountry());
         userInfo.setDateOfBirth(request.getDateOfBirth());
@@ -68,6 +68,11 @@ public class UserProfileService {
         UserInfo userInfo1 = updateUser(user.getUserInfo(), request);
         log.info("User with id: {} successfully updated", user.getId());
         return convertToResponse(repository.save(userInfo1));
+    }
+
+    public String capitalize(String str) {
+        if (str == null || str.length() == 0) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
     }
 
     @Transactional
@@ -156,14 +161,22 @@ public class UserProfileService {
         User friend = userRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("Пользователь с таким  id: %s не найден!", id))
         );
+        if (friend.getId().equals(user.getId())){
+            friendProfileResponse.setIsMe(true);
+        }else {
+            friendProfileResponse.setIsMe(false);
+        }
         friendProfileResponse.setId(friend.getId());
         friendProfileResponse.setEmail(friend.getEmail());
         if (user.getFriends().contains(friend) || friend.getFriends().contains(user)) {
             friendProfileResponse.setStatus(Status.FRIEND);
+            friendProfileResponse.setSendRequest(false);
         } else if (user.getRequests().contains(friend) || friend.getRequests().contains(user)) {
             friendProfileResponse.setStatus(Status.REQUEST_TO_FRIEND);
+            friendProfileResponse.setSendRequest(true);
         } else {
             friendProfileResponse.setStatus(Status.NOT_FRIEND);
+            friendProfileResponse.setSendRequest(false);
         }
         friendProfileResponse.setFirstName(friend.getFirstName());
         friendProfileResponse.setLastName(friend.getLastName());

@@ -32,6 +32,11 @@ public class HolidayService {
     private final UserRepository userRepository;
     private final GiftRepository giftRepository;
 
+    public String capitalize(String str) {
+        if (str == null || str.length() == 0) return str;
+        return str.substring(0, 1).toUpperCase() + str.substring(1);
+    }
+
     public User getPrinciple() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String email = authentication.getName();
@@ -92,7 +97,7 @@ public class HolidayService {
         User user = getPrinciple();
         Holiday holiday = new Holiday();
         holiday.setUser(user);
-        holiday.setName(request.getName());
+        holiday.setName(capitalize(request.getName()));
         holiday.setDateOfHoliday(request.getDateOfHoliday());
         holiday.setImage(request.getImage());
         holiday.setIsBlock(false);
