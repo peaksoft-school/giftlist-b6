@@ -1,9 +1,6 @@
 package kg.peaksoft.giftlistb6.db.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -40,4 +37,13 @@ public class Complaint {
 
     @Column(length = 10000)
     private String reasonText;
+
+    public Complaint(Long id, Wish wish, User complainer, LocalDate createdAt, Boolean isSeen, String reasonText) {
+        this.id = id;
+        this.wish = wish;
+        this.complainer = complainer;
+        this.createdAt = createdAt;
+        this.isSeen = isSeen;
+        this.reasonText = reasonText;
+    }
 }
